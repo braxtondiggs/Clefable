@@ -1,0 +1,120 @@
+#main #content_wide #Spacer_login {margin:25% 30px;}
+#main #content_wide #Spacer_register {margin:30% 30px;}
+.Block {width:400px;float:left;}
+.Block #Form_Block {width:370px;height:310px;border: 10px solid #999;float:left;padding:5px 15px;}
+#Form_Block .form-item{margin:10px 5px;}
+#Form_Block label{display: block;font:20px bold Georgia, "Times New Roman", Times, serif;}
+#Form_Block label#required_label{margin-top:30px;font: inherit;}
+#Form_Block label span{font:28px/10px bold Georgia, "Times New Roman", Times, serif;color:red;}
+#Form_Block .submit{margin: 15px 0 0 40px;}
+#Form_Block .text {
+	width: 275px;
+	font-size: 16px;
+    border-radius: 5px;
+    padding: 5px;
+    border-left: 2px #666 solid;
+    border-top: 2px #666 solid;
+    border-right: 2px #CCC solid;
+    border-bottom: 2px #CCC solid;
+}
+#Form_Block .textarea {
+	width: 375px;
+	height: 175px;
+	font-size: 16px;
+    border-radius: 5px;
+    padding: 5px;
+    border-left: 2px #666 solid;
+    border-top: 2px #666 solid;
+    border-right: 2px #CCC solid;
+    border-bottom: 2px #CCC solid;
+}
+#oneall {width: 410px;float:left;}
+#oneall p strong{font-size:0.938em;}
+#oneall_widget{
+	border:10px solid #999;
+	width: 390px;
+	height:290px;
+	float:left;
+	padding-top:30px;
+}
+
+#oneall_widget iframe {
+    background-color: transparent;
+	display: block;
+	margin:0 auto;
+	width:327px!important;
+}
+#dialog-modal{font:0.875em normail Verdana, sans-serif;}
+.plugin {
+ width:720px;
+}
+ 
+.plugin #providers .provider {
+ width:170px;
+ margin-bottom:2px;
+}
+ 
+.plugin #providers .provider .name {
+ display: none;
+}
+.plugin #providers .provider .button {
+        background: url(/images/dbd11f792c3d01400fa522e3cca56084.png) no-repeat;
+		height: 50px;
+width: 150px;
+padding: 0;
+margin: 4px 0 8px 0;
+    }
+.plugin #providers .provider #button_yahoo {
+        background-position: 0px -250px;
+    }
+.plugin #providers .provider #button_yahoo:hover {
+        background-position: -150px -250px;
+    }
+    li#yahoo.press {
+        background-position: -300px -250px;
+    }
+.plugin #providers .provider #button_google { 
+        background-position: 0px -100px;
+    }
+.plugin #providers .provider #button_google:hover {
+        background-position: -150px -100px;
+    }
+    li#google.press {
+        background-position: -300px -100px;
+    }
+.plugin #providers .provider #button_facebook {
+        background-position: 0px -50px;
+    }
+.plugin #providers .provider #button_facebook:hover {
+        background-position: -150px -50px;
+    }
+    li#facebook.press {
+        background-position: -300px -50px;
+    }
+.plugin #providers .provider #button_linkedin {
+        background-position: 0px 0px;
+    }
+.plugin #providers .provider #button_linkedin:hover {
+        background-position: -150px 0px;
+    }
+    li#aol.press {
+        background-position: -300px 0px;
+    }
+.plugin #providers .provider #button_openid {
+        background-position: 0px -150px;
+    }
+.plugin #providers .provider #button_openid:hover {
+        background-position: -150px -150px;
+    }
+    li#openid.press {
+        background-position: -300px -150px;
+    }
+.plugin #providers .provider #button_twitter {
+        background-position: 0px -200px;
+    }
+.plugin #providers .provider #button_twitter:hover {
+        background-position: -150px -200px;
+    }
+    li#twitter.press {
+        background-position: -300px -200px;
+    }

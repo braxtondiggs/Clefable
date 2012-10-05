@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* CSS Document */
+
+#main #content_wide #Spacer_login {margin:25% 30px;}
+#main #content_wide #Spacer_register {margin:30% 30px;}
+.Block {width:400px;float:left;}
+.Block #Form_Block {width:370px;height:310px;border: 10px solid #999;float:left;padding:5px 15px;}
+#Form_Block .form-item{margin:10px 5px;}
+#Form_Block label{display: block;font:20px bold Georgia, "Times New Roman", Times, serif;}
+#Form_Block label#required_label{margin-top:30px;font: inherit;}
+#Form_Block label span{font:28px/10px bold Georgia, "Times New Roman", Times, serif;color:red;}
+#Form_Block .submit{margin: 15px 0 0 40px;}
+#Form_Block .text {
+	width: 275px;
+	font-size: 16px;
+    border-radius: 5px;
+    padding: 5px;
+    border-left: 2px #666 solid;
+    border-top: 2px #666 solid;
+    border-right: 2px #CCC solid;
+    border-bottom: 2px #CCC solid;
+}
+#Form_Block .textarea {
+	width: 375px;
+	height: 175px;
+	font-size: 16px;
+    border-radius: 5px;
+    padding: 5px;
+    border-left: 2px #666 solid;
+    border-top: 2px #666 solid;
+    border-right: 2px #CCC solid;
+    border-bottom: 2px #CCC solid;
+}
+
+#rpx {width: 410px;float:left;}
+#rpx p strong{font-size:0.938em;}
+#rpx_widget{
+	border:10px solid #999;
+	width: 390px;
+	height:290px;
+	float:left;
+	padding-top:30px;
+}
+
+#rpx_widget iframe {
+    background-color: transparent;
+	display: block;
+	margin:0 auto;
+}
+#dialog-modal{font:0.875em normail Verdana, sans-serif;}
