@@ -28,6 +28,23 @@ body{width:100%;}
 #main ul.listarrows li {background:url(../images/ul_lu_bg.gif) left no-repeat;padding:5px 0 5px 30px;color:#6e6e6e;list-style:none;}
 #main #content { width:575px;min-height:600px;border:1px solid #e3e3e3; background:#f9f9f9; margin:0 auto; padding:10px; float:left;}
 #main #content_wide{max-width:920px;width:920px;min-height:600px;border:1px solid #e3e3e3; background:#f9f9f9; margin:0 auto; padding:10px;}
+.alert-error {
+    margin-bottom: 5px;
+    color: #B94A48!important;
+    background-color: #F2DEDE;
+    border-color: #EED3D7;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border: 1px solid #FBEED5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px
+}
+.alert-error p {
+    padding: 0!important;
+    margin: 0!important;
+    color: #B94A48!important;
+}
 
 /*SideBar*/
 #sidebar_container { width:300px; padding:10px;margin-bottom:50px;}

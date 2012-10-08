@@ -10,10 +10,6 @@ class Pages extends CI_Controller {
 		$this->template->title('Simple &amp; Free CMS for Web Designers');
 		$this->template->build('pages/home');
 	}
-	public function tour() {
-		$this->template->title('Tour Page');
-		$this->template->build('pages/tour');
-	}
 	public function privacy() {
 		$this->template->title('Privacy Policy');
 		$this->template->build('pages/privacy');
@@ -22,4 +18,9 @@ class Pages extends CI_Controller {
 		$this->template->title('Terms of Service');
 		$this->template->build('pages/terms');
 	}
+	public function tour() {
+		$this->template->title('Tour Page');
+		$this->template->build('pages/tour');
+	}
+	
 }

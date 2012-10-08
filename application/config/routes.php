@@ -45,8 +45,9 @@ $route['default_controller'] = 'pages/home';
 
 $route['admin(.*)'] = 'admin$1';
 $route['(.*)'] = 'pages/$1';
-//$route['(:any)'] = 'pages/view/$1';
-
+$route['contact'] = 'contact';
+$route['contact/submit'] = 'contact/submit';
+$route['login'] = 'login';
 /*$route['news/(:any)'] = 'news/view/$1';
 $route['news'] = 'news';
 $route['(:any)'] = 'pages/view/$1';

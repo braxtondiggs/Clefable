@@ -134,16 +134,19 @@ $(function() {
 	});
 });
 $('#contact-submit').live('click', function() {
-	if ($("#contact").validationEngine('validate')) {// && contact_passed == false) {
-		$.ajax('include/email-contact', {
+	if ($("#contact").validationEngine('validate')) {
+		$.ajax('contact/submit', {
 			type: "POST",
 			data: $("#contact").serialize(),
-			success: function(response) {
-				contact_passed = true;
-				if(response=="OK") {
-					//window.location.href= 'site/';
+			success: function(data) {
+				if(data.status =="success") {
+					$("#Form_Block").html(data.output);	
+				}else if(data.status =="error") {
+					$(".validate_errors").html(data.output).slideDown('slow');
+				}else {
+					alert("An internal error has occurred, the page will auto-refresh.")
+					window.location = "contact"
 				}
-					
 			}
 		});
 	}
