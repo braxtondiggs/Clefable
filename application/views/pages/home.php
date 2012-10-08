@@ -1,1 +1,5 @@
-hello world
+<h3 class="underline">Finally, a free and truly simple CMS</h3>
+<p>Cymbit is a Content Management Systems (CMS) that is truly simple. It's free for unlimited users, unlimited changes, unlimited pages and unlimited sites.</p>
+<p>It's built from the ground up with ease of use in mind - for both content editors and designers. It's such a simple CMS that it takes less than 3 minutes for a web designer to implement. No PHP or ASP required for this CMS. If you can add CSS classes to HTML tags then you can implement Cymbit CMS. It's also a hosted CMS, so no installation or maintenance is needed either.</p>
+<p>Content editors will love managing their content with this system. No training required, it's just that easy.</p>
+<p>And it is, and always will be a free CMS. You can use it for professional use, you can even charge your clients to use it. The only catch is that if you make it your own CMS solution, with your own brand, then you'll need to pay for the pro plan.</p>

@@ -5,16 +5,16 @@ body{width:100%;}
 #wrapper {min-width:1100px;}
 
 /********** header **********/
-#header {background:url(/images/bg_header.gif) top repeat-x; height:88px;}
+#header {background:url(../images/bg_header.gif) top repeat-x; height:88px;}
 #header #block_header {margin:0 auto; width:920px;}
-#header #headerlogo {width:257px;height:88px;background-image: url(/images/logo.gif);white-space: nowrap;outline: none;text-indent: -3000px;}
+#header #headerlogo {width:257px;height:88px;background-image: url(../images/logo.gif);white-space: nowrap;outline: none;text-indent: -3000px;}
 
 /* menu */
 #header .menu {width:625px;}
 #header .menu ul li a, .jQTabs ul li a{font:1em Times New Roman;font-weight: bold;}
 
 /********** block index **********/
-#main { background:#f4f4f4 url(/images/bg_simple.gif) top repeat-x; border:0; padding:80px 0;}
+#main { background:#f4f4f4 url(../images/bg_simple.gif) top repeat-x; border:0; padding:80px 0;}
 #main_container { width:920px; margin:0 auto;min-height: 600px;}
 #main h3.underline {font-weight:bold; color:#2c2c2c; border-bottom:1px solid #cccccc;padding:10px 10px 10px 10px; margin:5px 0 10px 0;}
 #main h2.underline {border-bottom:1px solid #cccccc;}
@@ -25,13 +25,13 @@ body{width:100%;}
 #main a.button, #main input.button {color: white;font:inherit!important;}
 #main .twtr-widget a{font-size:100%;}
 #main a:hover{text-decoration:underline;}
-#main ul.listarrows li {background:url(/images/ul_lu_bg.gif) left no-repeat;padding:5px 0 5px 30px;color:#6e6e6e;list-style:none;}
+#main ul.listarrows li {background:url(../images/ul_lu_bg.gif) left no-repeat;padding:5px 0 5px 30px;color:#6e6e6e;list-style:none;}
 #main #content { width:575px;min-height:600px;border:1px solid #e3e3e3; background:#f9f9f9; margin:0 auto; padding:10px; float:left;}
 #main #content_wide{max-width:920px;width:920px;min-height:600px;border:1px solid #e3e3e3; background:#f9f9f9; margin:0 auto; padding:10px;}
 
 /*SideBar*/
 #sidebar_container { width:300px; padding:10px;margin-bottom:50px;}
-#sidebar_container .clients { background:url(/images/bg_clients.gif) top no-repeat; padding: 5px 20px; margin:10px 0;font-style:italic;font-size:12px;color:#505050; line-height:1.4em;height:200px;}/*Look into height, something not right*/
+#sidebar_container .clients { background:url(../images/bg_clients.gif) top no-repeat; padding: 5px 20px; margin:10px 0;font-style:italic;font-size:12px;color:#505050; line-height:1.4em;height:200px;}/*Look into height, something not right*/
 #sidebar_container .clients p {margin-top:10px;}
 
 /********** footer **********/
