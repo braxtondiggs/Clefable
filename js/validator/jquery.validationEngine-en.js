@@ -98,7 +98,7 @@
 				},
                 // --- CUSTOM RULES -- Those are specific to the demos, they can be removed or changed to your likings
                 "ajaxEmail": {
-					"url": "../include/validator/validateEmail",
+					"url": "signup/check_email",
 					"alertTextLoad": "* Loading, please wait",
 					"alertText": "* This email is already taken"
 				},

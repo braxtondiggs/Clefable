@@ -48,6 +48,12 @@ $route['(.*)'] = 'pages/$1';
 $route['contact'] = 'contact';
 $route['contact/submit'] = 'contact/submit';
 $route['login'] = 'login';
+$route['login/submit'] = 'login/submit';
+$route['login/lost_pass'] = 'login/lost_pass';
+
+$route['signup'] = 'signup';
+$route['signup/submit'] = 'signup/submit';
+$route['signup/check_email'] = 'signup/check_email';
 /*$route['news/(:any)'] = 'news/view/$1';
 $route['news'] = 'news';
 $route['(:any)'] = 'pages/view/$1';

@@ -343,7 +343,7 @@
             var data = form.serialize();
 			var url = (options.ajaxFormValidationURL) ? options.ajaxFormValidationURL : form.attr("action");
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: url,
                 cache: false,
                 dataType: "json",
@@ -990,7 +990,7 @@
                                 
             if (!options.isError) {
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: rule.url,
                     cache: false,
                     dataType: "json",
