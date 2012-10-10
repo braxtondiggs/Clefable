@@ -58,7 +58,7 @@
 						<label for="recov_email"><span>*</span>&nbsp;Email</label>
 						<input id="recov_email" name="recov_email" type="text" class="validate[required,custom[email]] text" />
 						<br />
-						<!--<div id="recov_response" style="display:none;margin-top:10px;"></div>-->
+						<div id="output_recovery" class="validate_errors" style="display:none;"></div>
 				    </div>
 				    <p>&nbsp;</p>
 				    <p>

@@ -47,7 +47,7 @@
         </div>
         <div class="form-item">
             <input name="terms" id="terms" class="validate[required] checkbox" type="checkbox" value="Yes" />
-            <label for="terms" style="display:inline;font:16px Georgia, 'Times New Roman', Times, serif;"><span>*</span>&nbsp;Agree To The&nbsp;</label><a title="Terms of Service" class="modal" href="Terms/modal">Terms of Service</a>
+            <label for="terms" style="display:inline;font:16px Georgia, 'Times New Roman', Times, serif;"><span>*</span>&nbsp;Agree To The&nbsp;</label><a title="Terms of Service" class="modal" href="pages/terms/modal">Terms of Service</a>
         </div>
         <input id="signup-submit" class="submit button" type="submit" value="Get Started!" />
     </form>

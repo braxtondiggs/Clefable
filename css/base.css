@@ -29,7 +29,7 @@ body{width:100%;}
 #main #content { width:575px;min-height:600px;border:1px solid #e3e3e3; background:#f9f9f9; margin:0 auto; padding:10px; float:left;}
 #main #content_wide{max-width:920px;width:920px;min-height:600px;border:1px solid #e3e3e3; background:#f9f9f9; margin:0 auto; padding:10px;}
 .alert-error {
-    margin-bottom: 5px;
+    margin: 5px 0;
     color: #B94A48!important;
     background-color: #F2DEDE;
     border-color: #EED3D7;
@@ -40,12 +40,24 @@ body{width:100%;}
     -moz-border-radius: 4px;
     border-radius: 4px
 }
-.alert-error p {
+.alert-error p, .alert-success p {
     padding: 0!important;
     margin: 0!important;
     color: #B94A48!important;
 }
 
+.alert-success {
+    margin: 5px 0;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border: 1px solid #FBEED5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    color: #468847;
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+}
 /*SideBar*/
 #sidebar_container { width:300px; padding:10px;margin-bottom:50px;}
 #sidebar_container .clients { background:url(../images/bg_clients.gif) top no-repeat; padding: 5px 20px; margin:10px 0;font-style:italic;font-size:12px;color:#505050; line-height:1.4em;height:200px;}/*Look into height, something not right*/

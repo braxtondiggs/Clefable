@@ -25,10 +25,10 @@ class Contact extends CI_Controller{
             }else{
                 // set email data
                 $this->email->from($this->input->post('email'), $this->input->post('name'));
-                $this->email->to('admin@cymbit.com');
+                $this->email->to('support@cymbit.com');
                 $this->email->reply_to($this->input->post('email'), $this->input->post('name'));
                 $this->email->subject($this->input->post('subject'));
-                $this->email->message($this->input->post('message'));
+                $this->email->message($this->input->post('msg'));
                 $this->email->send();
                 $output = array('status' => "success", 'output' => $this->load->view('contact/submit', '', true));
                 header('Content-Type: application/json',true);
