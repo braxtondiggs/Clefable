@@ -5,7 +5,11 @@ class Login extends CI_Controller{
         parent::__construct();
     }
     function index(){
-        $this->template->title('Login');
+        $this->load->library('ion_auth');
+	if (!$this->ion_auth->logged_in()) {
+	    //redirect('site');
+	}
+	$this->template->title('Login');
 	$this->template->set('css', array('oneall.css', 'validator/validationEngine.jquery.css'));
         $this->template->set('js', array('validator/jquery.validationEngine-en.js', 'validator/jquery.validationEngine.js'));
         $this->template->set_layout('default_wide')->build('login/index');

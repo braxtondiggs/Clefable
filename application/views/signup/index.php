@@ -4,8 +4,6 @@
         $("#Form_Block").validationEngine({
             ajaxFormValidation: true
         });
-        $('body').after('<img id="preload" src="<?php echo base_url();?>images/70.gif" />');
-	$('#preload').remove();
     });
     var oneall_js_protocol = (("https:" == document.location.protocol) ? "https" : "http");
     document.write(unescape("%3Cscript src='" + oneall_js_protocol + "://cymbitcms.api.oneall.com/socialize/library.js' type='text/javascript'%3E%3C/script%3E"));
@@ -13,7 +11,7 @@
 <h3 class="underline">Sign up with Cymbit CMS</h3>
 <div id="oneall">
     <p><strong>Register using existing account at one of these sites:</strong></p>
-    <p>You will then use this account to log-in to Cymbit CMS, so you don't have to remember an additional password.</p>
+    <p>You will then use this account to log-in to Cymbit CMS, so you don't have to remember an additional password.<br /><br /></p>
     <div id="oneall_widget">
         <div id="view" style="margin:0 auto;width:327px;">
             <p style="font-size: 1em;font-weight: bold;margin:0;font-family: 'lucida grande',Verdana,sans-serif;color: #333;">Sign in using your account with</p>
@@ -49,7 +47,7 @@
         </div>
         <div class="form-item">
             <input name="terms" id="terms" class="validate[required] checkbox" type="checkbox" value="Yes" />
-            <label for="terms" style="display:inline;font:16px Georgia, 'Times New Roman', Times, serif;"><span>*</span>&nbsp;Agree To The&nbsp;</label><a title="Terms of Service" class="modal" href="Terms?id=short">Terms of Service</a>
+            <label for="terms" style="display:inline;font:16px Georgia, 'Times New Roman', Times, serif;"><span>*</span>&nbsp;Agree To The&nbsp;</label><a title="Terms of Service" class="modal" href="Terms/modal">Terms of Service</a>
         </div>
         <input id="signup-submit" class="submit button" type="submit" value="Get Started!" />
     </form>

@@ -5,7 +5,7 @@ class Contact extends CI_Controller{
         parent::__construct();
     }
     function index(){
-        $this->load->helper('form');
+	$this->load->helper('form');
         $this->template->title('Contact Us');
 	$this->template->set('css', array('rpx.css', 'validator/validationEngine.jquery.css'));
         $this->template->set('js', array('validator/jquery.validationEngine-en.js', 'validator/jquery.validationEngine.js'));
