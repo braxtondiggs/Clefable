@@ -681,11 +681,11 @@ class Ion_auth_model extends CI_Model
 	 * @return string
 	 * @author Mathew
 	 **/
-	public function forgotten_password_complete($code, $salt=FALSE)
+	public function forgotten_password_complete($code, $salt=FALSE, $new)
 	{
 		$this->trigger_events('pre_forgotten_password_complete');
 
-		if (empty($code))
+		if (empty($code) || empty($new))
 		{
 			$this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_unsuccessful'));
 			return FALSE;
@@ -705,11 +705,9 @@ class Ion_auth_model extends CI_Model
 					return FALSE;
 				}
 			}
-			
-			$password = $this->salt();
 
 			$data = array(
-			    'password'                => $this->hash_password($password, $salt),
+			    'password'                => $this->hash_password($new, $salt),
 			    'forgotten_password_code' => NULL,
 			    'active'                  => 1,
 			 );
@@ -717,7 +715,7 @@ class Ion_auth_model extends CI_Model
 			$this->db->update($this->tables['users'], $data, array('forgotten_password_code' => $code));
 
 			$this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_successful'));
-			return $password;
+			return $new;
 		}
 
 		$this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_unsuccessful'));
@@ -791,21 +789,7 @@ class Ion_auth_model extends CI_Model
 
 		$id = $this->db->insert_id();
 
-		if (!empty($groups))
-		{
-			//add to groups
-			foreach ($groups as $group)
-			{
-				$this->add_to_group($group, $id);
-			}
-		}
-
-		//add to default group if not already set
-		$default_group = $this->where('name', $this->config->item('default_group', 'ion_auth'))->group()->row();
-		if ((isset($default_group->id) && !isset($groups)) || (empty($groups) && !in_array($default_group->id, $groups)))
-		{
-			$this->add_to_group($default_group->id, $id);
-		}
+		$this->db->insert($this->tables['accounts'], array( 'account_id' => $this=>id_generator('accounts', 'account_id'), 'created_on' => time())
 
 		$this->trigger_events('post_register');
 
@@ -1091,12 +1075,12 @@ class Ion_auth_model extends CI_Model
 			{
 				$this->db->distinct();
 				$this->db->join(
-				    $this->tables['users_groups'], 
-				    $this->tables['users_groups'].'.user_id = ' . $this->tables['users'].'.id', 
+				    $this->tables['accounts'], 
+				    $this->tables['accounts'].'.account_id = ' . $this->tables['users'].'.id', 
 				    'inner'
 				);
 
-				$this->db->where_in($this->tables['users_groups'].'.group_id', $groups);
+				$this->db->where_in($this->tables['accounts'].'.group_id', $groups);
 			}
 		}
 
@@ -1175,26 +1159,10 @@ class Ion_auth_model extends CI_Model
 		//if no id was passed use the current users id
 		$id || $id = $this->session->userdata('user_id');
 
-		return $this->db->select($this->tables['users_groups'].'.'.$this->join['groups'].' as id, '.$this->tables['groups'].'.name, '.$this->tables['groups'].'.description')
-		                ->where($this->tables['users_groups'].'.'.$this->join['users'], $id)
-		                ->join($this->tables['groups'], $this->tables['users_groups'].'.'.$this->join['groups'].'='.$this->tables['groups'].'.id')
-		                ->get($this->tables['users_groups']);
-	}
-
-	/**
-	 * add_to_group
-	 *
-	 * @return bool
-	 * @author Ben Edmunds
-	 **/
-	public function add_to_group($group_id, $user_id=false)
-	{
-		$this->trigger_events('add_to_group');
-
-		//if no id was passed use the current users id
-		$user_id || $user_id = $this->session->userdata('user_id');
-
-		return $this->db->insert($this->tables['users_groups'], array( $this->join['groups'] => (int)$group_id, $this->join['users'] => (int)$user_id));
+		return $this->db->select($this->tables['accounts'].'.'.$this->join['groups'].' as id, '.$this->tables['groups'].'.name, '.$this->tables['groups'].'.description')
+		                ->where($this->tables['accounts'].'.'.$this->join['users'], $id)
+		                ->join($this->tables['groups'], $this->tables['accounts'].'.'.$this->join['groups'].'='.$this->tables['groups'].'.id')
+		                ->get($this->tables['accounts']);
 	}
 
 	/**
@@ -1220,20 +1188,20 @@ class Ion_auth_model extends CI_Model
 			{
 				foreach($group_ids as $group_id)
 				{
-					$this->db->delete($this->tables['users_groups'], array($this->join['groups'] => (int)$group_id, $this->join['users'] => (int)$user_id));
+					$this->db->delete($this->tables['accounts'], array($this->join['groups'] => (int)$group_id, $this->join['users'] => (int)$user_id));
 				}
 			
 				return TRUE;
 			}
 			else
 			{
-				return $this->db->delete($this->tables['users_groups'], array($this->join['groups'] => (int)$group_ids, $this->join['users'] => (int)$user_id));
+				return $this->db->delete($this->tables['accounts'], array($this->join['groups'] => (int)$group_ids, $this->join['users'] => (int)$user_id));
 			}
 		}
 		// otherwise remove user from all groups
 		else
 		{
-			return $this->db->delete($this->tables['users_groups'], array($this->join['users'] => (int)$user_id));
+			return $this->db->delete($this->tables['accounts'], array($this->join['users'] => (int)$user_id));
 		}
 	}
 
@@ -1741,5 +1709,28 @@ class Ion_auth_model extends CI_Model
 		{
 			return inet_pton($ip_address);
 		}
+	}
+        public function id_generator($table, $var) {
+		$length = 12;$UID = "";$possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345677689"; $i = 0; 
+		// add random characters to $password until $length is reached
+		while ($i < $length) { 
+			$char = substr($possible, mt_rand(0, strlen($possible)-1), 1);   
+			// we don't want this character if it's already in the password
+			if ($i == 0 && strpos("0123456789", $char) !== false) {
+			}else{
+				$UID .= $char;
+				$i++;
+			}
+		}
+		$UID = substr($var, 0 ,1).$UID;
+		if ($table !== "null") {
+			$query = $this->db->query("SELECT $var FROM $table WHERE $var = \"$UID\"");
+			if($query->num_rows() == 0) {
+				return $UID;
+			} else {
+				return UID($count, $start);
+			}
+		}
+		
 	}
 }

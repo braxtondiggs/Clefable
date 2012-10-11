@@ -34,7 +34,7 @@
 	    <div id="Form_Block" style="padding: 0 15px;">
 			<form id="login" class="formular" method="post" action="#" >
 				    <div style="height:10px;"></div>
-				    <div class="validate_errors alert-error" style="display:none;"></div>
+				    <div id="output_login" class="validate_errors alert-error" style="display:none;"></div>
 				    <div class="form-item" style="margin-top:20px;">
 						<label for="email"><span>*</span>&nbsp;Email</label>
 						<input id="email" name="email" type="text" class="validate[required,custom[email]] text" />

@@ -26,7 +26,7 @@ class Signup extends CI_Controller{
 	    if ($this->form_validation->run() == FALSE) {
                 $output = array('status' => "error", 'error_type' => 'form', 'output' => "<strong>Error: </strong>".validation_errors());
             }else{
-                $username = '';
+                $username = $this->ion_auth_model->id_generator('users', 'username');
 		$password = set_value('password');
 		$email = set_value('email');
 		$additional_data = array(

@@ -82,8 +82,8 @@ class Login extends CI_Controller{
 	if ($this->form_validation->run() == FALSE) {
 	    $output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
 	}else{
-	    if ($this->ion_auth->forgotten_password_complete($this->input->post('pass_token'))) {
-		$output = array('status' => "success", 'output' => "<strong>Success: </strong>Your password has been reset. Please proceed to the ".anchor('login', 'login page').".");
+	    if ($this->ion_auth->forgotten_password_complete($this->input->post('pass_token'), $this->input->post('password'))) {
+		$output = array('status' => "success", 'output' => "<p>&nbsp;</p>Your password has been reset. Please proceed to the ".anchor('login', 'login page').".");
 	    }else{
 		$output = array('status' => "error", 'output' => "<strong>Error: </strong>The token submited is incorrect, please report this error to us so it can be fixed immediately.");
 	    }

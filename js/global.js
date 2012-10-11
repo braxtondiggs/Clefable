@@ -130,18 +130,18 @@ $(function() {
 	$('#reset-pass-submit').live('click', function() {
 		if ($("#Form_Block").validationEngine('validate')) {
 			$('#reset-pass-submit').attr('disabled', 'disabled');
-			$.ajax('../login/reset_password_submit', {
+			$.ajax('../../login/reset_password_submit', {
 				type: "POST",
 				data: $("#reset").serialize(),
 				success: function(data) {
-					$('#reset-submit').removeAttr('disabled');
+					$('#reset-pass-submit').removeAttr('disabled');
 					if(data.status =="success") {
 						$('#Form_Block').html(data.output);
 					}else if(data.status =="error") {
 						$('.validate_errors').html(data.output).slideDown('slow');
 					}else {
 						alert(internal_error);
-						window.location = "/login/";
+						window.location = "login/";
 					}	
 				}
 			});
