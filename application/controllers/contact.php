@@ -24,7 +24,8 @@ class Contact extends CI_Controller{
                 echo json_encode($output);
             }else{
                 // set email data
-                $this->email->from($this->input->post('email'), $this->input->post('name'));
+                $this->email->clear();
+		$this->email->from($this->input->post('email'), $this->input->post('name'));
                 $this->email->to('support@cymbit.com');
                 $this->email->reply_to($this->input->post('email'), $this->input->post('name'));
                 $this->email->subject($this->input->post('subject'));

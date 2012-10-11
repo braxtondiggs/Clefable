@@ -7,7 +7,7 @@ class Signup extends CI_Controller{
     function index(){
         $this->load->library('ion_auth');
 	if (!$this->ion_auth->logged_in()) {
-	    //redirect('site');
+	    redirect('site');
 	}
 	$this->template->title('Sign-Up');
 	$this->template->set('css', array('oneall.css', 'validator/validationEngine.jquery.css'));
@@ -30,12 +30,23 @@ class Signup extends CI_Controller{
 		$password = set_value('password');
 		$email = set_value('email');
 		$additional_data = array(
-                    'first_name' => 'Ben',
-		    'last_name' => 'Edmunds',
-		);								
-		$group = array('1'); // Sets user to admin. No need for array('1', '2') as user is always set to member by default
+                    'first_name' => 'New',
+		    'last_name' => 'User',
+		    'user_type' => 1,
+		    'language' => 'en',
+		    'has_demo' => 1,
+		    'provider' => 'CymbitCMS'
+		);
 
-		$this->ion_auth->register($username, $password, $email, $additional_data, $group);
+		$data = array('identity' => set_value('email'));
+		$message = $this->load->view('auth/welcome.tpl.php', $data, true);
+		$this->ion_auth->register($username, $password, $email, $additional_data);
+		$this->email->clear();
+		$this->email->from('support@cymbit.com', 'CymbitCMS Support');
+                $this->email->to($this->input->post('email'));
+                $this->email->subject("Welcome to Cymbit CMS");
+                $this->email->message($message);
+                $this->email->send();
 		$output = array('status' => "success");
 	
             }

@@ -7,7 +7,7 @@ class Login extends CI_Controller{
     function index(){
         $this->load->library('ion_auth');
 	if (!$this->ion_auth->logged_in()) {
-	    //redirect('site');
+	    redirect('site');
 	}
 	$this->template->title('Login');
 	$this->template->set('css', array('oneall.css', 'validator/validationEngine.jquery.css'));
@@ -75,20 +75,22 @@ class Login extends CI_Controller{
 	}
     }
     function reset_password_submit() {
-	$this->load->library(array('form_validation', 'ion_auth'));
-	$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[32]');
-        $this->form_validation->set_rules('confirmpassword', 'Confirm Password', 'required|matches[password]');
-	header('Content-Type: application/json',true);$output = array();
-	if ($this->form_validation->run() == FALSE) {
-	    $output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
-	}else{
-	    if ($this->ion_auth->forgotten_password_complete($this->input->post('pass_token'), $this->input->post('password'))) {
-		$output = array('status' => "success", 'output' => "<p>&nbsp;</p>Your password has been reset. Please proceed to the ".anchor('login', 'login page').".");
+	if ($this->input->is_ajax_request()) {
+	    $this->load->library(array('form_validation', 'ion_auth'));
+	    $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[32]');
+	    $this->form_validation->set_rules('confirmpassword', 'Confirm Password', 'required|matches[password]');
+	    header('Content-Type: application/json',true);$output = array();
+	    if ($this->form_validation->run() == FALSE) {
+		$output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
 	    }else{
-		$output = array('status' => "error", 'output' => "<strong>Error: </strong>The token submited is incorrect, please report this error to us so it can be fixed immediately.");
+		if ($this->ion_auth->forgotten_password_complete($this->input->post('pass_token'), $this->input->post('password'))) {
+		    $output = array('status' => "success", 'output' => "<p>&nbsp;</p>Your password has been reset. Please proceed to the ".anchor('login', 'login page').".");
+		}else{
+		    $output = array('status' => "error", 'output' => "<strong>Error: </strong>The token submited is incorrect, please report this error to us so it can be fixed immediately.");
+		}
 	    }
+	    echo json_encode($output);
 	}
-	echo json_encode($output);
     }
 }
 ?>

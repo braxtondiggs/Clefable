@@ -728,7 +728,7 @@ class Ion_auth_model extends CI_Model
 	 * @return bool
 	 * @author Mathew
 	 **/
-	public function register($username, $password, $email, $additional_data = array(), $groups = array())
+	public function register($username, $password, $email, $additional_data = array())
 	{
 		$this->trigger_events('pre_register');
 
@@ -762,6 +762,7 @@ class Ion_auth_model extends CI_Model
 		$ip_address = $this->_prepare_ip($this->input->ip_address());
 		$salt       = $this->store_salt ? $this->salt() : FALSE;
 		$password   = $this->hash_password($password, $salt);
+                $account_id = $this->id_generator('accounts', 'account_id');
 
 		// Users table.
 		$data = array(
@@ -771,7 +772,8 @@ class Ion_auth_model extends CI_Model
 		    'ip_address' => $ip_address,
 		    'created_on' => time(),
 		    'last_login' => time(),
-		    'active'     => ($manual_activation === false ? 1 : 0)
+		    'active'     => ($manual_activation === false ? 1 : 0),
+                    'account'    => $account_id
 		);
 
 		if ($this->store_salt)
@@ -779,19 +781,19 @@ class Ion_auth_model extends CI_Model
 			$data['salt'] = $salt;
 		}
 
+		$this->trigger_events('extra_set');
+
+		$this->db->insert('accounts', array( 'account_id' => $account_id, 'type' => 1, 'created_on' => time()));
+
 		//filter out any data passed that doesnt have a matching column in the users table
 		//and merge the set user data and the additional data
 		$user_data = array_merge($this->_filter_data($this->tables['users'], $additional_data), $data);
-
-		$this->trigger_events('extra_set');
-
-		$this->db->insert($this->tables['users'], $user_data);
+                
+                $this->db->insert($this->tables['users'], $user_data);
 
 		$id = $this->db->insert_id();
-
-		$this->db->insert($this->tables['accounts'], array( 'account_id' => $this=>id_generator('accounts', 'account_id'), 'created_on' => time())
-
-		$this->trigger_events('post_register');
+                
+                $this->trigger_events('post_register');
 
 		return (isset($id)) ? $id : FALSE;
 	}
