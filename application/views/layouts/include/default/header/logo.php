@@ -1,0 +1,1 @@
+<a href="<? echo base_url();?>" id="headerlogo" class="right">CymbitCMS &raquo; Simple CMS for Web Designers</a>

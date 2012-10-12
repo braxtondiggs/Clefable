@@ -17,34 +17,33 @@ loadtracking();
 $(function() {
 	var internal_error = "An internal error has occurred, the page will auto-refresh.";
 	$("#sidebar").height(function() {return $("#content").height()+60});
-	$("#header .menu").css({"margin-top":function() {return ($("#header").height()-$(this).height())+14;}});
-	$("#header .menu li").addClass("ui-default ui-corner-top");
-		$('#header .menu li a[href="#"]').parent().addClass("ui-state-disabled");
-	$("#header .menu li:not(.ui-state-disabled):not(.ui-tabs-selected)").hover(
+	$("#header .menu").css({"margin-top":function() {
+		return ($("#header").height()-$(this).height())+14;
+	}}).find('li').addClass("ui-default ui-corner-top").not(".ui-state-disabled, .ui-tabs-selected").hover(
   		function () {
-    		$(this).addClass('ui-state-hover');
+			$(this).addClass('ui-state-hover');
   		}, 
   		function () {
-    		$(this).removeClass('ui-state-hover');
-  		});
-		
+			$(this).removeClass('ui-state-hover');
+  		}
+	);	
 	$('.modal').live("click", function() {
 		var html="";
 		$.ajax({
 			async: false,
 			type: "GET",
 			url: $('.modal').attr('href'),
-			success: function(response) {
-				html = response;
+			success: function(data) {
+				html = data;
 			}
 		});
 		if ($('#dialog-modal').length == 0) {$('body').append('<div id="dialog-modal" title="'+$('.modal').attr('title')+'">'+html+'</div>')}
 		$( "#dialog-modal" ).dialog({
-				height: 550,
-				width:550,
-				modal: true,
-				draggable: false,
-				resizable: false
+			height: 550,
+			width:550,
+			modal: true,
+			draggable: false,
+			resizable: false
 				
 		});
 		return false;

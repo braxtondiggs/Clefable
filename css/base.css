@@ -14,7 +14,7 @@ body{width:100%;}
 #header .menu ul li a, .jQTabs ul li a{font:1em Times New Roman;font-weight: bold;}
 
 /********** block index **********/
-#main { background:#f4f4f4 url(../images/bg_simple.gif) top repeat-x; border:0; padding:80px 0;}
+#main { background:#f4f4f4 url(../images/bg_simple.gif) top repeat-x; border:0; padding:80px 0;min-height:650px;}
 #main_container { width:920px; margin:0 auto;min-height: 600px;}
 #main h3.underline {font-weight:bold; color:#2c2c2c; border-bottom:1px solid #cccccc;padding:10px 10px 10px 10px; margin:5px 0 10px 0;}
 #main h2.underline {border-bottom:1px solid #cccccc;}

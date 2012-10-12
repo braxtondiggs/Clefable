@@ -5,6 +5,5 @@
 <title><?php echo $template['title']; ?> &raquo; CymbitCMS</title>
 <?php echo meta('Content-type', 'text/html; charset=utf-8', 'equiv'); ?>
 <?php echo $template['metadata']; ?>
-<?php Assets::css(array_merge(array('reset.css', 'typography.css', 'jquery-ui-1.8.10.custom.css', 'base.css'), (array)$css)); ?>
-<?php Assets::js(array_merge(array('jquery.min.js', 'jquery-ui.min.js', 'global.js'), (array)$js));?>
+<?php ($assets == "app")?include('assets_app.php'):include('assets.php'); ?>
 <?php //Assets::clear_cache(); ?>

@@ -1,0 +1,2 @@
+<?php Assets::css(array('reset.css', 'typography.css', 'jquery-ui-1.8.10.custom.css', 'base.css', 'rpx.css', 'oneall.css', 'validator/validationEngine.jquery.css')); ?>
+<?php Assets::js(array('jquery.min.js', 'jquery-ui.min.js', 'global.js', 'validator/jquery.validationEngine-en.js', 'validator/jquery.validationEngine.js'));?>

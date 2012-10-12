@@ -6,13 +6,11 @@ class Login extends CI_Controller{
     }
     function index(){
         $this->load->library('ion_auth');
-	if (!$this->ion_auth->logged_in()) {
+	if ($this->ion_auth->logged_in()) {
 	    redirect('site');
 	}
 	$this->template->title('Login');
-	$this->template->set('css', array('oneall.css', 'validator/validationEngine.jquery.css'));
-        $this->template->set('js', array('validator/jquery.validationEngine-en.js', 'validator/jquery.validationEngine.js'));
-        $this->template->set_layout('default_wide')->build('login/index');
+        $this->template->build('login/index');
     }
     function submit() {
         if ($this->input->is_ajax_request()) {
@@ -38,6 +36,7 @@ class Login extends CI_Controller{
 		    $output = array('status' => "error", 'error_type' => 'max_login', 'output' => "<strong>Alert:</strong> You have too many login attempts.");
 		}
             }
+	    Assets::clear_cache();
 	    echo json_encode($output);
         }else{
             show_404();    
@@ -66,8 +65,6 @@ class Login extends CI_Controller{
     function reset_password($token = null) {
 	if ($token !== null) {
 	    $this->template->title('Reset Password');
-	    $this->template->set('css', array('oneall.css', 'validator/validationEngine.jquery.css'));
-	    $this->template->set('js', array('validator/jquery.validationEngine-en.js', 'validator/jquery.validationEngine.js'));
 	    $this->template->set('token', $token);
 	    $this->template->build('login/reset_password');
 	}else {

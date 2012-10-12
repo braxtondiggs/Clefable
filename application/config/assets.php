@@ -9,10 +9,10 @@
 |
 */
 
-$config['assets']['combine_css']          = true;
-$config['assets']['combine_js']           = true;
-$config['assets']['minify_css']           = true;
-$config['assets']['minify_js']            = true;
+$config['assets']['combine_css']          = false;
+$config['assets']['combine_js']           = false;
+$config['assets']['minify_css']           = false;
+$config['assets']['minify_js']            = false;
 $config['assets']['enable_coffeescript']  = false;
 
 /*
@@ -24,7 +24,7 @@ $config['assets']['enable_coffeescript']  = false;
 | 
 */
 
-$config['assets']['auto_clear_cache']     = true;
+$config['assets']['auto_clear_cache']     = false;
 $config['assets']['auto_clear_css_cache'] = false;
 $config['assets']['auto_clear_js_cache']  = false;
 

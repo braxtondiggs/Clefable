@@ -8,10 +8,12 @@ class Pages extends CI_Controller {
 	}
 	public function home() {		
 		$this->template->title('Simple &amp; Free CMS for Web Designers');
+		$this->template->set('sidebar', array('follow_us'));
 		$this->template->build('pages/home');
 	}
 	public function privacy() {
 		$this->template->title('Privacy Policy');
+		$this->template->set('sidebar', array());
 		$this->template->build('pages/privacy');
 	}
 	public function terms($type) {
@@ -19,6 +21,7 @@ class Pages extends CI_Controller {
 			$this->load->view('pages/terms');
 		}else {
 			$this->template->title('Terms of Service');
+			$this->template->set('sidebar', array());
 			$this->template->build('pages/terms');
 		}
 	}

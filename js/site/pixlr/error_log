@@ -1,0 +1,4 @@
+[07-Aug-2011 18:07:17] PHP Warning:  mkdir() [<a href='function.mkdir'>function.mkdir</a>]: File exists in /home1/cymbitco/public_html/site/js/pixlr/save.php on line 10
+[07-Aug-2011 18:07:18] PHP Warning:  copy(../../uploads/img_tmp/hHgFRtt/images) [<a href='function.copy'>function.copy</a>]: failed to open stream: Is a directory in /home1/cymbitco/public_html/site/js/pixlr/save.php on line 14
+[07-Aug-2011 18:09:26] PHP Warning:  copy(../../uploads/img_tmp/hHgFRtt/images) [<a href='function.copy'>function.copy</a>]: failed to open stream: Is a directory in /home1/cymbitco/public_html/site/js/pixlr/save.php on line 14
+[07-Aug-2011 18:10:08] PHP Warning:  copy(../../uploads/img_tmp/hHgFRtt/images/) [<a href='function.copy'>function.copy</a>]: failed to open stream: Is a directory in /home1/cymbitco/public_html/site/js/pixlr/save.php on line 14

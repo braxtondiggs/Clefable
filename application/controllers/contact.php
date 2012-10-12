@@ -7,8 +7,7 @@ class Contact extends CI_Controller{
     function index(){
 	$this->load->helper('form');
         $this->template->title('Contact Us');
-	$this->template->set('css', array('rpx.css', 'validator/validationEngine.jquery.css'));
-        $this->template->set('js', array('validator/jquery.validationEngine-en.js', 'validator/jquery.validationEngine.js'));
+	$this->template->set('sidebar', array('follow_us'));
         $this->template->build('contact/index');
     }
     function submit() {

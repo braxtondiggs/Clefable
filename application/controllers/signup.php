@@ -6,13 +6,11 @@ class Signup extends CI_Controller{
     }
     function index(){
         $this->load->library('ion_auth');
-	if (!$this->ion_auth->logged_in()) {
+	if ($this->ion_auth->logged_in()) {
 	    redirect('site');
 	}
 	$this->template->title('Sign-Up');
-	$this->template->set('css', array('oneall.css', 'validator/validationEngine.jquery.css'));
-        $this->template->set('js', array('validator/jquery.validationEngine-en.js', 'validator/jquery.validationEngine.js'));
-        $this->template->set_layout('default_wide')->build('signup/index');
+        $this->template->build('signup/index');
     }
     function submit() {
         if ($this->input->is_ajax_request()) {
@@ -50,6 +48,7 @@ class Signup extends CI_Controller{
 		$output = array('status' => "success");
 	
             }
+	    Assets::clear_cache();
 	    echo json_encode($output);
         }else{
             show_404();    

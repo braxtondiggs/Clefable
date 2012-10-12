@@ -1,3 +1,4 @@
+<?php include('include/config.php');?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -5,12 +6,19 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<?php include('include/default/header.php');?>
+			<div id="header">
+				<div id="block_header">
+					<?php include('include/default/header/logo.php');?>
+					<?php include('include/default/header/nav.php');?>
+					<div class="clr"></div>
+				</div>
+			</div>
 			<div id="main">
 				<div id="main_container">
-					<div id="content">
+					<div id="content<?php echo (isset($sidebar))?"":"_wide"; ?>">
 						<?php echo $template['body']; ?>
 					</div>
+					<?php include('include/default/sidebar/index.php');?>
 				</div>
 				<div class="clr"></div>
 			</div>
