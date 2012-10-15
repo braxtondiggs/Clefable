@@ -7,7 +7,7 @@ class Signup extends CI_Controller{
     function index(){
         $this->load->library('ion_auth');
 	if ($this->ion_auth->logged_in()) {
-	    redirect('site');
+	    redirect('app');
 	}
 	$this->template->title('Sign-Up');
         $this->template->build('signup/index');

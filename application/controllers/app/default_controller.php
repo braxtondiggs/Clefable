@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Site extends CI_Controller{
+class Default_Controller extends CI_Controller{
     function __construct() {
         parent::__construct();
     }
@@ -10,7 +10,7 @@ class Site extends CI_Controller{
 	    redirect('login');
 	}
         $this->template->title('Account Dashboard');
-	$this->template->set_layout('default_app')->build('site/index');
+	$this->template->set_layout('default_app')->build('app/index');
     }
     function logout() {
 	$this->load->library('ion_auth');

@@ -7,7 +7,7 @@ class Login extends CI_Controller{
     function index(){
         $this->load->library('ion_auth');
 	if ($this->ion_auth->logged_in()) {
-	    redirect('site');
+	    redirect('app');
 	}
 	$this->template->title('Login');
         $this->template->build('login/index');

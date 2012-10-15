@@ -1045,15 +1045,13 @@ class Ion_auth_model extends CI_Model
 	 * @return object Users
 	 * @author Ben Edmunds
 	 **/
-	public function users($groups = NULL)
+	public function users($account = NULL)
 	{
 		$this->trigger_events('users');
 
 		//default selects
 		$this->db->select(array(
-		    $this->tables['users'].'.*', 
-		    $this->tables['users'].'.id as id', 
-		    $this->tables['users'].'.id as user_id'
+		    $this->tables['users'].'.*'
 		));
 
 		if (isset($this->_ion_select))
@@ -1067,26 +1065,22 @@ class Ion_auth_model extends CI_Model
 		}
 
 		//filter by group id(s) if passed
-		if (isset($groups))
+		if (isset($account))
 		{
-			//build an array if only one group was passed
-			if (is_numeric($groups))
-			{
-				$groups = Array($groups);
-			}
 
-			//join and then run a where_in against the group ids
-			if (isset($groups) && !empty($groups))
-			{
 				$this->db->distinct();
 				$this->db->join(
 				    $this->tables['accounts'], 
-				    $this->tables['accounts'].'.account_id = ' . $this->tables['users'].'.id', 
+				    $this->tables['accounts'].'.account_id = ' . $this->tables['users'].'.account', 
 				    'inner'
 				);
 
-				$this->db->where_in($this->tables['accounts'].'.group_id', $groups);
-			}
+				$this->db->where_in($this->tables['accounts'].'.account_id', $account);
+                                
+                                //$query = $this->db->get();
+//$rowcount = $query->num_rows();
+///echo $rowcount;
+			
 		}
 
 		$this->trigger_events('extra_where');
@@ -1262,7 +1256,7 @@ class Ion_auth_model extends CI_Model
 			$this->db->order_by($this->_ion_order_by, $this->_ion_order);
 		}
 
-		$this->response = $this->db->get($this->tables['groups']);
+		$this->response = $this->db->get($this->tables['users']);
 
 		return $this;
 	}
@@ -1279,12 +1273,12 @@ class Ion_auth_model extends CI_Model
 
 		if (isset($id))
 		{
-			$this->db->where($this->tables['groups'].'.id', $id);
+			$this->db->where($this->tables['users'].'.account', $id);
 		}
 
 		$this->limit(1);
-
-		return $this->groups();
+                
+		return $this;
 	}
 
 	/**

@@ -86,7 +86,7 @@ $(function() {
 				success: function(data) {
 					$('#login-submit').removeAttr('disabled');
 					if(data.status == "success") {
-						window.location.href = 'site/';
+						window.location.href = 'app/';
 					}else if(data.status == "error") {
 						$("#login .validate_errors").html(data.output).slideDown('slow');
 					}else {
@@ -156,7 +156,7 @@ $(function() {
 				success: function(data) {
 					$('#signup-submit').removeAttr('disabled');
 					if(data.status == "success") {
-						window.location.href= 'site/';
+						window.location.href= 'app/';
 					}else if(data.status =="error") {
 						$(".validate_errors").html(data.output).slideDown('slow');
 					}else {
