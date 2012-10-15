@@ -816,7 +816,7 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', username, email, id, password, active, last_login')
+		$query = $this->db->select($this->identity_column . ', account, username, email, id, password, active, last_login, first_name, last_name')
 		                  ->where($this->identity_column, $this->db->escape_str($identity))
 		                  ->limit(1)
 		                  ->get($this->tables['users']);
@@ -839,10 +839,13 @@ class Ion_auth_model extends CI_Model
 
 				$session_data = array(
 				    'identity'             => $user->{$this->identity_column},
-				    'username'             => $user->username,
+				    'QID'                  => $user->username,
+                                    'account'              => $user->account,
 				    'email'                => $user->email,
 				    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
-				    'old_last_login'       => $user->last_login
+				    'old_last_login'       => $user->last_login,
+                                    'first_name'           => $user->first_name,
+                                    'last_name'            => $user->last_name
 				);
 
 				$this->update_last_login($user->id);
@@ -1162,6 +1165,18 @@ class Ion_auth_model extends CI_Model
 		$id || $id = $this->session->userdata('user_id');
 
 		return $this->db->select($this->tables['accounts'].'.'.$this->join['groups'].' as id, '.$this->tables['groups'].'.name, '.$this->tables['groups'].'.description')
+		                ->where($this->tables['accounts'].'.'.$this->join['users'], $id)
+		                ->join($this->tables['groups'], $this->tables['accounts'].'.'.$this->join['groups'].'='.$this->tables['groups'].'.id')
+		                ->get($this->tables['accounts']);
+	}
+        
+        public function get_users_type($id=FALSE)
+	{
+
+		//if no id was passed use the current users id
+		$id || $id = $this->session->userdata('user_id');
+
+		return $this->db->select($this->tables['users'])
 		                ->where($this->tables['accounts'].'.'.$this->join['users'], $id)
 		                ->join($this->tables['groups'], $this->tables['accounts'].'.'.$this->join['groups'].'='.$this->tables['groups'].'.id')
 		                ->get($this->tables['accounts']);
