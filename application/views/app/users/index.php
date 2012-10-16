@@ -36,9 +36,11 @@
 				</a>
 			</td>
 			<td>
-				<a href="<?php echo base_url("app/users/impersonate/".$user->username);?>" class="impersonate_user">
-					<span class="impersonate cmsicon"></span>impersonate
-				</a>
+				<?php if ($user->username !== $this->session->userdata("QID")) { ?>
+                                    <a href="<?php echo base_url("app/users/impersonate/".$user->username);?>" class="impersonate_user">
+                                            <span class="impersonate cmsicon"></span>impersonate
+                                    </a>
+                                <?php } ?>
 			</td>
 			<td>
 				<a href="<?php echo base_url("app/users/delete/".$user->username);?>" class="delete_user">

@@ -9,9 +9,11 @@
 	$user_languages = $user[0]->language;
 	$type = $user[0]->user_type;
 	
+    }else {
+	$id = "";
     }
 ?>
-<form id="user" class="formular_noattach" method="post" action="<?php echo base_url("app/users/submit".(!isset($id))?"":"/".$id);?>">
+<form id="user" class="formular" method="post" action="<?php echo base_url("app/users/submit/".$id);?>">
     <div class="jQTabs" style="float:left;width:100%;">
 	<ul>
 	    <li>
@@ -19,10 +21,12 @@
 		    <span class="user cmsicon"></span>Basic Information
 		</a>
 	    </li>
-            <li>
-		<a href="#tabs-2">
-		    <span class="shareperm cmsicon"></span>Permissions</a>
-	    </li>
+            <?php if ($is_admin == true) { ?>
+		<li>
+		    <a href="#tabs-2">
+			<span class="shareperm cmsicon"></span>Permissions</a>
+		</li>
+	    <?php } ?>
 	</ul>
    	<div id="tabs-1" class="Form_Block">
 	    <div class="half">
@@ -30,14 +34,14 @@
 		    <label for="first-name">
 			<span>*</span>&nbsp;First Name
 		    </label>
-		    <input id="first-name" name="first-name" type="text" value="<?php echo $first_name; ?>" class="validate[required] text-rounded txt-l" />
+		    <input id="first_name" name="first_name" type="text" value="<?php echo $first_name; ?>" class="validate[required] text-rounded txt-l" />
 		    <p>Example: John</p>
 		</div>
 		<div class="form-item">
 		    <label for="last-name">
 			<span>*</span>&nbsp;Last Name
 		    </label>
-		    <input id="last-name" name="last-name" type="text" value="<?php echo $last_name; ?>"  class="validate[required] text-rounded txt-l" />
+		    <input id="last_name" name="last_name" type="text" value="<?php echo $last_name; ?>"  class="validate[required] text-rounded txt-l" />
 		    <p>Example: Doe</p>
 		</div>
 		<div class="form-item">
@@ -59,33 +63,55 @@
 		</div>
 	    </div>
 	    <div class="half">
-		<!--<div class="alert-warning">
-		    <h6>Account Administrator</h6>
-		    <p>Only Business Accounts can have more than one Account Administrator. Upgrade to a Business Account.</p>
-		</div>-->
+		<?php if ($is_admin == true) { ?>
+		    <div class="form-item">
+			<label style="margin-bottom:15px;">
+			    <span>*</span>&nbsp;Account Type
+			</label>
+			<input id="admin" name="account_type" type="radio" class="validate[required]" value="1" <?php echo ($type == "1")?"checked=\"checked\" ":"";?><?php echo ($account_type == "1")?"disabled=\"disabled\"":"";?> />
+			<label for="admin" style="display: inline;">Administor&nbsp;</label>
+			<input id="editor" name="account_type" type="radio" class="validate[required]" value="2" <?php echo ($type == "2")?"checked=\"checked\"":"";?> <?php echo ($account_type == "1" && $type == "1")?"disabled=\"disabled\"":"";?>/>
+			<label for="editor" style="display: inline;">Editor&nbsp;</label>
+		    </div>
+		<?php } ?>
+		<?php if (!(isset($is_new) && $is_new)) { ?>
 		<div class="form-item">
-		    <label style="margin-bottom:15px;">
-			<span>*</span>&nbsp;Account Type
-		    </label>
-		    <input id="admin" name="account_type" type="radio" class="validate[required]" <?php echo ($type == "1")?"checked=\"checked\" ":"";?><?php echo ($account_type == "1")?"disabled=\"disabled\"":"";?> />
-		    <label for="admin" style="display: inline;">Administor&nbsp;</label>
-		    <input id="editor" name="account_type" type="radio" class="validate[required]" <?php echo ($type == "2")?"checked=\"checked\"":"";?> <?php echo ($account_type == "1" && $type == "1")?"disabled=\"disabled\"":"";?>/>
-		    <label for="editor" style="display: inline;">Editor&nbsp;</label>
+		    <input id="new_password" name="new_password" type="checkbox" value="true" />
+		    <label for="new_password" style="display:inline;">Change Password</label>
+		    
+		    <div style="display:none;">
+		<?php } ?>
+			<div class="form-item">
+			    <label for="password">&nbsp;New Password</label>
+			    <input id="password" name="password" type="password" class="text-rounded txt-l validate[required,minSize[6]]" />
+			    <p>Only enter a password if you wish to change the existing one.</p>
+			</div>
+			<div class="form-item">
+			    <label for="confirm_password">&nbsp;Repeat New Password</label>
+			    <input id="confirm_password" name="confirm_pass" type="password" class="text-rounded txt-l validate[required,equals[password]]" />
+			    <p>re-enter the password for this account</p>
+			</div>
+		<?php if (!(isset($is_new) && $is_new)) { ?>    
+		    </div>
 		</div>
-		
-		<div class="form-item">
-		    <label for="password">&nbsp;Password</label>
-		    <input id="password" name="password" type="password" class="text-rounded txt-l validate[required,minSize[6]]" />
-		    <p>Only enter a password if you wish to change the existing one.</p>
-		</div>
-		<div class="form-item">
-		    <label for="confirm_pass">&nbsp;Repeat Password</label>
-		    <input id="confirm_pass" name="confirm_pass" type="password" class="text-rounded txt-l <?php echo (empty($EID))?"validate[required,equals[password]]":"validate[equals[password]]"?>" />
-		    <p>re-enter the password for this account</p>
-		</div>
+		<?php } ?>
 	    </div>
 	    <br class="clr" />
 	</div>
     </div>
+    <p>&nbsp;</p>
+    <p>
+	<a href="#" class="submit button">
+	    <span class="save cmsicon"></span>Save Users Settings
+	</a>
+    </p>
 </form>
+<script type="text/javascript">
+	$(function() {
+	    $('#new_password').click(function() {
+		    $(this).siblings('div').toggle().children('input#Passkey-Value').val("");
+	    });
+	});
+</script>
+
     
