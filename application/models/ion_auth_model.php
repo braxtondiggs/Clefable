@@ -1135,10 +1135,10 @@ class Ion_auth_model extends CI_Model
 		$this->trigger_events('user');
 
 		//if no id was passed use the current users id
-		$id || $id = $this->session->userdata('user_id');
+		$id || $id = $this->session->userdata('username');
 
 		$this->limit(1);
-		$this->where($this->tables['users'].'.id', $id);
+		$this->where($this->tables['users'].'.username', $id);
 
 		$this->users();
 
@@ -1175,7 +1175,16 @@ class Ion_auth_model extends CI_Model
 		                ->join($this->tables['groups'], $this->tables['accounts'].'.'.$this->join['groups'].'='.$this->tables['groups'].'.id')
 		                ->get($this->tables['accounts']);
 	}
-
+        public function get_account_type() {
+            $id = $this->session->userdata('account');
+            $query = $this->db->get_where($this->tables['accounts'], array('account_id' => $id), 1);
+            if ($query->num_rows() == 1) {
+                return $query->row()->type;
+            }else {
+                return FALSE;
+            }
+            return FALSE;
+        }
 	/**
 	 * remove_from_group
 	 *
@@ -1424,6 +1433,15 @@ class Ion_auth_model extends CI_Model
 		));
 
 		return TRUE;
+	}
+        
+        function get_languages() {
+		$query = $this->db->get($this->tables['language']);
+                $lang = array();
+                foreach ($query->result() as $row) {
+                    $lang[] = array("text" => $row->text, "value" => $row->value);
+                }
+		return $lang;
 	}
 
 	/**

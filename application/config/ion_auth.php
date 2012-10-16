@@ -21,6 +21,7 @@ $config['use_mongodb'] = FALSE;
 | $ mongorestore sql/mongo
 |
 */
+
 $config['collections']['users']          = 'users';
 $config['collections']['groups']         = 'groups';
 $config['collections']['login_attempts'] = 'login_attempts';
@@ -31,6 +32,7 @@ $config['collections']['login_attempts'] = 'login_attempts';
 | -------------------------------------------------------------------------
 | Database table names.
 */
+$config['tables']['language']          = 'language';
 $config['tables']['users']           = 'users';
 $config['tables']['accounts']          = 'accounts';
 $config['tables']['users_groups']    = 'users_groups';

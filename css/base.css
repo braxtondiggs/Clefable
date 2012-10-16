@@ -40,7 +40,7 @@ body{width:100%;}
     -moz-border-radius: 4px;
     border-radius: 4px
 }
-.alert-error p, .alert-success p {
+.alert-error p, .alert-success p, .alert_warning p {
     padding: 0!important;
     margin: 0!important;
     color: #B94A48!important;
@@ -57,6 +57,17 @@ body{width:100%;}
     color: #468847;
     background-color: #DFF0D8;
     border-color: #D6E9C6;
+}
+
+.alert-warning {
+    margin-bottom: 20px;
+    color: #C09853!important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #FCF8E3;
+    border: 1px solid #FBEED5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 /*SideBar*/
 #sidebar_container { width:300px; padding:10px;margin-bottom:50px;}

@@ -1,0 +1,207 @@
+@charset "utf-8";
+/* CSS Document */
+#wrapper-app #main {padding-bottom:100px;}
+.jQTabs{margin-top:20px;}
+
+.nav-section {
+	border: 7px solid #999;
+	height: 100px;
+	width: 225px;
+	float: left;
+	margin: 0 20px 20px 20px;
+}
+.nav-section:hover {
+	border: 7px solid #666;
+	cursor:pointer;
+	text-decoration: none!important;
+}
+.nav-section:hover h4{color:#6EAC2C!important;}
+.nav-section h4 {margin:7px;}
+.nav-section h4 span{margin:3px 5px 0 0;}
+
+.table-standard {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 12px;
+    border-collapse: collapse;
+}
+.table-standard th {
+    font-size: 13px;
+    font-weight: normal;
+    padding: 8px;
+    background: #b9c9fe;
+    border-top: 4px solid #aabcfe;
+    border-bottom: 1px solid #fff;
+    color: #039;
+}
+
+.table-standard td {
+    padding: 10px 6px;
+    background: #e8edff; 
+    border-bottom: 1px solid #fff;
+    color: #669;
+    border-top: 1px solid transparent;
+}
+.table-standard tr:hover td {
+    background: #d0dafd;
+    color: #339;
+}
+
+.text-rounded {
+	font-size: 16px;
+	-webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px;
+    padding: 5px;
+    border-left: 2px #666 solid;
+    border-top: 2px #666 solid;
+    border-right: 2px #CCC solid;
+    border-bottom: 2px #CCC solid;
+}
+.text-url {
+	width: 415px;
+}
+.form-item {
+margin-top: 30px;
+}
+.Form_Block label{display: block;font:20px bold Georgia, "Times New Roman", Times, serif;}
+.Form_Block label#required_label{margin-top:30px;font: inherit;}
+.Form_Block label span{font:28px/10px bold Georgia, "Times New Roman", Times, serif;color:red;}
+p.center {text-align:center;}
+
+span.gears {background-image:url(../../css/images/icons/gear.png);}
+span.manage {background-image:url(../../css/images/icons/documents-stack.png);}
+span.add-site {background-image:url(../../css/images/icons/document--plus.png);}
+span.more {background-image:url(../../css/images/icons/arrow-curve-000-left.png);}
+span.status-green {background-image:url(../../css/images/icons/status.png);}
+span.status-red {background-image:url(../../css/images/icons/status-busy.png);}
+span.delete {background-image:url(../../css/images/icons/cross.png);}
+span.tick {background-image:url(../../css/images/icons/tick.png);}
+span.edit-doc {background-image:url(../../css/images/icons/document--pencil.png);}
+span.crown{background-image:url(../../css/images/icons/crown.png);}
+span.globe{background-image:url(../../css/images/icons/globe-green.png);}
+span.splitter{background-image:url(../../css/images/icons/ui-splitter.png);}
+span.newsite{background-image:url(../../css/images/icons/document--plus.png);}
+span.inform{background-image:url(../../css/images/icons/information-balloon.png);}
+span.user{background-image:url(../../css/images/icons/user.png);}
+span.user-share{background-image:url(../../css/images/icons/user-share.png);}
+span.user-edit{background-image:url(../../css/images/icons/user--pencil.png);}
+span.user-add{background-image:url(../../css/images/icons/user--plus.png);}
+span.impersonate{background-image:url(../../css/images/icons/user-silhouette.png);}
+span.edit{background-image:url(../../css/images/icons/pencil.png);}
+span.shareperm{background-image:url(../../css/images/icons/notebook-share.png);}
+span.newpage{background-image:url(../../css/images/icons/script--plus.png);}
+span.newfolder{background-image:url(../../css/images/icons/folder--plus.png);}
+span.plus{background-image:url(../../css/images/icons/plus-circle.png);}
+span.docarrow {background-image:url(../../css/images/icons/document--arrow.png);}
+span.sitemap-img {background-image:url(../../css/images/icons/sitemap-image.png);}
+span.save {background-image:url(../../css/images/icons/disk.png);}
+span.smiley {background-image:url(../../css/images/icons/smiley);}
+span.smiley-angel {background-image:url(../../css/images/icons/smiley-angel.png);}
+span.smiley-confuse {background-image:url(../../css/images/icons/smiley-confuse.png);}
+span.smiley-cool {background-image:url(../../css/images/icons/smiley-cool.png);}
+span.smiley-cry {background-image:url(../../css/images/icons/smiley-cry.png);}
+span.smiley-draw {background-image:url(../../css/images/icons/smiley-draw.png);}
+span.smiley-eek {background-image:url(../../css/images/icons/smiley-eek.png);}
+span.smiley-eek-blue {background-image:url(../../css/images/icons/smiley-eek-blue.png);}
+span.smiley-evil {background-image:url(../../css/images/icons/smiley-evil.png);}
+span.smiley-fat {background-image:url(../../css/images/icons/smiley-fat.png);}
+span.smiley-grin {background-image:url(../../css/images/icons/smiley-grin.png);}
+span.smiley-kiss {background-image:url(../../css/images/icons/smiley-kiss.png);}
+span.smiley-kitty {background-image:url(../../css/images/icons/smiley-kittyv);}
+span.smiley-lol {background-image:url(../../css/images/icons/smiley-lol.png);}
+span.smiley-mad {background-image:url(../../css/images/icons/smiley-mad.png);}
+span.smiley-money {background-image:url(../../css/images/icons/smiley-money.png);}
+span.smiley-green {background-image:url(../../css/images/icons/smiley-mr-green.png);}
+span.icon-block {background-image:url(../../css/images/icons/block.png);}
+span.card-stack {background-image:url(../../css/images/icons/cards-address.png);}
+span.plus-box {background-image:url(../../css/images/icons/wooden-box--plus.png);}
+span.edit-box {background-image:url(../../css/images/icons/wooden-box--pencil.png);}
+span.ex-box {background-image:url(../../css/images/icons/wooden-box--exclamation.png);}
+span.add {background-image:url(../../css/images/icons/plus.png);}
+span.image_icon{background-image:url(../../css/images/icons/image.png);}
+span.ham_screw{background-image:url(../../css/images/icons/hammer-screwdriver.png);}
+span.switch{background-image:url(../../css/images/icons/switch.png);}
+span.sitemap_blue{background-image:url(../../css/images/icons/sitemap-application-blue.png);}
+span.pencil_arrow{background-image:url(../../css/images/icons/pencil--arrow.png);}
+span.blue_cut{background-image:url(../../css/images/icons/scissors-blue.png);}
+span.blue_doc{background-image:url(../../css/images/icons/blue-document-copy.png);}
+span.clip_paste{background-image:url(../../css/images/icons/clipboard-paste.png);}
+span.curve-arrow-left{background-image:url(../../css/images/icons/arrow-curve-180.png);}
+span.curve-arrow-right{background-image:url(../../css/images/icons/arrow-curve.png);}
+span.eraser{background-image:url(../../css/images/icons/eraser.png);}
+span.doc_globe{background-image:url(../../css/images/icons/document-globe.png);}
+span.lock{background-image:url(../../css/images/icons/lock.png);}
+span.clock{background-image:url(../../css/images/icons/clock-frame.png);}
+
+
+span.Bold{background-position: 0px -304px;}
+span.Italic{background-position: 0px -320px;}
+span.Underline{background-position: 0px -336px;}
+span.Strike{background-position: 0px -353px;}/*Adjust*/
+span.JustifyLeft{background-position: 0px -464px;}
+span.JustifyCenter{background-position: 0px -480px;}
+span.JustifyRight{background-position: 0px -496px;}
+span.JustifyBlock{background-position: 0px -512px;}
+span.Cut{background-position: 0px -96px;}
+span.Copy{background-position: 0px -113px;}/*Adjust*/
+span.Paste{background-position: 0px -129px;}/*Adjust*/
+span.PasteText{background-position: 0px -145px;}/*Adjust*/
+span.PasteFromWord{background-position: 0px -160px;}
+span.Find{background-position: 0px -240px;}
+span.Replace{background-position: 0px -256px;}
+span.BulletedList{background-position: 0px -416px;}
+span.NumberedList{background-position: 0px -400px;}
+span.Outdent{background-position: 0px -432px;}
+span.Indent{background-position: 0px -448px;}
+span.Undo{background-position: 0px -208px;}
+span.Redo{background-position: 0px -224px;}
+span.Blockquote{background-position: 0px -1152px;}
+span.Link{background-position: 0px -528px;}
+span.Unlink{background-position: 0px -545px;}/*Adjust*/
+span.Anchor{background-position: 0px -560px;}
+span.Image{background-position: 0px -576px;}
+span.Source{background-position: 0px 0px;}
+span.NewPage{background-position: 0px -16px;}
+span.DocProps{background-position: 0px -48px;}
+span.SelectAll{background-position: 0px -272px;}
+span.RemoveFormat{background-position: 0px -289px;}/*Adjust*/
+span.Subscript{background-position: 0px -368px;}
+span.Superscript{background-position: 0px -384px;}
+span.Table{background-position: 0px -608px;}
+span.HorizontalRule{background-position: 0px -624px;}
+span.Smiley{background-position: 0px -640px;}
+span.Flash{background-position:0px -592px}
+span.SpecialChar{background-position: 0px -656px;}
+span.PageBreak{background-position: 0px -672px;}
+span.Print{background-position: 0px -176px;}
+span.SpellChecker{background-position: 0px -192px;}
+/*span.Scayt{background-position: 0px -px;} Needs BG-Image same as Spell Check! Scayt = SPLCheck while type*/
+span.TextColor{background-position: 0px -704px;}
+span.BGColor{background-position: 0px -720px;}
+span.Form{background-position: 0px -752px;}
+span.Checkbox{background-position: 0px -768px;}
+span.Radio{background-position: 0px -784px;}
+span.TextField{background-position: 0px -800px;}
+span.Textarea{background-position: 0px -816px;}
+span.ShowBlocks{background-position: 0px -1136px;}
+span.Select{background-position: 0px -832px;}
+span.Button{background-position: 0px -849px;}/*Adjust*/
+span.ImageButton{background-position: 0px -864px;}
+span.HiddenField{background-position: 0px -880px;}
+span.Templates{background-position: 0px -80px;}
+
+.cmsicon {
+	background-repeat:no-repeat;
+	width:16px;
+	height:16px;
+	display:block;
+	float:left;
+}
+a span.cmsicon, td span.cmsicon, span.icon_home img{
+	margin:1px 3px 0 0;
+}
+.half {
+	display:inline;
+	float:left;
+	width:50%;
+}
