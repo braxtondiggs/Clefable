@@ -3,18 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 12, 2012 at 03:30 PM
+-- Generation Time: Oct 17, 2012 at 08:15 PM
 -- Server version: 5.5.25
 -- PHP Version: 5.4.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `igniter`
@@ -64,6 +58,29 @@ CREATE TABLE `account_types` (
 INSERT INTO `account_types` (`id`, `name`, `description`) VALUES
 (1, 'Free', 'Free Limited Account'),
 (2, 'Professional', 'Paid Subscription');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ci_sessions`
+--
+
+CREATE TABLE `ci_sessions` (
+  `session_id` varchar(40) NOT NULL DEFAULT '0',
+  `ip_address` varchar(45) NOT NULL DEFAULT '0',
+  `user_agent` varchar(120) NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text NOT NULL,
+  PRIMARY KEY (`session_id`),
+  KEY `last_activity_idx` (`last_activity`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ci_sessions`
+--
+
+INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
+('2bcff14575db80022d4690afefcc8cd3', '127.0.0.1', 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)', 1350496047, 'a:11:{s:9:"user_data";s:0:"";s:8:"identity";s:22:"braxtondiggs@gmail.com";s:3:"QID";s:13:"uPjTuxiRz9fOH";s:7:"account";s:13:"aYqeViE2mOcGa";s:5:"email";s:22:"braxtondiggs@gmail.com";s:7:"user_id";s:1:"5";s:14:"old_last_login";s:10:"1350491287";s:10:"first_name";s:8:"NewNew12";s:9:"last_name";s:4:"User";s:9:"user_type";s:1:"1";s:12:"account_type";s:1:"1";}');
 
 -- --------------------------------------------------------
 
@@ -237,14 +254,15 @@ CREATE TABLE `users` (
   KEY `user_type` (`user_type`),
   KEY `language` (`language`),
   KEY `account` (`account`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `account`, `first_name`, `last_name`, `user_type`, `language`, `has_demo`, `provider`, `all_one`, `all_one_id`) VALUES
-(5, '\0\0', 'uPjTuxiRz9fOH', '291df99500ce620bd3d03131e66d0d78c6318363', '0ad853e514', 'braxtondiggs@gmail.com', NULL, NULL, NULL, NULL, 1349975615, 1349975615, 1, 'aYqeViE2mOcGa', 'New', 'User', 1, 'en', 1, 'CymbitCMS', NULL, NULL);
+(5, '\0\0', 'uPjTuxiRz9fOH', '291df99500ce620bd3d03131e66d0d78c6318363', '0ad853e514', 'braxtondiggs@gmail.com', NULL, NULL, NULL, NULL, 1349975615, 1350492647, 1, 'aYqeViE2mOcGa', 'NewNew12', 'User', 1, 'en', 1, 'CymbitCMS', NULL, NULL),
+(6, '7f000001', 'u9jTuxiRz9fOf', '', '0ad853e514', '123braxtondiggs@gmail.com', NULL, NULL, NULL, NULL, 1349975615, 1350329734, 1, 'aYqeViE2mOcGa', 'John', 'Doe', 2, 'en', 1, 'CymbitCMS', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -284,7 +302,3 @@ ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_type`) REFERENCES `user_types` (`id`),
   ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`language`) REFERENCES `language` (`value`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`account`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

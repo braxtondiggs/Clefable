@@ -7,10 +7,12 @@ class Users extends CI_Controller{
 	if (!$this->ion_auth->logged_in()) {
 	    redirect('login');
 	}
-	$this->output->enable_profiler(FALSE);
+	if (!$this->input->is_ajax_request()) {
+	    $this->output->enable_profiler(TRUE);
+	}
     }
     function index(){
-        if ($this->has_user_permissions()) {
+        if ($this->session->userdata('user_type') !== 1) {
 	    $this->template->title('Users and Permissions');
 	    $this->template->set_layout('default_app')->build('app/users/index');
 	}else {
@@ -20,11 +22,10 @@ class Users extends CI_Controller{
 	
     }
     function create() {
-	if ($this->has_user_permissions()) {
-	    if ($this->ion_auth->get_num_user() > 3 && $this->ion_auth->get_account_type() == "1") {redirect('app/users');}//error
+	if ($this->session->userdata('user_type') == 1) {    
+	    if ($this->ion_auth->get_num_user() > 3) {redirect('app/users');}//error
 	    $this->template->title('Add User');
 	    $this->template->set('is_new', true);
-	    $this->template->set('is_admin', $this->has_user_permissions());
 	    $this->template->set_layout('default_app')->build('app/users/create');
 	}else {
 	    $QID = $this->session->userdata("QID");
@@ -32,16 +33,30 @@ class Users extends CI_Controller{
 	}
     }
     function delete($id=null) {
+	$redirect = "";
 	if ($this->input->is_ajax_request()) {
+	    if ($id !== null) {  
+		if ($this->ion_auth->has_ownership($id)) {
+		    $this->ion_auth->delete_user($id);
+		    $output = array('status' => "succcess", 'redirect' => $redirect, 'output' => '');
+		}else {
+		    $output = array('status' => "error", 'redirect' => $redirect, 'output' => 'You do not have privliges to modify thtat account');
+		}
+	    }else {
+		$output = array('status' => "error", 'redirect' => $redirect, 'output' => 'No user was selected');
+	    }
+	    header('Content-Type: application/json',true);
+            echo json_encode($output);
+	}else {
+	    show_404();
 	}
     }
     function edit($id=null) {
 	$QID = $this->session->userdata("QID");
 	if ($id !== null) {  
-	    if ($this->ion_auth->identity_check($id)) { 	
+	    if ($this->ion_auth->has_ownership($id)) { 	
 		$this->template->title('Edit User');
 		$this->template->set('id', $id);
-		$this->template->set('is_admin', $this->has_user_permissions());
 		$this->template->set_layout('default_app')->build('app/users/edit');
 	    }else {
 		redirect('app/users/edit/'.$QID);
@@ -50,8 +65,21 @@ class Users extends CI_Controller{
 	    redirect('app/users/edit/'.$QID);
 	}
     }
-    function impersonate($id=null) {
+    function impersonate($action = null, $id=null) {
 	if ($this->input->is_ajax_request()) {
+	    if ($id !== null || $action !== null) {  
+		if ($this->ion_auth->has_ownership($id)) {
+		    if ($action == "activate") {//get users info
+			$this->session->set_userdata(array('username' => $id));
+		    }else if($action == "deactivate"){
+			$this->session->set_userdata(array('username' => $id));
+		    }else{
+			
+		    }
+		}
+	    }
+	}else{
+	    show_404();
 	}
     }
     function submit($id=null) {
@@ -59,9 +87,15 @@ class Users extends CI_Controller{
 	    $this->load->library(array('form_validation', 'email'));
             $this->form_validation->set_rules('first_name', 'First Name', 'required');
 	    $this->form_validation->set_rules('last_name', 'Last Name', 'required');
-            if ($id == null) {$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');}else {$this->form_validation->set_rules('email', 'Email', 'required|valid_email');}
+            if ($id == null) {
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+	    }else {
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+	    }
 	    $this->form_validation->set_rules('language', 'Language', 'required');
-            $this->form_validation->set_rules('account_type', 'Account Type', 'required|is_natural_no_zero');
+            if ($this->session->userdata('account_type') != 1) {
+		$this->form_validation->set_rules('account_type', 'Account Type', 'required|is_natural_no_zero');
+	    }
             if ($this->input->post('new_password') == true || $id == null) {
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[32]');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
@@ -98,31 +132,21 @@ class Users extends CI_Controller{
 		    $this->email->message($message);
 		    $this->email->send();
 		}else {
-		    $this->ion_auth->update($id, array('first_name' => set_value('first_name'), 'last_name' => set_value('last_name'), 'language' => set_value('language')));
+		    $this->ion_auth->update($id, array('first_name' => set_value('first_name'), 'last_name' => set_value('last_name'), 'email' => set_value('email'), 'language' => set_value('language')));
 		    if ($this->input->post('new_password') == true) {
 			$this->ion_auth->update($id, array('password' => set_value('password')));
 		    }
-			
+		    if ($this->session->userdata('account_type') != 1) {
+			$this->ion_auth->update($id, array('user_type' => set_value('account_type')));
+		    }
 		}
-		
-                $output = array('status' => "success", 'output' => '');
+		$redirect ="";	
+                $output = array('status' => "success", 'redirect' => $redirect, 'output' => '');
                 header('Content-Type: application/json',true);
                 echo json_encode($output);
             }
         }else{
             show_404();    
         }
-    }
-    private function has_user_permissions() {//not sure if this works 100%;
-	$QID = $this->session->userdata("QID");
-	$active_user = $this->ion_auth->user($QID)->result();
-	if ($active_user[0]->user_type != 1) {
-	    if ($this->input->is_ajax_request()) {
-		return FALSE;
-	    }else{
-		return FALSE;
-	    }
-	}
-	return TRUE;
     }
 }

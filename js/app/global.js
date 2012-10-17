@@ -23,6 +23,24 @@ $(function() {
 		}
         return false;
     });
+    $(".ajax-action").bind("click", function() {
+        $.ajax($(this).attr('href'), {
+            type: "GET",
+            success: function(data) {
+                                    //$(this).removeAttr('disabled');
+				    ///if(data.status == "success") {
+					//window.location.href= 'app/';
+				    //}else if(data.status =="error") {
+					  //  $(".validate_errors").html(data.output).slideDown('slow');
+				    //}//else {
+					//alert(internal_error);
+					//window.location = "/app";
+				    //}
+				}
+			});
+		
+        return false;
+    });
     
     function Init() {
         $("#breadCrumb").jBreadCrumb();

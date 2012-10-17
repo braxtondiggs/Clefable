@@ -1,5 +1,5 @@
 <?php
-    $first_name = "";$user_languages = "en";$type= "2";$account_type = $this->ion_auth->get_account_type();
+    $first_name = "";$user_languages = "en";$type= "2";$account_type = $this->session->userdata('account_type');
     $email = $last_name = $first_name;
     if (isset($id)) {
 	$user = $this->ion_auth->user($id)->result();
@@ -21,7 +21,7 @@
 		    <span class="user cmsicon"></span>Basic Information
 		</a>
 	    </li>
-            <?php if ($is_admin == true) { ?>
+            <?php if ($this->session->userdata('user_type') == 1) { ?>
 		<li>
 		    <a href="#tabs-2">
 			<span class="shareperm cmsicon"></span>Permissions</a>
@@ -63,7 +63,7 @@
 		</div>
 	    </div>
 	    <div class="half">
-		<?php if ($is_admin == true) { ?>
+		<?php if ($this->session->userdata('user_type') == 1) { ?>
 		    <div class="form-item">
 			<label style="margin-bottom:15px;">
 			    <span>*</span>&nbsp;Account Type

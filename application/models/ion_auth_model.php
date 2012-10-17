@@ -818,7 +818,7 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', account, username, email, id, password, active, last_login, first_name, last_name')
+		$query = $this->db->select($this->identity_column . ', account, username, email, id, password, active, last_login, first_name, last_name, user_type')
 		                  ->where($this->identity_column, $this->db->escape_str($identity))
 		                  ->limit(1)
 		                  ->get($this->tables['users']);
@@ -839,7 +839,8 @@ class Ion_auth_model extends CI_Model
 					return FALSE;
 				}
 
-				$session_data = array(
+				$account_query = $this->db->get_where('accounts', array('account_id' => $user->account), 1);
+                                $session_data = array(
 				    'identity'             => $user->{$this->identity_column},
 				    'QID'                  => $user->username,
                                     'account'              => $user->account,
@@ -847,7 +848,9 @@ class Ion_auth_model extends CI_Model
 				    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
 				    'old_last_login'       => $user->last_login,
                                     'first_name'           => $user->first_name,
-                                    'last_name'            => $user->last_name
+                                    'last_name'            => $user->last_name,
+                                    'user_type'            => $user->user_type,
+                                    'account_type'         => $account_query->row()->type
 				);
 
 				$this->update_last_login($user->id);
@@ -1177,17 +1180,16 @@ class Ion_auth_model extends CI_Model
 		                ->join($this->tables['groups'], $this->tables['accounts'].'.'.$this->join['groups'].'='.$this->tables['groups'].'.id')
 		                ->get($this->tables['accounts']);
 	}
-        public function get_account_type() {
-            $id = $this->session->userdata('account');
-            $query = $this->db->get_where($this->tables['accounts'], array('account_id' => $id), 1);
-            if ($query->num_rows() == 1) {
-                return $query->row()->type;
-            }else {
-                return FALSE;
-            }
-            return FALSE;
+	
+        public function has_ownership($id = false) {
+            if(empty($id)) { return FALSE;}
+            $this->db->select('account');
+            $this->db->where('username', $id); 
+            $query = $this->db->get('users');
+            return $query->row()->account == $this->session->userdata("account");
+            
         }
-	/**
+        /**
 	 * remove_from_group
 	 *
 	 * @return bool
@@ -1338,7 +1340,12 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 		$this->db->update($this->tables['users'], $data, array('id' => $user->id));
-
+                if ($this->session->userdata("QID") == $id && !array_key_exists('password', $data)) {   
+                    $this->session->set_userdata(array('first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email']));
+                    if (array_key_exists('user_type', $data)) {
+                         $this->session->set_userdata('user_type', $data['user_type']);
+                    }
+                }
 		if ($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -1364,24 +1371,29 @@ class Ion_auth_model extends CI_Model
 	public function delete_user($id)
 	{
 		$this->trigger_events('pre_delete_user');
-
-		$this->db->trans_begin();
-
-		// delete user from users table
-		$this->db->delete($this->tables['users'], array('id' => $id));
-		
-		// remove user from groups
-		$this->remove_from_group(NULL, $id);
-
-		if ($this->db->trans_status() === FALSE)
-		{
-			$this->db->trans_rollback();
-			$this->trigger_events(array('post_delete_user', 'post_delete_user_unsuccessful'));
-			$this->set_error('delete_unsuccessful');
-			return FALSE;
-		}
-
-		$this->db->trans_commit();
+                
+                $this->db->select('user_type');
+                $this->db->where('username', $id);
+                $this->db->limit(1);
+                $query = $this->db->get('users');
+                if ($query->num_rows() > 0) {
+                    if ($query->row()->user_type == 1) {
+                        $this->db->select('user_type');
+                        $this->db->where('account', $this->session->userdata('account'));
+                        $query = $this->db->get('users');   
+                        if ($query->num_rows() <= 1) {
+                            //delete account
+                            $this->db->delete($this->tables['accounts'], array('account_id' => $this->session->userdata('account')));
+                            $this->ion_auth->logout();
+                        }else {
+                            // delete user from users table
+                            $this->db->delete($this->tables['users'], array('username' => $id));
+                        }
+                    }else {
+                        // delete user from users table
+                        $this->db->delete($this->tables['users'], array('username' => $id));
+                    }
+                }  
 
 		$this->trigger_events(array('post_delete_user', 'post_delete_user_successful'));
 		$this->set_message('delete_successful');

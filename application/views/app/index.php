@@ -3,7 +3,7 @@
 	<h4 class="underline"><span class="icon-block cmsicon"></span>Manage Websites</h4>
 	<p>Create and manage multiple websites.</p>
 </a>
-<a class="nav-section manage_userbtn" href="<?php echo base_url("app/users".$user_url);?>">
+<a class="nav-section manage_userbtn" href="<?php echo base_url("app/users".(($this->session->userdata('user_type') != 1)?"/edit/".$this->session->userdata("QID"):"")); ?>">
 	<h4 class="underline"><span class="card-stack cmsicon"></span>User &amp; Permission</h4>
 	<p>Click to manage user and access.</p>
 </a>
