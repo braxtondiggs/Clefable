@@ -633,7 +633,7 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
 
-		return $this->db->where($this->identity_column, $identity)
+		return $this->db->where('username', $identity)
 		                ->count_all_results($this->tables['users']) > 0;
 	}
 
@@ -728,7 +728,7 @@ class Ion_auth_model extends CI_Model
 	 * @return bool
 	 * @author Mathew
 	 **/
-	public function register($username, $password, $email, $additional_data = array())
+	public function register($username, $password, $email, $account_id = FALSE, $additional_data = array())
 	{
 		$this->trigger_events('pre_register');
 
@@ -757,12 +757,12 @@ class Ion_auth_model extends CI_Model
 				}
 			}
 		}
-
+                if (!isset($account_id)) {$create_account = TRUE;}else{$create_account = FALSE;}
 		// IP Address
 		$ip_address = $this->_prepare_ip($this->input->ip_address());
 		$salt       = $this->store_salt ? $this->salt() : FALSE;
 		$password   = $this->hash_password($password, $salt);
-                $account_id = $this->id_generator('accounts', 'account_id');
+                $account_id || $account_id = $this->id_generator('accounts', 'account_id');
 
 		// Users table.
 		$data = array(
@@ -783,7 +783,9 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_set');
 
-		$this->db->insert('accounts', array( 'account_id' => $account_id, 'type' => 1, 'created_on' => time()));
+		if ($create_account) {
+                    $this->db->insert('accounts', array( 'account_id' => $account_id, 'type' => 1, 'created_on' => time()));
+                }
 
 		//filter out any data passed that doesnt have a matching column in the users table
 		//and merge the set user data and the additional data
@@ -1443,6 +1445,11 @@ class Ion_auth_model extends CI_Model
                 }
 		return $lang;
 	}
+        function get_num_user($id = FALSE) {
+            $id || $id = $this->session->userdata('account');
+            $query = $this->db->get_where('users', array('account' => $id));
+            return $query->num_rows();
+        }
 
 	/**
 	 * remember_user

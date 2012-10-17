@@ -88,7 +88,7 @@
 			</div>
 			<div class="form-item">
 			    <label for="confirm_password">&nbsp;Repeat New Password</label>
-			    <input id="confirm_password" name="confirm_pass" type="password" class="text-rounded txt-l validate[required,equals[password]]" />
+			    <input id="confirm_password" name="confirm_password" type="password" class="text-rounded txt-l validate[required,equals[password]]" />
 			    <p>re-enter the password for this account</p>
 			</div>
 		<?php if (!(isset($is_new) && $is_new)) { ?>    
