@@ -95,7 +95,7 @@ $autoload['config'] = array('assets', 'template');
 |
 */
 
-$autoload['language'] = array();
+$autoload['language'] = array('gritter');
 
 
 /*

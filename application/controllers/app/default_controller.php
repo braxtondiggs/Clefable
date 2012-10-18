@@ -6,7 +6,7 @@ class Default_Controller extends CI_Controller{
 	$this->output->enable_profiler(TRUE);
     }
     function index(){
-        $this->load->library('ion_auth');
+	$this->load->library('ion_auth');
 	if (!$this->ion_auth->logged_in()) {
 	    redirect('login');
 	}

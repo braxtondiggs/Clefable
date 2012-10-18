@@ -46,6 +46,7 @@ class Signup extends CI_Controller{
                 $this->email->message($message);
                 $this->email->send();
 		$output = array('status' => "success");
+		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_welcome')));
 	
             }
 	    Assets::clear_cache();

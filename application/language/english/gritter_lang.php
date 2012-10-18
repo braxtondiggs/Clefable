@@ -1,0 +1,13 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['gritter_welcome'] 	 = array('title' => 'Welcome To CymbitCMS!', 'text' => 'Make sure to check out the <a href="#">Demo Site</a>. If you need help check out the <a href="#">FAQ</a> page or the <a href="#">tutorial</a>', 'icon' => 'smiley-lol');
+$lang['gritter_user_delete'] 	 = array('title' => 'User has been deleted!', 'text' => 'The user has been permanently deleted from our database, please inform the user of any changes.', 'icon' => 'cross');
+$lang['gritter_self_edit'] 	 = array('title' => 'Information updated', 'text' => 'Your user information has been updated.', 'icon' => 'user');
+$lang['gritter_user_edit'] 	 = array('title' => 'User has been saved!', 'text' => 'User information has been updated, if you have edited an editor please advise them on the changes.', 'icon' => 'user');
+$lang['gritter_user_add'] 	 = array('title' => 'User has been added!', 'text' => 'User has been added to your account.', 'icon' => 'user');
+$lang['gritter_editor_email'] 	 = array('title' => 'Email Sent!', 'text' => 'An email has been successfully sent to the new user with their account information.', 'icon' => 'mail');
+$lang['gritter_password_email']  = array('title' => 'Email Sent!', 'text' => 'Looks like you changed important account info, an email has been successfully sent to the changed user with their account information.', 'icon' => 'mail');
+$lang['gritter_impersonate'] 	 = array('title' => 'Impersonation Active', 'text' => 'You are currently impersonating another user and you can see everything as they would in their account. To exit out of impersonation mode just click the banner above.', 'icon' => 'user-business-boss');
+$lang['gritter_max_user'] 	 = array('title' => 'Max Number of Users', 'text' => 'You have maxed out on the number of shared users for this account. If you need more, please contact us or upgrade your account.', 'icon' => 'battery-low');
+$lang['gritter_test'] 	  	 = array('title' => 'Account Successfully Created', 'text' => 'something', 'icon' => 'something');
+$lang['gritter_test'] 	  	 = array('title' => 'Account Successfully Created', 'text' => 'something', 'icon' => 'something');
+$lang['gritter_test'] 	  	 = array('title' => 'Account Successfully Created', 'text' => 'something', 'icon' => 'something');

@@ -23,7 +23,10 @@ class Users extends CI_Controller{
     }
     function create() {
 	if ($this->session->userdata('user_type') == 1) {    
-	    if ($this->ion_auth->get_num_user() > 3) {redirect('app/users');}//error
+	    if ($this->ion_auth->get_num_user() > 3) {
+		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_user')));
+		redirect('app/users');
+	    }
 	    $this->template->title('Add User');
 	    $this->template->set('is_new', true);
 	    $this->template->set_layout('default_app')->build('app/users/create');
@@ -102,19 +105,17 @@ class Users extends CI_Controller{
 	    }
             if ($this->form_validation->run() == FALSE) {
                 $output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
-                header('Content-Type: application/json',true);
-                echo json_encode($output);
             }else{
-		if ($id == null) {
+		$password = set_value('password');
+		$email = set_value('email');
+		$first_name = set_value('first_name');
+		$last_name = set_value('last_name');
+		if ($id == null) {//create
 		    $username = $this->ion_auth_model->id_generator('users', 'username');
-		    $password = set_value('password');
-		    $email = set_value('email');
-		    $first_name = set_value('first_name');
-		    $last_name = set_value('last_name');
 		    $additional_data = array(
 			'first_name' => $first_name,
 			'last_name' => $last_name,
-			'user_type' => set_value('account_type'),
+			'user_type' => (int)$this->input->post('account_type'),
 			'language' => set_value('language'),
 			'has_demo' => 1,
 			'provider' => 'CymbitCMS'
@@ -131,20 +132,41 @@ class Users extends CI_Controller{
 		    $this->email->subject($this->session->userdata("first_name") . " " . $this->session->userdata("last_name") ." has invited you to a CymbitCMS shared account");
 		    $this->email->message($message);
 		    $this->email->send();
-		}else {
+		    
+		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_user_add'), $this->lang->line('gritter_editor_email')));
+		    $output = array('status' => "success", 'output' => '','redirect' => base_url('app/users'));
+		}else {//edit
+		    $gritter = array();
 		    $this->ion_auth->update($id, array('first_name' => set_value('first_name'), 'last_name' => set_value('last_name'), 'email' => set_value('email'), 'language' => set_value('language')));
-		    if ($this->input->post('new_password') == true) {
+		    if ($this->input->post('new_password') == true) {//Password Change
+			if ($this->session->userdata("QID") !== $id) {
+			    array_push($gritter, $this->lang->line('gritter_password_email'));
+			     $data = array('identity' => $email, 'first_name' => $first_name, 'last_name' => $last_name, 'active_first_name' => $this->session->userdata("first_name"), 'active_last_name' => $this->session->userdata("last_name"), 'active_email' => $this->session->userdata("email"), 'password' => $password);
+			    $this->email->clear();
+			    $this->email->from("support@cymbit.com", "CymbitCMS Support");
+			    $this->email->reply_to($this->session->userdata("email"), $this->session->userdata("first_name") . " " . $this->session->userdata("last_name"));
+			    $this->email->to($email);
+			    $this->email->subject($this->session->userdata("first_name") . " " . $this->session->userdata("last_name") ." has changed your password");
+			    $message = $this->load->view('auth/password_change.tpl.php', $data, true);
+			    $this->email->message($message);
+			    $this->email->send();
+			}
 			$this->ion_auth->update($id, array('password' => set_value('password')));
 		    }
 		    if ($this->session->userdata('account_type') != 1) {
 			$this->ion_auth->update($id, array('user_type' => set_value('account_type')));
 		    }
+		    if ($this->session->userdata("QID") === $id) {
+			array_push($gritter, $this->lang->line('gritter_self_edit'));
+		    }else{
+			array_push($gritter, $this->lang->line('gritter_user_edit'));
+		    }
+		    $this->session->set_flashdata('gritter', $gritter);
+		    $output = array('status' => "success", 'redirect' => base_url('app/users'), 'output' => '');
 		}
-		$redirect ="";	
-                $output = array('status' => "success", 'redirect' => $redirect, 'output' => '');
-                header('Content-Type: application/json',true);
-                echo json_encode($output);
             }
+	    header('Content-Type: application/json',true);
+            echo json_encode($output);
         }else{
             show_404();    
         }

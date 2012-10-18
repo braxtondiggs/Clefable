@@ -13,6 +13,7 @@
 	$id = "";
     }
 ?>
+<div class="validate_errors alert-error" style="display:none;"></div>
 <form id="user" class="formular" method="post" action="<?php echo base_url("app/users/submit/".$id);?>">
     <div class="jQTabs" style="float:left;width:100%;">
 	<ul>
