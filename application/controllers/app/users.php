@@ -111,30 +111,34 @@ class Users extends CI_Controller{
 		$first_name = set_value('first_name');
 		$last_name = set_value('last_name');
 		if ($id == null) {//create
-		    $username = $this->ion_auth_model->id_generator('users', 'username');
-		    $additional_data = array(
-			'first_name' => $first_name,
-			'last_name' => $last_name,
-			'user_type' => (int)$this->input->post('account_type'),
-			'language' => set_value('language'),
-			'has_demo' => 1,
-			'provider' => 'CymbitCMS'
-		    );
-    
-		    $data = array('identity' => $email, 'first_name' => $first_name, 'last_name' => $last_name, 'active_first_name' => $this->session->userdata("first_name"), 'active_last_name' => $this->session->userdata("last_name"), 'active_email' => $this->session->userdata("email"), 'password' => $password);
-		    $message = $this->load->view('auth/welcome.add_user.tpl.php', $data, true);
-		    
-		    $this->ion_auth->register($username, $password, $email, $this->session->userdata("account"), $additional_data);
-		    $this->email->clear();
-		    $this->email->from("support@cymbit.com", "CymbitCMS Support");
-		    $this->email->reply_to($this->session->userdata("email"), $this->session->userdata("first_name") . " " . $this->session->userdata("last_name"));
-		    $this->email->to($email);
-		    $this->email->subject($this->session->userdata("first_name") . " " . $this->session->userdata("last_name") ." has invited you to a CymbitCMS shared account");
-		    $this->email->message($message);
-		    $this->email->send();
-		    
-		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_user_add'), $this->lang->line('gritter_editor_email')));
-		    $output = array('status' => "success", 'output' => '','redirect' => base_url('app/users'));
+		    if ($this->session->userdata('user_type') !== 1) {
+			$username = $this->ion_auth_model->id_generator('users', 'username');
+			$additional_data = array(
+			    'first_name' => $first_name,
+			    'last_name' => $last_name,
+			    'user_type' => (int)$this->input->post('account_type'),
+			    'language' => set_value('language'),
+			    'has_demo' => 1,
+			    'provider' => 'CymbitCMS'
+			);
+	
+			$data = array('identity' => $email, 'first_name' => $first_name, 'last_name' => $last_name, 'active_first_name' => $this->session->userdata("first_name"), 'active_last_name' => $this->session->userdata("last_name"), 'active_email' => $this->session->userdata("email"), 'password' => $password);
+			$message = $this->load->view('auth/welcome.add_user.tpl.php', $data, true);
+			
+			$this->ion_auth->register($username, $password, $email, $this->session->userdata("account"), $additional_data);
+			$this->email->clear();
+			$this->email->from("support@cymbit.com", "CymbitCMS Support");
+			$this->email->reply_to($this->session->userdata("email"), $this->session->userdata("first_name") . " " . $this->session->userdata("last_name"));
+			$this->email->to($email);
+			$this->email->subject($this->session->userdata("first_name") . " " . $this->session->userdata("last_name") ." has invited you to a CymbitCMS shared account");
+			$this->email->message($message);
+			$this->email->send();
+			
+			$this->session->set_flashdata('gritter', array($this->lang->line('gritter_user_add'), $this->lang->line('gritter_editor_email')));
+			$output = array('status' => "success", 'output' => '','redirect' => base_url('app/users'));
+		    }else{
+			$output = array('status' => "fail", 'output' => '','redirect' => base_url('app'));
+		    }
 		}else {//edit
 		    $gritter = array();
 		    $this->ion_auth->update($id, array('first_name' => set_value('first_name'), 'last_name' => set_value('last_name'), 'email' => set_value('email'), 'language' => set_value('language')));
