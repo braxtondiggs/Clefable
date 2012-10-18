@@ -1378,10 +1378,7 @@ class Ion_auth_model extends CI_Model
                 $query = $this->db->get('users');
                 if ($query->num_rows() > 0) {
                     if ($query->row()->user_type == 1) {
-                        $this->db->select('user_type');
-                        $this->db->where('account', $this->session->userdata('account'));
-                        $query = $this->db->get('users');   
-                        if ($query->num_rows() <= 1) {
+                        if ($this->is_only_admin()) {
                             //delete account
                             $this->db->delete($this->tables['accounts'], array('account_id' => $this->session->userdata('account')));
                             $this->ion_auth->logout();
@@ -1399,6 +1396,19 @@ class Ion_auth_model extends CI_Model
 		$this->set_message('delete_successful');
 		return TRUE;
 	}
+        public function is_only_admin() {
+            $this->db->start_cache();
+            $this->db->select('user_type');
+            $this->db->where(array('account' => $this->session->userdata('account'), 'user_type' => 1));
+            $query = $this->db->get('users');   
+            if ($query->num_rows() <= 1) {
+                $this->db->stop_cache();
+                return TRUE;
+            }else{
+                $this->db->stop_cache();
+                return FALSE;
+            }
+        }
 
 	/**
 	 * update_last_login
@@ -1450,11 +1460,13 @@ class Ion_auth_model extends CI_Model
 	}
         
         function get_languages() {
-		$query = $this->db->get($this->tables['language']);
+		$this->db->start_cache();
+                $query = $this->db->get($this->tables['language']);
                 $lang = array();
                 foreach ($query->result() as $row) {
                     $lang[] = array("text" => $row->text, "value" => $row->value);
                 }
+                $this->db->stop_cache();
 		return $lang;
 	}
         function get_num_user($id = FALSE) {

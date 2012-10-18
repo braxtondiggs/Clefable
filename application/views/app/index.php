@@ -1,5 +1,5 @@
 <h3 class="underline">Account Dashboard</h3>
-<a class="nav-section manage_sitebtn" href="<?php echo base_url("app/");?>">
+<a class="nav-section manage_sitebtn" href="<?php echo base_url("app/sites");?>">
 	<h4 class="underline"><span class="icon-block cmsicon"></span>Manage Websites</h4>
 	<p>Create and manage multiple websites.</p>
 </a>

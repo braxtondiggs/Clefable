@@ -3,10 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 17, 2012 at 08:15 PM
+-- Generation Time: Oct 18, 2012 at 06:26 PM
 -- Server version: 5.5.25
 -- PHP Version: 5.4.4
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -20,6 +21,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `accounts`
 --
 
+DROP TABLE IF EXISTS `accounts`;
 CREATE TABLE `accounts` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` varchar(32) COLLATE latin1_general_ci NOT NULL,
@@ -43,6 +45,7 @@ INSERT INTO `accounts` (`id`, `account_id`, `type`, `created_on`) VALUES
 -- Table structure for table `account_types`
 --
 
+DROP TABLE IF EXISTS `account_types`;
 CREATE TABLE `account_types` (
   `id` mediumint(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) COLLATE latin1_general_ci NOT NULL,
@@ -65,6 +68,7 @@ INSERT INTO `account_types` (`id`, `name`, `description`) VALUES
 -- Table structure for table `ci_sessions`
 --
 
+DROP TABLE IF EXISTS `ci_sessions`;
 CREATE TABLE `ci_sessions` (
   `session_id` varchar(40) NOT NULL DEFAULT '0',
   `ip_address` varchar(45) NOT NULL DEFAULT '0',
@@ -88,6 +92,7 @@ INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activ
 -- Table structure for table `language`
 --
 
+DROP TABLE IF EXISTS `language`;
 CREATE TABLE `language` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `text` varchar(128) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -213,6 +218,7 @@ INSERT INTO `language` (`id`, `text`, `value`) VALUES
 -- Table structure for table `login_attempts`
 --
 
+DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE `login_attempts` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `ip_address` varbinary(16) NOT NULL,
@@ -227,6 +233,7 @@ CREATE TABLE `login_attempts` (
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `ip_address` varbinary(16) NOT NULL,
@@ -270,6 +277,7 @@ INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`
 -- Table structure for table `user_types`
 --
 
+DROP TABLE IF EXISTS `user_types`;
 CREATE TABLE `user_types` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) CHARACTER SET latin1 NOT NULL,
@@ -302,3 +310,4 @@ ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_type`) REFERENCES `user_types` (`id`),
   ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`language`) REFERENCES `language` (`value`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`account`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;

@@ -23,7 +23,7 @@
     </thead>
     <tbody>
 	<?php foreach($this->ion_auth->users($this->session->userdata("account"))->result() as $user) {?>
-		<tr>
+		<tr id = "<?= $user->username?>">
 			<td>
 				<span class="<?php echo ($user->user_type == 1) ? "user": "user-share";?> cmsicon"></span><?php echo $user->first_name." ".$user->last_name;?>
 			</td>
@@ -37,13 +37,13 @@
 			</td>
 			<td>
 				<?php if ($user->username !== $this->session->userdata("QID")) { ?>
-                                    <a href="<?php echo base_url("app/users/impersonate/".$user->username);?>" class="ajax-action">
+                                    <a href="<?php echo base_url("app/users/impersonate/activate/".$user->username);?>" class="ajax-action">
                                             <span class="impersonate cmsicon"></span>impersonate
                                     </a>
                                 <?php } ?>
 			</td>
 			<td>
-				<a href="<?php echo base_url("app/users/delete/".$user->username);?>" class="ajax-action">
+				<a href="<?php echo base_url("app/users/delete/confirm/".$user->username);?>" class="ajax-action">
 					<span class="delete cmsicon"></span>delete
 				</a>
 			</td>
@@ -58,3 +58,4 @@
         </tr>
 </tbody>
 </table>
+<?php $this->load->view('app/include/modal/confirm'); ?>
