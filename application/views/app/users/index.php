@@ -36,7 +36,7 @@
 				</a>
 			</td>
 			<td>
-				<?php if ($user->username !== $this->session->userdata("QID")) { ?>
+				<?php if ($user->username !== $this->session->userdata("identity_QID") && $user->username !== $this->session->userdata("QID")) { ?>
                                     <a href="<?php echo base_url("app/users/impersonate/activate/".$user->username);?>" class="ajax-action">
                                             <span class="impersonate cmsicon"></span>impersonate
                                     </a>

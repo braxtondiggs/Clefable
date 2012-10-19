@@ -205,3 +205,11 @@ a span.cmsicon, td span.cmsicon, span.icon_home img{
 	float:left;
 	width:50%;
 }
+.impersonate_warning {
+	background-color: yellow;
+	width: 100%;
+	text-align: center;
+	height: 30px;
+	font-size: 18px;
+	padding-top: 5px;
+}

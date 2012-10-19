@@ -24,16 +24,16 @@ class Login extends CI_Controller{
             }else{
                 $identity = set_value('email');
                 $password = set_value('password');
-                $remember = set_value('remember'); // remember the user
+                $remember =  $this->input->post('remember'); // remember the user
 		if (!$this->ion_auth->is_max_login_attempts_exceeded($identity)) {
 		    if ($this->ion_auth->login($identity, $password, $remember)) {
-			$output = array('status' => "success", 'output' => $this->load->view('contact/submit', '', true));
+			//$this->session->set_flashdata('gritter', array($this->lang->line('gritter_impersonate'), $this->lang->line('gritter_impersonate_exit'))); first time loggin
+			$output = array('status' => "success", 'output' => '');
 		    }else{
-			$this->ion_auth->increase_login_attempts($identity);
 			$output = array('status' => "error", 'error_type' => 'user', 'output' => "<strong>Alert:</strong> Oops! Invalid username / password.");
 		    }
 		}else{
-		    $output = array('status' => "error", 'error_type' => 'max_login', 'output' => "<strong>Alert:</strong> You have too many login attempts.");
+		    $output = array('status' => "error", 'error_type' => 'max_login', 'output' => "<strong>Alert:</strong> You have too many login attempts. Pleaase " . anchor(base_url('login/reset_password'), 'reset your password.'));
 		}
             }
 	    Assets::clear_cache();
@@ -68,7 +68,7 @@ class Login extends CI_Controller{
 	    $this->template->set('token', $token);
 	    $this->template->build('login/reset_password');
 	}else {
-	    redirect('login');
+	    $this->index();
 	}
     }
     function reset_password_submit() {
@@ -81,7 +81,8 @@ class Login extends CI_Controller{
 		$output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
 	    }else{
 		if ($this->ion_auth->forgotten_password_complete($this->input->post('pass_token'), $this->input->post('password'))) {
-		    $output = array('status' => "success", 'output' => "<p>&nbsp;</p>Your password has been reset. Please proceed to the ".anchor('login', 'login page').".");
+		    $this->ion_auth->clear_login_attempts($identity);
+		    $output = array('status' => "success", 'output' => "<p>&nbsp;</p>Your password has been reset. Please proceed to the ".anchor(base_url('login'), 'login page').".");
 		}else{
 		    $output = array('status' => "error", 'output' => "<strong>Error: </strong>The token submited is incorrect, please report this error to us so it can be fixed immediately.");
 		}

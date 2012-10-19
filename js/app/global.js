@@ -31,9 +31,14 @@ $(function() {
                     if (data.dialog != null) {
                         $('#dialog-' + data.dialog).attr('title', data.output.title).children('#dialog-' + data.dialog + '-body').html(data.output.text).end().dialog("open").data('listID', data.redirect);
                     }
-                    if (data.output.gritter != null) {
-                        $.GritControl({'title': data.output.gritter.title, 'text': data.output.gritter.text, 'icon': data.output.gritter.icon});
-                    }
+		    if (data.output != null) {
+			if (data.output.gritter != null) {
+			    $.GritControl({'title': data.output.gritter.title, 'text': data.output.gritter.text, 'icon': data.output.gritter.icon});
+			}
+		    }
+		    if (data.redirect != null) {
+			window.location.href = data.redirect;
+		    }
                 }else if(data.status == "reload") {
                     window.location.reload();
                 }else if(data.status =="error") {
@@ -139,7 +144,7 @@ $(function() {
 	    $.gritter.add({
 		title: settings.title,
 		text: settings.text,
-		image: '../css/app/images/notify/'+settings.icon+'.png',
+		image: 'http://' + document.domain +'/igniter/css/app/images/notify/'+settings.icon+'.png',
 		sticky: false,
 		before_open: function() {$('#gritter-notice-wrapper').css('top', 40);},
 		after_open: function(){$.scrollTo(0, 300, false);},

@@ -8,6 +8,7 @@ $lang['gritter_editor_email'] 	 = array('title' => 'Email Sent!', 'text' => 'An 
 $lang['gritter_password_email']  = array('title' => 'Email Sent!', 'text' => 'Looks like you changed important account info, an email has been successfully sent to the changed user with their account information.', 'icon' => 'mail');
 $lang['gritter_impersonate'] 	 = array('title' => 'Impersonation Active', 'text' => 'You are currently impersonating another user and you can see everything as they would in their account.', 'icon' => 'user-business-boss');
 $lang['gritter_impersonate_exit']= array('title' => 'GET ME OUT!!!', 'text' => 'To exit out of impersonation mode just click the yellow banner above.', 'icon' => 'lifebuoy');
+$lang['gritter_impersonate_done']= array('title' => 'Welcome back!', 'text' => 'Hello again! You have returned to your orginal account.', 'icon' => 'yin-yang');
 $lang['gritter_max_user'] 	 = array('title' => 'Max Number of Users', 'text' => 'You have maxed out on the number of shared users for this account. If you need more, please contact us or upgrade your account.', 'icon' => 'battery-low');
 $lang['gritter_test'] 	  	 = array('title' => 'Account Successfully Created', 'text' => 'something', 'icon' => 'something');
 $lang['gritter_test'] 	  	 = array('title' => 'Account Successfully Created', 'text' => 'something', 'icon' => 'something');

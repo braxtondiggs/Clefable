@@ -12,7 +12,7 @@ class Users extends CI_Controller{
 	}
     }
     function index(){
-        if ($this->session->userdata('user_type') !== 1) {
+        if ($this->session->userdata('user_type') == 1) {
 	    $this->template->title('Users and Permissions');
 	    $this->template->set_layout('default_app')->build('app/users/index');
 	}else {
@@ -41,9 +41,9 @@ class Users extends CI_Controller{
 	    if ($id !== null && $this->ion_auth->username_check($id)) {
 		if ($status === "confirm") {
 		    if ($id === $this->session->userdata("QID")) {
-			if  ($this->session->userdata("user_type") === 1) {
+			if  ($this->session->userdata("user_type") == 1) {
 			    $output = array('status' => "success", 'dialog' => 'confirm', 'redirect' => base_url('app/users/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete your account? You will be logged out and everything related to your account will be removed, if you are the only administrative user on the account.'));
-			}else if ($this->session->userdata("user_type") !== 1) {
+			}else if ($this->session->userdata("user_type") != 1) {
 			    $output = array('status' => "success", 'dialog' => 'confirm', 'redirect' => base_url('app/users/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete your account? You will be logged out and all of your information will be removed permanently.'));
 			}
 		    }else {
@@ -84,21 +84,23 @@ class Users extends CI_Controller{
     }
     function impersonate($action = null, $id=null) {
 	if ($this->input->is_ajax_request()) {
+	    $output = array('status' => "fail");
 	    if ($id !== null || $action !== null) {
 		if ($this->ion_auth->username_check($id)) {
 		    if ($this->ion_auth->has_ownership($id)) {
 			$user = $this->ion_auth->user($id)->row();
-			if ($action == "activate") {//get users info
-			    if($this->session->userdata("user_type") === 1) {
-				$this->session->set_userdata(array('QID' => $id, 'first_name' => $user->first_name, 'last_name' => $user->last_name, 'email' => $user->email));
+			$this->session->set_userdata(array('QID' => $id, 'first_name' => $user->first_name, 'last_name' => $user->last_name, 'email' => $user->email));
+			if ($action == "activate") {
+			    if($this->session->userdata("user_type") == 1) {
+				$this->session->set_userdata('impersonate', true);
 				$this->session->set_flashdata('gritter', array($this->lang->line('gritter_impersonate'), $this->lang->line('gritter_impersonate_exit')));
-				$output = array('status' => "reload");
 			    }
-			}else if($action == "deactivate"){
-			    $this->session->set_userdata(array('username' => $id));
 			}else{
-			  echo 3;  
+			    $this->session->unset_userdata('impersonate');
+			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_impersonate_done')));
 			}
+			$this->session->set_userdata('user_type', $user->user_type);
+			$output = array('status' => "success", 'redirect' => base_url('app'));
 		    }
 		}
 	    }
@@ -134,7 +136,7 @@ class Users extends CI_Controller{
 		$first_name = set_value('first_name');
 		$last_name = set_value('last_name');
 		if ($id == null) {//create
-		    if ($this->session->userdata('user_type') === 1) {
+		    if ($this->session->userdata('user_type') == 1 && $this->ion_auth->get_num_user() <= 3) {
 			$username = $this->ion_auth_model->id_generator('users', 'username');
 			$additional_data = array(
 			    'first_name' => $first_name,
@@ -150,7 +152,7 @@ class Users extends CI_Controller{
 			
 			$this->ion_auth->register($username, $password, $email, $this->session->userdata("account"), $additional_data);
 			$this->email->clear();
-			$this->email->from("support@cymbit.com", "CymbitCMS Support");
+			$this->email->from("no-reply@cymbit.com", "CymbitCMS");
 			$this->email->reply_to($this->session->userdata("email"), $this->session->userdata("first_name") . " " . $this->session->userdata("last_name"));
 			$this->email->to($email);
 			$this->email->subject($this->session->userdata("first_name") . " " . $this->session->userdata("last_name") ." has invited you to a CymbitCMS shared account");
@@ -164,33 +166,39 @@ class Users extends CI_Controller{
 		    }
 		}else {//edit
 		    if ($this->ion_auth->username_check($id)) {
-			$gritter = array();
-			$this->ion_auth->update($id, array('first_name' => set_value('first_name'), 'last_name' => set_value('last_name'), 'email' => set_value('email'), 'language' => set_value('language')));
-			if ($this->input->post('new_password') == true) {//Password Change
-			    if ($this->session->userdata("QID") !== $id) {
-				array_push($gritter, $this->lang->line('gritter_password_email'));
-				 $data = array('identity' => $email, 'first_name' => $first_name, 'last_name' => $last_name, 'active_first_name' => $this->session->userdata("first_name"), 'active_last_name' => $this->session->userdata("last_name"), 'active_email' => $this->session->userdata("email"), 'password' => $password);
-				$this->email->clear();
-				$this->email->from("support@cymbit.com", "CymbitCMS Support");
-				$this->email->reply_to($this->session->userdata("email"), $this->session->userdata("first_name") . " " . $this->session->userdata("last_name"));
-				$this->email->to($email);
-				$this->email->subject($this->session->userdata("first_name") . " " . $this->session->userdata("last_name") ." has changed your password");
-				$message = $this->load->view('auth/password_change.tpl.php', $data, true);
-				$this->email->message($message);
-				$this->email->send();
+			if (!$this->ion_auth->is_my_email($email)) {
+			    $gritter = array();$redirect = base_url('app/users');
+			    $this->ion_auth->update($id, array('first_name' => set_value('first_name'), 'last_name' => set_value('last_name'), 'email' => set_value('email'), 'language' => set_value('language')));
+			    if ($this->input->post('new_password') == true) {//Password Change
+				if ($this->session->userdata("QID") !== $id) {
+				    array_push($gritter, $this->lang->line('gritter_password_email'));
+				     $data = array('identity' => $email, 'first_name' => $first_name, 'last_name' => $last_name, 'active_first_name' => $this->session->userdata("first_name"), 'active_last_name' => $this->session->userdata("last_name"), 'active_email' => $this->session->userdata("email"), 'password' => $password);
+				    $this->email->clear();
+				    $this->email->from("no-reply@cymbit.com", "CymbitCMS");
+				    $this->email->reply_to($this->session->userdata("email"), $this->session->userdata("first_name") . " " . $this->session->userdata("last_name"));
+				    $this->email->to($email);
+				    $this->email->subject($this->session->userdata("first_name") . " " . $this->session->userdata("last_name") ." has changed your password");
+				    $message = $this->load->view('auth/password_change.tpl.php', $data, true);
+				    $this->email->message($message);
+				    $this->email->send();
+				}
+				$this->ion_auth->update($id, array('password' => set_value('password')));
 			    }
-			    $this->ion_auth->update($id, array('password' => set_value('password')));
+			    if ($this->session->userdata('account_type') != 1) {
+				$this->ion_auth->update($id, array('user_type' => set_value('account_type')));
+			    }else {
+				$redirect = base_url('app');
+			    }
+			    if ($this->session->userdata("QID") === $id) {
+				array_push($gritter, $this->lang->line('gritter_self_edit'));
+			    }else{
+				array_push($gritter, $this->lang->line('gritter_user_edit'));
+			    }
+			    $this->session->set_flashdata('gritter', $gritter);
+			    $output = array('status' => 'success', 'redirect' => $redirect, 'output' => '');
+			}else {
+			    $output = array('status' => 'error', 'output' => '<strong>Error: </strong>This email address is already taked with another account.');
 			}
-			if ($this->session->userdata('account_type') != 1) {
-			    $this->ion_auth->update($id, array('user_type' => set_value('account_type')));
-			}
-			if ($this->session->userdata("QID") === $id) {
-			    array_push($gritter, $this->lang->line('gritter_self_edit'));
-			}else{
-			    array_push($gritter, $this->lang->line('gritter_user_edit'));
-			}
-			$this->session->set_flashdata('gritter', $gritter);
-			$output = array('status' => 'success', 'redirect' => base_url('app/users'), 'output' => '');
 		    }else {
 			$output = array('status' => 'fail');
 		    }

@@ -1,3 +1,4 @@
+<?php $method = $this->uri->segment(2); ?>
 <script type="text/javascript">	
 	    $(function() {
 			$(".button").button();
@@ -32,7 +33,7 @@
 	    <p><strong>Log-in with your CMS account:</strong></p>
 	    <p>&nbsp;</p>
 	    <div id="Form_Block" style="padding: 0 15px;">
-			<form id="login" class="formular" method="post" action="#" >
+			<form id="login" class="formular" method="post" action="#" <?php if (!empty($method)) {echo 'style="display:none;"';} ?>>
 				    <div style="height:10px;"></div>
 				    <div id="output_login" class="validate_errors alert-error" style="display:none;"></div>
 				    <div class="form-item" style="margin-top:20px;">
@@ -44,13 +45,13 @@
 						<input id="password" name="password" type="password" class="validate[required,length[6,32]] text" />
 				    </div>
 				    <div class="form-item">
-						<input id="remember" name="remember" type="checkbox" />
+						<input id="remember" name="remember" type="checkbox" value="TRUE" />
 						<label for="remember" style="display:inline;">&nbsp;Remember Me</label>
 				    </div>
 				    <p style="margin-bottom:.5em;"><?php echo anchor(base_url() . 'signup', 'Sign-Up');?> or <?php echo anchor(base_url().'#', 'Forgot Password', 'id="recov_pass"'); ?></p>
 				    <input id="login-submit" class="submit button" type="submit" value="Login!" />
 			</form>
-			<form id="recovery" class="formular" action="#" style="display:none;">
+			<form id="recovery" class="formular" action="#" <?php if (empty($method)) {echo 'style="display:none;"';} ?>>
 				    <div class="form-item">
 						<p>Enter the email address you use, and a link that will allow you to reset your password will be e-mailed to you.</p>
 						<br />

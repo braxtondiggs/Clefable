@@ -7,6 +7,8 @@ $assets = "app";$header=false;?>
 		<?php include('include/default/meta.php');?>
 	</head>
 	<body>
+		<?php //include('include/default/top_menu.php'); ?>
+		<?php include('include/default/impersonate.php'); ?>
 		<div id="wrapper-app">
 			<div id="header">
 				<div id="block_header">

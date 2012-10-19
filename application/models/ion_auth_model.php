@@ -617,7 +617,17 @@ class Ion_auth_model extends CI_Model
 		return $this->db->where('email', $email)
 		                ->count_all_results($this->tables['users']) > 0;
 	}
+        function is_my_email($email = '')
+	{
+            if (empty($email))
+		{
+			return FALSE;
+		}
 
+		return $this->db->where('email', $email)
+                                ->where('username !=',  $this->session->userdata('QID'))
+		                ->count_all_results($this->tables['users']) > 0;
+        }
 	/**
 	 * Identity check
 	 *
@@ -757,13 +767,13 @@ class Ion_auth_model extends CI_Model
 				}
 			}
 		}
-                if (!isset($account_id)) {$create_account = TRUE;}else{$create_account = FALSE;}
+                if ($account_id === FALSE) {$create_account = TRUE;}else{$create_account = FALSE;}
 		// IP Address
 		$ip_address = $this->_prepare_ip($this->input->ip_address());
 		$salt       = $this->store_salt ? $this->salt() : FALSE;
-		$password   = $this->hash_password($password, $salt);
+		$non_secure_pass = $password;
+                $password   = $this->hash_password($password, $salt);
                 $account_id || $account_id = $this->id_generator('accounts', 'account_id');
-
 		// Users table.
 		$data = array(
 		    'username'   => $username,
@@ -796,7 +806,9 @@ class Ion_auth_model extends CI_Model
 		$id = $this->db->insert_id();
                 
                 $this->trigger_events('post_register');
-
+                if ($create_account) {
+                    $this->login($email, $non_secure_pass, TRUE);
+                }
 		return (isset($id)) ? $id : FALSE;
 	}
 
@@ -842,6 +854,7 @@ class Ion_auth_model extends CI_Model
 				$account_query = $this->db->get_where('accounts', array('account_id' => $user->account), 1);
                                 $session_data = array(
 				    'identity'             => $user->{$this->identity_column},
+                                    'identity_QID'         => $user->username,
 				    'QID'                  => $user->username,
                                     'account'              => $user->account,
 				    'email'                => $user->email,
@@ -861,7 +874,7 @@ class Ion_auth_model extends CI_Model
 
 				if ($remember && $this->config->item('remember_users', 'ion_auth'))
 				{
-					$this->remember_user($user->id);
+					$this->remember_user($user->username);
 				}
 
 				$this->trigger_events(array('post_login', 'post_login_successful'));
@@ -1494,7 +1507,7 @@ class Ion_auth_model extends CI_Model
 
 		$salt = sha1($user->password);
 
-		$this->db->update($this->tables['users'], array('remember_code' => $salt), array('id' => $id));
+		$this->db->update($this->tables['users'], array('remember_code' => $salt), array('username' => $id));
 
 		if ($this->db->affected_rows() > -1)
 		{
@@ -1530,11 +1543,11 @@ class Ion_auth_model extends CI_Model
 	}
 
 	/**
-	 * login_remembed_user
-	 *
+	 * login_remembed_user delete
+	 * Confirmed not used
 	 * @return bool
 	 * @author Ben Edmunds
-	 **/
+	 **/ 
 	public function login_remembered_user()
 	{
 		$this->trigger_events('pre_login_remembered_user');
@@ -1784,13 +1797,17 @@ class Ion_auth_model extends CI_Model
 		}
 		$UID = substr($var, 0 ,1).$UID;
 		if ($table !== "null") {
-			$query = $this->db->query("SELECT $var FROM $table WHERE $var = \"$UID\"");
+                        $this->db->select($var);
+                        $query = $this->db->where($var, $UID);
+                        $this->db->limit(1);
+                        $query = $this->db->get($table);
 			if($query->num_rows() == 0) {
 				return $UID;
 			} else {
-				return UID($count, $start);
+				return $this->id_generator($count, $start);
 			}
 		}
+                return $UID;
 		
 	}
 }

@@ -38,9 +38,9 @@ class Signup extends CI_Controller{
 
 		$data = array('identity' => set_value('email'));
 		$message = $this->load->view('auth/welcome.tpl.php', $data, true);
-		$this->ion_auth->register($username, $password, $email, $additional_data);
+		$this->ion_auth->register($username, $password, $email, false, $additional_data);
 		$this->email->clear();
-		$this->email->from('support@cymbit.com', 'CymbitCMS Support');
+		$this->email->from('no-reply@cymbit.com', 'CymbitCMS');
                 $this->email->to($this->input->post('email'));
                 $this->email->subject("Welcome to Cymbit CMS");
                 $this->email->message($message);
