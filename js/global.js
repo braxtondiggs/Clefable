@@ -19,16 +19,14 @@ $(function() {
 	$(".formular").validationEngine('attach');
 	$(".button").button();
 	$("#sidebar").height(function() {return $("#content").height()+60});
-	$("#header .menu").css({"margin-top":function() {
-		return ($("#header").height()-$(this).height())+14;
-	}}).find('li').addClass("ui-default ui-corner-top").not(".ui-state-disabled, .ui-tabs-selected").hover(
+	$("#header .menu").find('li').addClass("ui-default ui-corner-top").not(".ui-state-disabled, .ui-tabs-selected").hover(
   		function () {
 			$(this).addClass('ui-state-hover');
   		}, 
   		function () {
 			$(this).removeClass('ui-state-hover');
   		}
-	);	
+	).show();
 	$('.modal').live("click", function() {
 		var html="";
 		$.ajax({

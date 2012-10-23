@@ -5,12 +5,12 @@ body{width:100%;}
 #wrapper {min-width:1100px;}
 
 /********** header **********/
-#header {background:url(../images/bg_header.gif) top repeat-x; height:88px;}
+#header {background:url(../images/bg_header.gif) top repeat-x; height:88px;position: relative;}
 #header #block_header {margin:0 auto; width:920px;}
 #header #headerlogo {width:257px;height:88px;background-image: url(../images/logo.gif);white-space: nowrap;outline: none;text-indent: -3000px;}
 
 /* menu */
-#header .menu {width:625px;}
+#header .menu {width:625px;position: absolute;bottom: -15px;}
 #header .menu ul li a, .jQTabs ul li a{font:1em Times New Roman;font-weight: bold;}
 
 /********** block index **********/

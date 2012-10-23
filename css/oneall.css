@@ -1,7 +1,7 @@
 #main #content_wide #Spacer_login {margin:25% 30px;}
 #main #content_wide #Spacer_register {margin:30% 30px;}
 .Block {width:400px;float:left;}
-.Block #Form_Block {width:370px;min-height:310px;border: 10px solid #999;float:left;padding:5px 15px;height: auto;}
+.Block #Form_Block {width:370px;min-height:320px;border: 10px solid #999;float:left;padding:5px 15px;height: auto;}
 #Form_Block .form-item{margin:10px 5px;}
 #Form_Block label{display: block;font:20px bold Georgia, "Times New Roman", Times, serif;}
 #Form_Block label#required_label{margin-top:30px;font: inherit;}
