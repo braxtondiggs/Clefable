@@ -1,13 +1,16 @@
-<?php $gritter = $this->session->flashdata('gritter');
-if (! empty($gritter)) {
-	foreach($gritter as $key) {
-		echo '<div class="gritter-notify" style="display:none;">
-			<span class="gritter-title">' . $key['title'] . '</span>
-			<span class="gritter-text">' . $key['text'] . '</span>
-			<span class="gritter-icon">' . $key['icon'] . '</span>
-		</div>';
+<?php
+if (!empty($this->session)) {
+	$gritter = $this->session->flashdata('gritter');
+	if (! empty($gritter)) {
+		foreach($gritter as $key) {
+			echo '<div class="gritter-notify" style="display:none;">
+				<span class="gritter-title">' . $key['title'] . '</span>
+				<span class="gritter-text">' . $key['text'] . '</span>
+				<span class="gritter-icon">' . $key['icon'] . '</span>
+			</div>';
+		}
+		
 	}
-	
 }?>
 <div id="footer">
 	<div class="resize">

@@ -2,7 +2,7 @@
 <div id="Form_Block" style="padding: 0 15px;">
     <p>Because every website needs one, right?</p>
     <div class="validate_errors alert-error" style="display:none;"></div>
-    <?php echo form_open('#', array('id' => 'contact', 'class' => 'formular')); ?>
+    <?php echo form_open(base_url('contact/submit'), array('id' => 'contact', 'class' => 'formular')); ?>
         <div class="form-item" style="margin-top:30px;">
             <label for="name"><span>*</span>&nbsp;Your Name</label>
             <input id="name" name="name" type="text" class="validate[required] text">
@@ -23,9 +23,3 @@
         <input id="contact-submit" class="submit button" type="submit" value="Submit!" style="margin-right: 150px;float: right;" />
     <?php echo form_close();?>
 </div>
-<script type="text/javascript">	
-	$(document).ready(function() {
-		$(".button").button();
-		$("#contact").validationEngine('attach');
-	});
-</script>

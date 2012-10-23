@@ -28,12 +28,12 @@ class Login extends CI_Controller{
 		if (!$this->ion_auth->is_max_login_attempts_exceeded($identity)) {
 		    if ($this->ion_auth->login($identity, $password, $remember)) {
 			//$this->session->set_flashdata('gritter', array($this->lang->line('gritter_impersonate'), $this->lang->line('gritter_impersonate_exit'))); first time loggin
-			$output = array('status' => "success", 'output' => '');
+			$output = array('status' => "success", 'redirect' => base_url('app'));
 		    }else{
 			$output = array('status' => "error", 'error_type' => 'user', 'output' => "<strong>Alert:</strong> Oops! Invalid username / password.");
 		    }
 		}else{
-		    $output = array('status' => "error", 'error_type' => 'max_login', 'output' => "<strong>Alert:</strong> You have too many login attempts. Pleaase " . anchor(base_url('login/reset_password'), 'reset your password.'));
+		    $output = array('status' => "error", 'error_type' => 'max_login', 'output' => "<strong>Alert:</strong> You have too many login attempts. Please " . anchor(base_url('login/reset_password'), 'reset your password.'));
 		}
             }
 	    Assets::clear_cache();
@@ -52,7 +52,7 @@ class Login extends CI_Controller{
 		$output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
 	    }else{
 		if ($this->ion_auth->forgotten_password($this->input->post('recov_email'))) {
-		    $output = array('status' => "success", 'output' => "<strong>It's on the way: </strong>A link to reset your password has been sent to your email address.");
+		    $output = array('status' => "success", 'output' => "<strong>It's on the way: </strong>A link to reset your password has been sent to your email address.", 'location' => '#recovery .validate_errors');
 		}else{
 		    $output = array('status' => "error", 'output' => "<strong>Error: </strong>We do not have record of account with that email address. Please review the enter email address.");
 		}
@@ -81,7 +81,7 @@ class Login extends CI_Controller{
 		$output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
 	    }else{
 		if ($this->ion_auth->forgotten_password_complete($this->input->post('pass_token'), $this->input->post('password'))) {
-		    $this->ion_auth->clear_login_attempts($identity);
+		    //$this->ion_auth->clear_login_attempts($identity);
 		    $output = array('status' => "success", 'output' => "<p>&nbsp;</p>Your password has been reset. Please proceed to the ".anchor(base_url('login'), 'login page').".");
 		}else{
 		    $output = array('status' => "error", 'output' => "<strong>Error: </strong>The token submited is incorrect, please report this error to us so it can be fixed immediately.");

@@ -1,10 +1,4 @@
 <script type="text/javascript">
-    $(function() {
-        $(".button").button();
-        $("#Form_Block").validationEngine({
-            ajaxFormValidation: true
-        });
-    });
     var oneall_js_protocol = (("https:" == document.location.protocol) ? "https" : "http");
     document.write(unescape("%3Cscript src='" + oneall_js_protocol + "://cymbitcms.api.oneall.com/socialize/library.js' type='text/javascript'%3E%3C/script%3E"));
 </script>	
@@ -31,7 +25,7 @@
 <div class="Block">
     <p><strong>Register with a new username/password:</strong></p>
     <p>Create a username &amp; password you want to use for Cymbit CMS. This will add you to our mailing list for contact and support purposes.</p>
-    <form id="Form_Block" class="formular" method="post" action="#">
+    <form id="Form_Block" class="formular" method="post" action="<?= base_url('signup/submit'); ?>">
         <div class="validate_errors alert-error" style="display:none;"></div>
         <div class="form-item">
             <label for="email"><span>*</span>&nbsp;Email</label>

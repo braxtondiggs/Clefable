@@ -30,7 +30,7 @@ class Contact extends CI_Controller{
                 $this->email->subject($this->input->post('subject'));
                 $this->email->message($this->input->post('msg'));
                 $this->email->send();
-                $output = array('status' => "success", 'output' => $this->load->view('contact/submit', '', true));
+                $output = array('status' => "success", 'output' => $this->load->view('contact/submit', '', true), 'location' => '#content');
                 header('Content-Type: application/json',true);
                 echo json_encode($output);
             }

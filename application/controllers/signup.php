@@ -45,7 +45,7 @@ class Signup extends CI_Controller{
                 $this->email->subject("Welcome to Cymbit CMS");
                 $this->email->message($message);
                 $this->email->send();
-		$output = array('status' => "success");
+		$output = array('status' => "success", 'redirect' => base_url('app'));
 		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_welcome')));
 	
             }

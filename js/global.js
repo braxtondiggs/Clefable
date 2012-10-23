@@ -16,6 +16,8 @@ function loadtracking() {
 loadtracking();
 $(function() {
 	var internal_error = "An internal error has occurred, the page will auto-refresh.";
+	$(".formular").validationEngine('attach');
+	$(".button").button();
 	$("#sidebar").height(function() {return $("#content").height()+60});
 	$("#header .menu").css({"margin-top":function() {
 		return ($("#header").height()-$(this).height())+14;
@@ -58,110 +60,35 @@ $(function() {
 		$('#login, #recovery').toggle();
 		return false;
 	});
-	$('#contact-submit').live('click', function() {
-		if ($("#contact").validationEngine('validate')) {
-			$.ajax('contact/submit', {
+	$('.formular').submit(function() {
+		 var form = $(this);
+		 if ($(form).validationEngine('validate')) {
+			$.ajax($(form).attr('action'), {
 				type: "POST",
-				data: $("#contact").serialize(),
+				data: $(this).serialize(),
 				success: function(data) {
+					var form_output = $(form).find(".validate_errors");
 					if(data.status =="success") {
-						$("#Form_Block").html(data.output);	
-					}else if(data.status =="error") {
-						$(".validate_errors").html(data.output).slideDown('slow');
-					}else {
-						alert("An internal error has occurred, the page will auto-refresh.")
-						window.location = "contact/"
-					}
-				}
-			});
-		}
-		return false;
-	});
-	$('#login-submit').live('click', function() {
-		if ($("#Form_Block").validationEngine('validate')) {
-			$('#login-submit').attr('disabled', 'disabled');
-			$.ajax('login/submit', {
-				type: "POST",
-				data: $("#login").serialize(),
-				success: function(data) {
-					$('#login-submit').removeAttr('disabled');
-					if(data.status == "success") {
-						window.location.href = 'app/';
+						if (data.output != null) {
+							$(data.location).html(data.output).addClass('alert-success');
+							if ($(form_output).hasClass('alert-error')) {
+								$(form_output).removeClass('alert-error');
+							}
+						}
+						if (data.redirect != null) {
+							window.location.href = data.redirect;
+						}
 					}else if(data.status == "error") {
-						$("#login .validate_errors").html(data.output).slideDown('slow');
-					}else {
-						alert(internal_error);
-						window.location = "login/";
-					}
-				}
-			});
-		}
-		return false;
-	});
-	$("#reset-submit").live('click', function() {
-		if ($("#Form_Block").validationEngine('validate')) {
-			$('#reset-submit').attr('disabled', 'disabled');
-			$.ajax('login/lost_pass', {
-				type: "POST",
-				data: $("#recovery").serialize(),
-				success: function(data) {
-					$('#reset-submit').removeAttr('disabled');
-					var output = $('#recovery .validate_errors');
-					if(data.status =="success") {
-						$(output).html(data.output).slideDown('slow').addClass('alert-success');
-						if ($(output).hasClass('alert-error')) {
-							$(output).removeClass('alert-error');
+						$(form_output).html(data.output).slideDown('slow');
+						if ($(form_output).hasClass('alert-success')) {
+							$(form_output).removeClass('alert-success');
 						}
-					}else if(data.status =="error") {
-						$(output).html(data.output).slideDown('slow').addClass('alert-error');
-						if ($(output).hasClass('alert-success')) {
-							$(output).removeClass('alert-success');
+						if (!$(form_output).hasClass('alert-error')) {
+							$(form_output).addClass('alert-error');
 						}
 					}else {
 						alert(internal_error);
-						window.location = "login/";
-					}	
-				}
-			});
-		}
-	return false;
-	});
-	$('#reset-pass-submit').live('click', function() {
-		if ($("#Form_Block").validationEngine('validate')) {
-			$('#reset-pass-submit').attr('disabled', 'disabled');
-			$.ajax('../../login/reset_password_submit', {
-				type: "POST",
-				data: $("#reset").serialize(),
-				success: function(data) {
-					$('#reset-pass-submit').removeAttr('disabled');
-					if(data.status =="success") {
-						$('#Form_Block').html(data.output);
-					}else if(data.status =="error") {
-						$('.validate_errors').html(data.output).slideDown('slow');
-					}else {
-						alert(internal_error);
-						window.location = "login/";
-					}	
-				}
-			});
-		}
-		return false;
-	});
-	$('#signup-submit').live('click', function() {
-		if ($("#Form_Block").validationEngine('validate')) {
-			$('#signup-submit').attr('disabled', 'disabled');
-			$.ajax('signup/submit', {
-				type: "POST",
-				data: $("#Form_Block").serialize()+"&type=CYMBITCMS",
-				success: function(data) {
-					$('#signup-submit').removeAttr('disabled');
-					if(data.status == "success") {
-						window.location.href= 'app/';
-					}else if(data.status =="error") {
-						$(".validate_errors").html(data.output).slideDown('slow');
-					}else {
-						alert(internal_error);
-						window.location = "signup/";
+						window.location.reload();
 					}
 				}
 			});
@@ -171,4 +98,4 @@ $(function() {
 });
 jQuery.fn.fadeToggle = function(speed, easing, callback) { 
    return this.animate({opacity: 'toggle'}, speed, easing, callback); 
-}; 
+};

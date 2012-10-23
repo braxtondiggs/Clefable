@@ -1,14 +1,8 @@
-<script type="text/javascript">
-    $(function() {
-        $(".button").button();
-        $("#reset").validationEngine('attach');
-    });
-</script>
 <h2 class="underline">Password Reset</h2>
 <div class="Block" style="margin:0 auto;clear:both;float: none;">
     <p>&nbsp;</p>
     <div id="Form_Block" style="padding: 0 15px;">
-	<form id="reset" class="formular" method="post" action="#" >
+	<form id="reset" class="formular" method="post" action="<?= base_url('login/reset_password_submit'); ?>" >
 	    <div style="height:10px;"></div>
 	    <p>Please enter your new password.</p>
 	    <div id="output_reset" class="validate_errors alert-error" style="display:none;"></div>
