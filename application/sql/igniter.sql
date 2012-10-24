@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 18, 2012 at 06:26 PM
+-- Generation Time: Oct 24, 2012 at 10:39 PM
 -- Server version: 5.5.25
 -- PHP Version: 5.4.4
 
@@ -70,21 +70,21 @@ INSERT INTO `account_types` (`id`, `name`, `description`) VALUES
 
 DROP TABLE IF EXISTS `ci_sessions`;
 CREATE TABLE `ci_sessions` (
-  `session_id` varchar(40) NOT NULL DEFAULT '0',
-  `ip_address` varchar(45) NOT NULL DEFAULT '0',
-  `user_agent` varchar(120) NOT NULL,
+  `session_id` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '0',
+  `ip_address` varchar(45) COLLATE latin1_general_ci NOT NULL DEFAULT '0',
+  `user_agent` varchar(120) COLLATE latin1_general_ci NOT NULL,
   `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
-  `user_data` text NOT NULL,
+  `user_data` text COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`session_id`),
   KEY `last_activity_idx` (`last_activity`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Dumping data for table `ci_sessions`
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('2bcff14575db80022d4690afefcc8cd3', '127.0.0.1', 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)', 1350496047, 'a:11:{s:9:"user_data";s:0:"";s:8:"identity";s:22:"braxtondiggs@gmail.com";s:3:"QID";s:13:"uPjTuxiRz9fOH";s:7:"account";s:13:"aYqeViE2mOcGa";s:5:"email";s:22:"braxtondiggs@gmail.com";s:7:"user_id";s:1:"5";s:14:"old_last_login";s:10:"1350491287";s:10:"first_name";s:8:"NewNew12";s:9:"last_name";s:4:"User";s:9:"user_type";s:1:"1";s:12:"account_type";s:1:"1";}');
+('0eb5bff01bd5b54e77da64704d4e04fc', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4', 1351110805, 'a:12:{s:9:"user_data";s:0:"";s:8:"identity";s:22:"braxtondiggs@gmail.com";s:12:"identity_QID";s:13:"uPjTuxiRz9fOH";s:3:"QID";s:13:"uPjTuxiRz9fOH";s:7:"account";s:13:"aYqeViE2mOcGa";s:5:"email";s:22:"braxtondiggs@gmail.com";s:7:"user_id";s:1:"5";s:14:"old_last_login";s:10:"1350914955";s:10:"first_name";s:8:"NewNew12";s:9:"last_name";s:4:"User";s:9:"user_type";s:1:"1";s:12:"account_type";s:1:"1";}');
 
 -- --------------------------------------------------------
 
@@ -99,7 +99,7 @@ CREATE TABLE `language` (
   `value` varchar(5) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `value` (`value`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=106 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=105 ;
 
 --
 -- Dumping data for table `language`
@@ -221,11 +221,48 @@ INSERT INTO `language` (`id`, `text`, `value`) VALUES
 DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE `login_attempts` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `ip_address` varbinary(16) NOT NULL,
-  `login` varchar(100) NOT NULL,
+  `ip_address` varchar(16) COLLATE latin1_general_ci NOT NULL,
+  `login` varchar(100) COLLATE latin1_general_ci NOT NULL,
   `time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sites`
+--
+
+DROP TABLE IF EXISTS `sites`;
+CREATE TABLE `sites` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `created_by` varchar(32) COLLATE latin1_general_ci NOT NULL,
+  `sid` varchar(12) COLLATE latin1_general_ci NOT NULL,
+  `url` varchar(150) COLLATE latin1_general_ci NOT NULL,
+  `name` varchar(128) COLLATE latin1_general_ci NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `server` varchar(150) COLLATE latin1_general_ci NOT NULL,
+  `ftp_username` varchar(64) COLLATE latin1_general_ci NOT NULL,
+  `ftp_password` varchar(150) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `path` varchar(150) COLLATE latin1_general_ci NOT NULL,
+  `keyword` varchar(128) COLLATE latin1_general_ci NOT NULL,
+  `css` varchar(256) COLLATE latin1_general_ci NOT NULL,
+  `ftp_mode` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `ftp_port` int(4) NOT NULL,
+  `ftp_secure` tinyint(1) NOT NULL,
+  `has_key` int(1) NOT NULL,
+  `extra_password` varchar(128) COLLATE latin1_general_ci NOT NULL,
+  `color` varchar(7) COLLATE latin1_general_ci NOT NULL,
+  `wysiwyg_1` text COLLATE latin1_general_ci NOT NULL,
+  `wysiwyg_2` text COLLATE latin1_general_ci NOT NULL,
+  `modified_user` varchar(32) COLLATE latin1_general_ci NOT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Site` (`url`),
+  UNIQUE KEY `SID` (`sid`),
+  KEY `Owner` (`created_by`),
+  KEY `modified_user` (`modified_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -258,6 +295,7 @@ CREATE TABLE `users` (
   `all_one` varchar(512) COLLATE latin1_general_ci DEFAULT NULL,
   `all_one_id` varchar(128) COLLATE latin1_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
   KEY `user_type` (`user_type`),
   KEY `language` (`language`),
   KEY `account` (`account`)
@@ -268,7 +306,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `account`, `first_name`, `last_name`, `user_type`, `language`, `has_demo`, `provider`, `all_one`, `all_one_id`) VALUES
-(5, '\0\0', 'uPjTuxiRz9fOH', '291df99500ce620bd3d03131e66d0d78c6318363', '0ad853e514', 'braxtondiggs@gmail.com', NULL, NULL, NULL, NULL, 1349975615, 1350492647, 1, 'aYqeViE2mOcGa', 'NewNew12', 'User', 1, 'en', 1, 'CymbitCMS', NULL, NULL),
+(5, '\0\0', 'uPjTuxiRz9fOH', '291df99500ce620bd3d03131e66d0d78c6318363', '0ad853e514', 'braxtondiggs@gmail.com', NULL, NULL, NULL, 'd2eae6562b2d28b0f5bf43aea28e201706a3aaf1', 1349975615, 1351105597, 1, 'aYqeViE2mOcGa', 'NewNew12', 'User', 1, 'en', 1, 'CymbitCMS', NULL, NULL),
 (6, '7f000001', 'u9jTuxiRz9fOf', '', '0ad853e514', '123braxtondiggs@gmail.com', NULL, NULL, NULL, NULL, 1349975615, 1350329734, 1, 'aYqeViE2mOcGa', 'John', 'Doe', 2, 'en', 1, 'CymbitCMS', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -280,8 +318,8 @@ INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`
 DROP TABLE IF EXISTS `user_types`;
 CREATE TABLE `user_types` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `description` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `name` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `description` varchar(100) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=3 ;
 
@@ -302,6 +340,13 @@ INSERT INTO `user_types` (`id`, `name`, `description`) VALUES
 --
 ALTER TABLE `accounts`
   ADD CONSTRAINT `accounts_ibfk_1` FOREIGN KEY (`type`) REFERENCES `account_types` (`id`);
+
+--
+-- Constraints for table `sites`
+--
+ALTER TABLE `sites`
+  ADD CONSTRAINT `sites_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `sites_ibfk_2` FOREIGN KEY (`modified_user`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `users`

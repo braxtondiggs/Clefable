@@ -1,6 +1,6 @@
 <?php
-    $url = "";$account_type = $this->session->userdata('account_type');
-    $path = $ftp_password = $ftp_user = $server = $name = $url;
+    $extra_password = $has_key = $ftp_secure = $port = $mode = $url = "";$account_type = $this->session->userdata('account_type');
+    $keyword = $path = $ftp_password = $ftp_user = $server = $name = $url;
     if (isset($id)) {
 	$user = $this->ion_auth->user($id)->result();
 	$first_name = $user[0]->first_name;
@@ -23,10 +23,10 @@
 	</ul>
 	<div id="tabs-1" class="Form_Block">
 	    <div class="form-item" >
-		<label for="Url">
+		<label for="url">
 		    <span>*</span>&nbsp;Site URL&nbsp;
 		</label>
-		<input id="Url" name="Url" type="text" value="<?= $url;?>" class="validate[required,custom[url]] text-rounded txt-xl" />
+		<input id="url" name="url" type="text" value="<?= $url;?>" class=" text-rounded txt-xxl" />
 		<p>Example: http://www.examplesite.com/</p>
 	    </div>
 	    <div class="form-item">
@@ -50,16 +50,18 @@
 		<input id="user" name="user" type="text" value="<?= $ftp_user;?>" class="validate[required] text-rounded txt-xl" />
 	    </div>
 	    <div class="form-item" style="margin-bottom:20px;">
-		<div>
-		    <label style="margin-bottom:20px;">
-			Change FTP Password&nbsp;
-		    </label>
-		    <input id="changepass" name="changepass" type="checkbox" value="true" style="margin-left:20px;">
-		    <label for="changepass" style="display:inline;">
-			Change Password
-		    </label>
-		</div>
-		<div>
+		<?php if (!$is_new) {?>
+		    <div>
+			<label style="margin-bottom:20px;">
+			    Change FTP Password&nbsp;
+			</label>
+			<input id="changepass" name="changepass" type="checkbox" value="true" style="margin-left:20px;">
+			<label for="changepass" style="display:inline;">
+			    Change Password
+			</label>
+		    </div>
+		<? }?>
+		<div style="<?= (!$is_new)?'display:none;':''; ?>">
 		    <label for="password">
 			<span>*</span>&nbsp;FTP Password&nbsp;
 		    </label>
@@ -88,10 +90,10 @@
 	    <fieldset>
         	<legend>Site Information</legend>
 		<div class="form-item">
-		    <label for="Class-Name">
+		    <label for="css">
 			<span>*</span>&nbsp;Editable CSS Class Name
 		    </label>
-		    <input id="Class-Name" name="Class-Name" value="<?php echo $Keyword;?>" type="text" class="validate[required, onlyLetterNumber] text-rounded txt-xl" />
+		    <input id="Class-Name" name="css" value="<?= $keyword;?>" type="text" class="validate[required, onlyLetterNumber] text-rounded txt-xl" />
 		    <p>
 			This CSS class determines which areas of your site are<br/>
 			editable (the default is 'cms-editable')
@@ -116,8 +118,8 @@
 			&nbsp;FTP Publishing Method
 		    </label>
 		    <select id="Mode" name="Mode" class="text-rounded">
-			<option value="Passive" <?php echo ($Mode == 'Passive' ? 'selected="selected"':'');?>>Passive</option>
-			<option value="Active" <?php echo ($Mode == 'Active' ? 'selected="selected"':'');?>>Active</option>
+			<option value="Passive" <?= ($mode == 'Passive' ? 'selected="selected"':'');?>>Passive</option>
+			<option value="Active" <?= ($mode == 'Active' ? 'selected="selected"':'');?>>Active</option>
 		    </select>
 		    <p>(FTP files or XML)</p>
 		</div>
@@ -125,7 +127,7 @@
 		    <label for="Port">
 			<span>*</span>&nbsp;FTP Port
 		    </label>
-		    <input id="Port" name="Port" type="text" value="<?php echo $Port;?>" class="validate[required,custom[integer]] text-rounded txt-xs" />
+		    <input id="Port" name="Port" type="text" value="<?= $port;?>" class="validate[required,custom[integer]] text-rounded txt-xs" />
 		    <p>default: 21</p>
         	</div>
 		<br class="clr" />
@@ -133,7 +135,7 @@
 		    <label style="margin-bottom:10px;">
 			&nbsp;SFTP
 		    </label>
-		    <input id="SFTP" name="SFTP" type="checkbox" value="true" <?php echo ($SFTP == 1 ? 'checked="checked"':'');?> />
+		    <input id="SFTP" name="SFTP" type="checkbox" value="true" <?= ($ftp_secure == 1 ? 'checked="checked"':'');?> />
 		    <label for="SFTP" style="display:inline;font:normal 14px Arial, Helvetica, sans-serif;">SFTP</label>
         	</div>
 		<p>&nbsp;</p>
@@ -141,13 +143,13 @@
 		    <label style="margin-bottom:10px;">
 			&nbsp;Publish Passkey
 		    </label>
-		    <input id="Passkey" name="Passkey" type="checkbox" value="true" <?php echo ($has_key == 1 ? 'checked="checked"':'');?> style="margin-left:20px;">
-		    <label for="Passkey" style="display:inline;font:normal 14px Arial, Helvetica, sans-serif;">
+		    <input id="passkey" name="passkey" type="checkbox" value="true" <?= ($has_key == 1 ? 'checked="checked"':'');?> style="margin-left:20px;">
+		    <label for="passkey" style="display:inline;font:normal 14px Arial, Helvetica, sans-serif;">
 			Use Publish Passkey
 		    </label>
 		    <p>&nbsp;</p>
 		    <div style="display:none;">
-			<input id="Passkey-Value" name="Passkey-Value" type="password" value="<?php echo $Passkey;?>" class="validate[required] text-rounded txt-xs" style="margin-left:20px;" />
+			<input id="passkey-value" name="passkey-value" type="password" value="<?= $extra_password;?>" class="validate[required] text-rounded txt-xs" style="margin-left:20px;" />
 		    </div>
 		    <p>We use the passkey to encrypt your FTP information, but we do NOT store it. Every time you want to publish a page, we ask for your passkey to decrypt the FTP info. Bottom line: your data is safe.</p>
         	</div>
@@ -155,19 +157,25 @@
 	</div>
     <!--<div id="tabs-3" class="Form_Block">
     	<h6>WYSIWYG Toolbar</h6>
-    	<ul id="toolbar1" class="droppable btn_holder"><?php echo $WYSIWYG1;?></ul>
+    	<ul id="toolbar1" class="droppable btn_holder"><?php// echo $WYSIWYG1;?></ul>
     	<p style="padding:7px 0 0 0;">This field controls the buttons that show up for both <strong>Text</strong> and <strong>HTML</strong> areas in the WYSIWYG Editor</p>-->
     	<!--<h4>WYSIWYG Toolbar 2</h4>
-        <div id="toolbar2" class="droppable"><?php echo $WYSIWYG2;?></div>
+        <div id="toolbar2" class="droppable"><?php //echo $WYSIWYG2;?></div>
     	<p>This field controls the buttons that show up for <strong>HTML</strong> areas only in the WYSIWYG Editor</p>
     	<p>&nbsp;</p>-->
         <!--<div style="float:left;">
         	<h6>Editor Background Color</h6>
-        	<input id="Color" name="Color" type="text" value="<?php echo $WColor;?>" class="validate[required] text-rounded txt-xl color"/> 
+        	<input id="Color" name="Color" type="text" value="<?php //echo $WColor;?>" class="validate[required] text-rounded txt-xl color"/> 
         <p style="padding:7px 0 0 0;">This field controls the background color of<br /> the WYSIWYG Editor</p>
         </div>
         <div class="colorwheel" style="float:left;"></div>
        <div style="clear:both;"></div>
     </div>-->
     </div>
+    <p>&nbsp;</p>
+    <p>
+	<a href="#" class="submit button">
+	    <span class="save cmsicon"></span>Save Site Settings
+	</a>
+    </p>
 </form>

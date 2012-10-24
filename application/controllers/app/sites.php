@@ -21,6 +21,9 @@ class Sites extends CI_Controller{
 	}
     }
     function edit($id = null) {
+	$this->load->model('Sites_model');
+
+        $data['query'] = $this->Blog->get_last_ten_entries();
         
     }
     function create() {
@@ -44,6 +47,35 @@ class Sites extends CI_Controller{
         
     }
     function submit ($id = null) {
-        
+        if ($this->input->is_ajax_request()) {
+	    $this->load->model('Sites_model', 'sites');
+	    $this->load->helper('form');
+	    $this->load->library(array('form_validation', 'ftp'));
+	    $url = $this->input->post('url');
+	    $site_name = $this->input->post('site-name');
+	    $address = $this->input->post('address');
+	    $user = $this->input->post('user');
+	    $password = $this->input->post('password');
+	    $path = $this->input->post('path');
+	    $css = $this->input->post('css');
+	    $mode = $this->input->post('mode');
+	    $port = $this->input->post('port');
+	    $passkey_value = $this->input->post('passkey-value');
+	    
+	    //$this->form_validation->set_rules('url', 'URL', 'callback__is_valid_url');
+	    if ($this->form_validation->run() == FALSE) {
+                $output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
+            }else{
+		$additional_data = array('url' => $url, 'name' => $site_name, 'server' => $address, 'ftp_username' => $user, 'ftp_password' => $password, 'path' => $path, 'css' => $css, 'ftp_mode' => $mode, 'ftp_port' => $port, 'extra_password' =>  $passkey_value);
+		//$this->sites->create($additional_data);
+		//print_r( $additional_data."$";
+		$output = array('status' => "nothing");
+	    }
+	    //echo $url;
+	    header('Content-Type: application/json',true);
+            echo json_encode($output);//validate[required,custom[url]]
+	}else {
+	    show_404();
+	}
     }
 }
