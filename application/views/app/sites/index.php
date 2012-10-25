@@ -23,23 +23,25 @@
 	</tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                
-            </td>
-            <td>
-                
-            </td>
-            <td>
-                
-            </td>
-            <td>
-                
-            </td>
-            <td>
-                
-            </td>
-        </tr>
+        <?php foreach ($sites as $site) { ?>
+	    <tr>
+		<td>
+		    <?= $site->name; ?>
+		</td>
+		<td>
+		    
+		</td>
+		<td>
+		    
+		</td>
+		<td>
+		    
+		</td>
+		<td>
+		    
+		</td>
+	    </tr>
+	<?php } ?>
         <tr>
             <td class="add-userbtn" colspan="5" style="padding:15px 0 15px 50px;font-weight:bold;">
                 <a href="<?php echo base_url("app/sites/create");?>">

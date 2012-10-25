@@ -93,7 +93,7 @@
 		    <label for="css">
 			<span>*</span>&nbsp;Editable CSS Class Name
 		    </label>
-		    <input id="Class-Name" name="css" value="<?= $keyword;?>" type="text" class="validate[required, onlyLetterNumber] text-rounded txt-xl" />
+		    <input id="css" name="css" value="<?= $keyword;?>" type="text" class="validate[required, onlyLetterNumber] text-rounded txt-xl" />
 		    <p>
 			This CSS class determines which areas of your site are<br/>
 			editable (the default is 'cms-editable')
@@ -114,10 +114,10 @@
 	    <fieldset>
         	<legend>Publish/Upload Settings</legend>
 		<div class="form-item left" style="margin-right: 65px;margin-bottom:10px;">
-		    <label for="Mode">
+		    <label for="mode">
 			&nbsp;FTP Publishing Method
 		    </label>
-		    <select id="Mode" name="Mode" class="text-rounded">
+		    <select id="mode" name="mode" class="text-rounded">
 			<option value="Passive" <?= ($mode == 'Passive' ? 'selected="selected"':'');?>>Passive</option>
 			<option value="Active" <?= ($mode == 'Active' ? 'selected="selected"':'');?>>Active</option>
 		    </select>
@@ -127,7 +127,7 @@
 		    <label for="Port">
 			<span>*</span>&nbsp;FTP Port
 		    </label>
-		    <input id="Port" name="Port" type="text" value="<?= $port;?>" class="validate[required,custom[integer]] text-rounded txt-xs" />
+		    <input id="port" name="port" type="text" value="<?= $port;?>" class="validate[required,custom[integer]] text-rounded txt-xs" />
 		    <p>default: 21</p>
         	</div>
 		<br class="clr" />

@@ -4,9 +4,11 @@ class Sites_model extends CI_Model {
     function __construct()
     {
         parent::__construct();
+	$this->load->database();
+	$this->load->helper('date');
     }
     function create($additional_data = array()) {
-        /*sid = $this->_id_generator('sites', 'sid');
+        $sid = $this->_id_generator('sites', 'sid');
         $data = array(
             'created_by'    => $this->session->userdata("QID"),
 	    'sid'           => $sid,
@@ -14,10 +16,20 @@ class Sites_model extends CI_Model {
 	    'modified_user' => $this->session->userdata("QID"),
 	    'modified_date' => time()
 	);
-        $site_data = array_merge($this->_filter_data($this->tables['sites'], $additional_data), $data);
-        $this->db->insert($this->tables['sites'], $site_data);
-        return TRUE;*/
+        $site_data = array_merge($this->_filter_data('sites', $additional_data), $data);
+        $this->db->insert('sites', $site_data);
+        return TRUE;
         
+    }
+    function sites() {
+	$this->db->select('sites.url, sites.name, sites.active, sites.sid');
+	$this->db->from('sites, accounts, users');
+	$this->db->where('accounts.account_id', $this->session->userdata('account'));
+	$this->db->where('accounts.account_id = users.account');
+	$this->db->where('sites.created_by = users.username');
+	$query = $this->db->get();
+
+	return $query->result();
     }
     function update($id, array $data)
     {

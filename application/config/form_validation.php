@@ -1,5 +1,5 @@
 <?php
-$config = array(
+/*$config = array(
     'users2' => array(
         array(
             'field' => 'username',
@@ -73,4 +73,4 @@ $config = array(
             'rules' => 'required'
         )
     )           
-);
+);*/
