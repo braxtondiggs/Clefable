@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 24, 2012 at 10:39 PM
+-- Generation Time: Oct 25, 2012 at 09:37 PM
 -- Server version: 5.5.25
 -- PHP Version: 5.4.4
 
@@ -30,14 +30,15 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `account_id` (`account_id`),
   KEY `type` (`type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `accounts`
 --
 
 INSERT INTO `accounts` (`id`, `account_id`, `type`, `created_on`) VALUES
-(1, 'aYqeViE2mOcGa', 1, 1349975615);
+(1, 'aYqeViE2mOcGa', 1, 1349975615),
+(2, 'a0qeViE2mOcGa', 1, 1349975615);
 
 -- --------------------------------------------------------
 
@@ -84,7 +85,7 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('0eb5bff01bd5b54e77da64704d4e04fc', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4', 1351110805, 'a:12:{s:9:"user_data";s:0:"";s:8:"identity";s:22:"braxtondiggs@gmail.com";s:12:"identity_QID";s:13:"uPjTuxiRz9fOH";s:3:"QID";s:13:"uPjTuxiRz9fOH";s:7:"account";s:13:"aYqeViE2mOcGa";s:5:"email";s:22:"braxtondiggs@gmail.com";s:7:"user_id";s:1:"5";s:14:"old_last_login";s:10:"1350914955";s:10:"first_name";s:8:"NewNew12";s:9:"last_name";s:4:"User";s:9:"user_type";s:1:"1";s:12:"account_type";s:1:"1";}');
+('6892a3575435b3e6eb1bd1ee5405c902', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4', 1351192907, 'a:12:{s:9:"user_data";s:0:"";s:8:"identity";s:22:"braxtondiggs@gmail.com";s:12:"identity_QID";s:13:"uPjTuxiRz9fOH";s:3:"QID";s:13:"uPjTuxiRz9fOH";s:7:"account";s:13:"aYqeViE2mOcGa";s:5:"email";s:22:"braxtondiggs@gmail.com";s:7:"user_id";s:1:"5";s:14:"old_last_login";s:10:"1351105597";s:10:"first_name";s:8:"NewNew12";s:9:"last_name";s:4:"User";s:9:"user_type";s:1:"1";s:12:"account_type";s:1:"1";}');
 
 -- --------------------------------------------------------
 
@@ -225,7 +226,7 @@ CREATE TABLE `login_attempts` (
   `login` varchar(100) COLLATE latin1_general_ci NOT NULL,
   `time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -237,6 +238,8 @@ DROP TABLE IF EXISTS `sites`;
 CREATE TABLE `sites` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `created_by` varchar(32) COLLATE latin1_general_ci NOT NULL,
+  `created_date` datetime NOT NULL,
+  `account` varchar(32) COLLATE latin1_general_ci NOT NULL,
   `sid` varchar(12) COLLATE latin1_general_ci NOT NULL,
   `url` varchar(150) COLLATE latin1_general_ci NOT NULL,
   `name` varchar(128) COLLATE latin1_general_ci NOT NULL,
@@ -246,7 +249,6 @@ CREATE TABLE `sites` (
   `ftp_password` varchar(150) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
   `path` varchar(150) COLLATE latin1_general_ci NOT NULL,
   `keyword` varchar(128) COLLATE latin1_general_ci NOT NULL,
-  `css` varchar(256) COLLATE latin1_general_ci NOT NULL,
   `ftp_mode` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `ftp_port` int(4) NOT NULL,
   `ftp_secure` tinyint(1) NOT NULL,
@@ -261,8 +263,17 @@ CREATE TABLE `sites` (
   UNIQUE KEY `Site` (`url`),
   UNIQUE KEY `SID` (`sid`),
   KEY `Owner` (`created_by`),
-  KEY `modified_user` (`modified_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+  KEY `modified_user` (`modified_user`),
+  KEY `account` (`account`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `sites`
+--
+
+INSERT INTO `sites` (`id`, `created_by`, `created_date`, `account`, `sid`, `url`, `name`, `active`, `server`, `ftp_username`, `ftp_password`, `path`, `keyword`, `ftp_mode`, `ftp_port`, `ftp_secure`, `has_key`, `extra_password`, `color`, `wysiwyg_1`, `wysiwyg_2`, `modified_user`, `modified_date`) VALUES
+(1, 'uPjTuxiRz9fOH', '0000-00-00 00:00:00', 'aYqeViE2mOcGa', 'sga9DS7zWzfR', 'http://www.dd123deexamplesite.com/', 'Example Company Site', 1, 'address', 'username', 'password', 'path', 'new_keyword', 'Passive', 21, 0, 0, '', '', '', '', 'uPjTuxiRz9fOH', '0000-00-00 00:00:00'),
+(2, 'uPjTuxiRz9fOH', '0000-00-00 00:00:00', 'aYqeViE2mOcGa', 'sE59DS7zWzfR', 'http://www.example2222site.com/', 'Example Company Site', 1, 'address', 'username', 'password', 'path', 'new_keyword', 'Passive', 21, 0, 0, '', '', '', '', 'uPjTuxiRz9fOH', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -306,7 +317,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `account`, `first_name`, `last_name`, `user_type`, `language`, `has_demo`, `provider`, `all_one`, `all_one_id`) VALUES
-(5, '\0\0', 'uPjTuxiRz9fOH', '291df99500ce620bd3d03131e66d0d78c6318363', '0ad853e514', 'braxtondiggs@gmail.com', NULL, NULL, NULL, 'd2eae6562b2d28b0f5bf43aea28e201706a3aaf1', 1349975615, 1351105597, 1, 'aYqeViE2mOcGa', 'NewNew12', 'User', 1, 'en', 1, 'CymbitCMS', NULL, NULL),
+(5, '\0\0', 'uPjTuxiRz9fOH', '291df99500ce620bd3d03131e66d0d78c6318363', '0ad853e514', 'braxtondiggs@gmail.com', NULL, NULL, NULL, 'd2eae6562b2d28b0f5bf43aea28e201706a3aaf1', 1349975615, 1351174749, 1, 'aYqeViE2mOcGa', 'NewNew12', 'User', 1, 'en', 1, 'CymbitCMS', NULL, NULL),
 (6, '7f000001', 'u9jTuxiRz9fOf', '', '0ad853e514', '123braxtondiggs@gmail.com', NULL, NULL, NULL, NULL, 1349975615, 1350329734, 1, 'aYqeViE2mOcGa', 'John', 'Doe', 2, 'en', 1, 'CymbitCMS', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -345,8 +356,9 @@ ALTER TABLE `accounts`
 -- Constraints for table `sites`
 --
 ALTER TABLE `sites`
-  ADD CONSTRAINT `sites_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `sites_ibfk_2` FOREIGN KEY (`modified_user`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `sites_ibfk_2` FOREIGN KEY (`modified_user`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `sites_ibfk_3` FOREIGN KEY (`created_by`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `sites_ibfk_4` FOREIGN KEY (`account`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`

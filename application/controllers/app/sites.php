@@ -7,45 +7,93 @@ class Sites extends CI_Controller{
 	if (!$this->ion_auth->logged_in()) {
 	    redirect('login');
 	}
-	//if (!$this->input->is_ajax_request()) {
+	if (!$this->input->is_ajax_request()) {
 	    $this->output->enable_profiler(TRUE);
-	//}
+	}
     }
     function index(){
         if ($this->session->userdata('user_type') == 1) {
 	    $this->template->title('Manage Sites');
-	    $this->template->set('sites', $this->sites->sites());
+	    $this->template->set('sites', $this->sites->get_sites());
 	    $this->template->set_layout('default_app')->build('app/sites/index');
 	}else {
-	    //$QID = $this->session->userdata("QID");
-	    //redirect('app/users/edit/'.$QID);
+	    $this->template->title('Manage Sites');
+	    $this->template->set('sites', $this->sites->get_sites());
+	    $this->template->set_layout('default_app')->build('app/sites/index_editor');
 	}
     }
-    function edit($id = null) {
-	$this->load->model('Sites_model');
-
-        $data['query'] = $this->Blog->get_last_ten_entries();
-        
-    }
+    
     function create() {
         if ($this->session->userdata('user_type') == 1) {    
-	    if ($this->ion_auth->get_num_user() > 3) {
-		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_user')));
-		redirect('app/users');
+	    if ($this->sites->get_num_sites() > 3) {
+		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_sites'))); //
+		redirect('app/sites');
 	    }
 	    $this->template->title('Site Settings');
 	    $this->template->set('is_new', true);
 	    $this->template->set_layout('default_app')->build('app/sites/create');
 	}else {
-	    $QID = $this->session->userdata("QID");
-	    redirect('app/users/edit/'.$QID);
+	    redirect('app');
 	}
     }
-    function delete($id=null) {
-        
+    function dashboard($id = null) {
+	$sites = $this->sites->get_site($id);
+	if ($sites) { 	
+	    $this->template->title('Dashboard');
+	    $this->template->set('site', $sites);
+	    $this->template->set_layout('default_app')->build('app/sites/edit');
+	}else {
+	    redirect('app/sites');
+	}
+    }
+    function edit($id = null) {
+	$sites = $this->sites->get_site($id);
+	if ($sites && $this->session->userdata('user_type') == 1) { 	
+	    $this->template->title('Edit Site');
+	    $this->template->set('site', $sites);
+	    $this->template->set_layout('default_app')->build('app/sites/edit');
+	}else {
+	    redirect('app/sites');
+	}
+    }
+    function delete($status = null, $id = null) {
+	$sites = $this->sites->get_site($id);
+        $output = array('status' => 'fail');
+	if ($this->input->is_ajax_request()) {
+	    if ($sites && $this->session->userdata('user_type') == 1) {
+		if ($status === "confirm") {
+		    $output = array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/sites/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete your site? All the pages and information related to this site will be removed.<p>&nbsp;</p><p><strong>*Note</strong>: Your site still exists on your server.'));
+		}else if($status === "approved") {
+		    $this->sites->delete($id);
+		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_delete')));
+		    $output = array('status' => "reload");
+		}
+	    }
+	    header('Content-Type: application/json',true);
+            echo json_encode($output);
+	}else {
+	    show_404();
+	}
     }
     function status($action = null, $id = null) {
-        
+        $output = array('status' => 'fail');
+	$sites = $this->sites->get_site($id);
+	if ($this->input->is_ajax_request()) {
+	    if ($sites) {
+		if ($action === "enable") {
+		    $data = array('active' => 1);
+		    $output = array('status' => "success", 'action' => 'enable', 'output' => array('id' => $id, 'gritter' => $this->lang->line('gritter_user_delete')));
+		}else if ($action === "disable") {
+		    $data = array('active' => 0);
+		    $output = array('status' => "success", 'action' => 'disable', 'output' => array('id' => $id, 'gritter' => $this->lang->line('gritter_welcome')));
+		}
+		$this->sites->update($id, $data);
+    	    }
+	    header('Content-Type: application/json',true);
+	    echo json_encode($output);
+	}else {
+	    show_404();
+	}
     }
     function submit ($id = null) {
         if ($this->input->is_ajax_request()) {
@@ -56,10 +104,11 @@ class Sites extends CI_Controller{
 	    $user = $this->input->post('user');
 	    $password = $this->input->post('password');
 	    $path = $this->input->post('path');
-	    $css = $this->input->post('css');
+	    $keyword = $this->input->post('keyword');
 	    $mode = $this->input->post('mode');
 	    $port = $this->input->post('port');
 	    $passkey_value = $this->input->post('passkey-value');
+	    $required_if_password = $this->input->post('changepass') ? '|required' : '' ;
 	    $required_if_passkey = $this->input->post('passkey') ? '|required' : '' ;
 	    $config = array(
 		array(
@@ -85,7 +134,7 @@ class Sites extends CI_Controller{
 		array(
 		    'field' => 'password',
 		    'label' => 'FTP Password',
-		    'rules' => 'trim|required'
+		    'rules' => 'trim'.$required_if_password
 		),
 		array(
 		    'field' => 'path',
@@ -93,7 +142,7 @@ class Sites extends CI_Controller{
 		    'rules' => 'trim|required'
 		),
 		array(
-		    'field' => 'css',
+		    'field' => 'keyword',
 		    'label' => 'Editable CSS Class Name',
 		    'rules' => 'trim|required'
 		),
@@ -117,14 +166,16 @@ class Sites extends CI_Controller{
 	    if ($this->form_validation->run() == FALSE) {
                 $output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
             }else{
-		$additional_data = array('url' => $url, 'name' => $site_name, 'server' => $address, 'ftp_username' => $user, 'ftp_password' => $password, 'path' => $path, 'css' => $css, 'ftp_mode' => $mode, 'ftp_port' => $port, 'extra_password' =>  $passkey_value);
-		$this->sites->create($additional_data);
-		//print_r( $additional_data."$";
+		$additional_data = array('url' => $url, 'name' => $site_name, 'server' => $address, 'ftp_username' => $user, 'ftp_password' => $password, 'path' => $path, 'keyword' => $keyword, 'ftp_mode' => $mode, 'ftp_port' => $port, 'extra_password' =>  $passkey_value);
+		if ($id === null) {
+		    $this->sites->create($additional_data);
+		}else {
+		    $this->sites->update($id, $additional_data);
+		}
 		$output = array('status' => "success");
 	    }
-	    //echo $url;
 	    header('Content-Type: application/json',true);
-            echo json_encode($output);//validate[required,custom[url]]
+            echo json_encode($output);
 	}else {
 	    show_404();
 	}

@@ -29,9 +29,9 @@ $(function() {
             success: function(data) {
                 if(data.status == "success") {
                     if (data.dialog != null) {
-                        $('#dialog-' + data.dialog).attr('title', data.output.title).children('#dialog-' + data.dialog + '-body').html(data.output.text).end().dialog("open").data('listID', data.redirect);
+                        $('#dialog-' + data.dialog).attr('title', data.output.title).children('#dialog-' + data.dialog + '-body').html(data.output.text).end().dialog("open").data('listID', data.modal_redirect);
                     }
-		    if (data.output != null) {
+                    if (data.output != null) {
 			if (data.output.gritter != null) {
 			    $.GritControl({'title': data.output.gritter.title, 'text': data.output.gritter.text, 'icon': data.output.gritter.icon});
 			}
@@ -42,10 +42,23 @@ $(function() {
                 }else if(data.status == "reload") {
                     window.location.reload();
                 }else if(data.status =="error") {
+                    alert(internal_error);
+                    //window.location.reload();
                 }
             }
         });
         return false;
+    });
+    $(".site_status").bind("click", function() {
+        var text = $(this).children('span:not(.cmsicon)');
+         var link = $(this);
+        if ($(text).text() == "enabled") {
+            $(this).find('.status-green').addClass('status-red').removeClass('status-green')
+            $(text).text('disabled');
+        }else if ($(text).text() == "disabled") {   
+            $(this).find('.status-red').addClass('status-green').removeClass('status-red');
+            $(text).text('enabled');
+        }
     });
     $(".gritter-notify").livequery(function() {
 	$.GritControl({'title': $(this).children('.gritter-title').text(), 'text':$(this).children('.gritter-text').text(), 'icon':$(this).children('.gritter-icon').text()});

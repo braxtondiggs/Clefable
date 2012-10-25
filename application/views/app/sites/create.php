@@ -8,7 +8,7 @@
                 <a href="<?= base_url('app/sites'); ?>">Manage Sites</a>
             </li>
             <li>
-                Site Settings
+                <?php echo $template['title']; ?>
             </li>
         </ul>
     </div>

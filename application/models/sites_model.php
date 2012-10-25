@@ -11,31 +11,66 @@ class Sites_model extends CI_Model {
         $sid = $this->_id_generator('sites', 'sid');
         $data = array(
             'created_by'    => $this->session->userdata("QID"),
-	    'sid'           => $sid,
+	    'account'       => $this->session->userdata("account"),
+            'sid'           => $sid,
 	    'active'        => 1,
 	    'modified_user' => $this->session->userdata("QID"),
-	    'modified_date' => time()
+	    'created_date' => time()
 	);
         $site_data = array_merge($this->_filter_data('sites', $additional_data), $data);
         $this->db->insert('sites', $site_data);
         return TRUE;
         
     }
-    function sites() {
+    function get_sites() {
 	$this->db->select('sites.url, sites.name, sites.active, sites.sid');
-	$this->db->from('sites, accounts, users');
-	$this->db->where('accounts.account_id', $this->session->userdata('account'));
-	$this->db->where('accounts.account_id = users.account');
-	$this->db->where('sites.created_by = users.username');
+        $this->db->from('sites');
+        $this->db->where('sites.account', $this->session->userdata('account'));
+        $this->db->order_by("active", "desc");
+        $this->db->order_by("created_date", "desc"); 
 	$query = $this->db->get();
 
 	return $query->result();
     }
-    function update($id, array $data)
-    {
-        //$data = $this->_filter_data($this->tables['sites'], $data);
-        //$query = $this->db->get('entries', 10);
-        return 2;
+    
+    function get_site($id = null) {
+        if ($id != null) {
+            $this->db->select('sites.*');
+            $this->db->from('sites');
+            $this->db->where('sites.account', $this->session->userdata('account'));
+            $this->db->where('sites.sid', $id);
+            $this->db->limit(1);
+            $query = $this->db->get();
+    
+            if ($query->num_rows() > 0) {
+                return $query->result();;
+            }else {
+                return FALSE;
+            }
+        }else {
+            return FALSE;
+        }
+    }
+    function update($id = null, $data = array()) {
+        if ($id != null) {
+            $this->db->update('sites', $data, array('sites.sid' => $id, 'sites.account' => $this->session->userdata('account')));
+            return TRUE;
+        }else {
+            return FALSE;
+        }
+    }
+    function delete($id = null) {
+        if ($id != null) {
+            $this->db->delete('sites', array('sites.sid' => $id, 'sites.account' => $this->session->userdata('account')));
+            return TRUE;
+        }else {
+            return FALSE;
+        }
+    }
+    function get_num_sites($id = FALSE) {
+        $id || $id = $this->session->userdata('account');
+        $query = $this->db->get_where('sites', array('account' => $id));
+        return $query->num_rows();
     }
     protected function _filter_data($table, $data){
 	$filtered_data = array();

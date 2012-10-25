@@ -10,6 +10,7 @@ $lang['gritter_impersonate'] 	 = array('title' => 'Impersonation Active', 'text'
 $lang['gritter_impersonate_exit']= array('title' => 'GET ME OUT!!!', 'text' => 'To exit out of impersonation mode just click the yellow banner above.', 'icon' => 'lifebuoy');
 $lang['gritter_impersonate_done']= array('title' => 'Welcome back!', 'text' => 'Hello again! You have returned to your orginal account.', 'icon' => 'yin-yang');
 $lang['gritter_max_user'] 	 = array('title' => 'Max Number of Users', 'text' => 'You have maxed out on the number of shared users for this account. If you need more, please contact us or upgrade your account.', 'icon' => 'battery-low');
-$lang['gritter_test'] 	  	 = array('title' => 'Account Successfully Created', 'text' => 'something', 'icon' => 'something');
-$lang['gritter_test'] 	  	 = array('title' => 'Account Successfully Created', 'text' => 'something', 'icon' => 'something');
-$lang['gritter_test'] 	  	 = array('title' => 'Account Successfully Created', 'text' => 'something', 'icon' => 'something');
+$lang['gritter_site_delete'] 	 = array('title' => 'Site has been deleted!', 'text' => 'The site has been permanently deleted from our database, including all of it\'s child pages, history and permission.<p>&nbsp;</p><p><strong>*Note</strong>: Your site still exists on your server.</p>', 'icon' => 'cross');
+$lang['gritter_site_update'] 	 = array('title' => 'Site has been updated!', 'text' => 'The site information has been updated.', 'icon' => 'globe-green');
+$lang['gritter_site_create'] 	 = array('title' => 'Site has been created!', 'text' => 'Your new site has been added to our CMS.', 'icon' => 'globe-green');
+$lang['gritter_site_next'] 	 = array('title' => 'What\'s next?', 'text' => 'Try adding a new page next.', 'icon' => 'light-bulb');

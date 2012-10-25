@@ -1,16 +1,20 @@
+<?php
+$enable = '<span class="status-green cmsicon"></span><span>enabled</span>';
+$disable = '<span class="status-red cmsicon"></span><span>disabled</span>';
+?>
 <div class="breadCrumbHolder module">
     <div id="breadCrumb" class="breadCrumb module">
     	<ul>
             <li>
-            	<a href="#" class="dashboard">Account Dashboard</a>
+            	<a href="<?= base_url('app');?>" class="dashboard">Account Dashboard</a>
             </li>
             <li>
-                Manage Sites
+                <?= $template['title']; ?>
             </li>
         </ul>
     </div>
 </div>
-<h3 class="underline">Manage Sites</h3>
+<h3 class="underline"><?= $template['title']; ?></h3>
 <p>Click on one of your sites to manage it.</p>
 <table id="manage_siteTable" class="table-standard">
     <thead>
@@ -26,19 +30,30 @@
         <?php foreach ($sites as $site) { ?>
 	    <tr>
 		<td>
-		    <?= $site->name; ?>
+		    <span class="icon_home"></span>
+		    <a href="<?= base_url('app/sites/edit/' . $site->sid);?>" class="<?= ($site->active == 0)? 'disabled-link' : '';?>">
+			<?= $site->name; ?>
+		    </a>
 		</td>
 		<td>
-		    
+		    <?= (($site->active != 0) ? '<span class="geticon">' : '<span class="disabled-text geticon">').str_replace(array('http://', 'https://'), "", $site->url);?></span>
 		</td>
 		<td>
-		    
+		    <a href="<?= base_url('app/sites/edit/' . $site->sid); ?>"><span class="edit-doc cmsicon"></span>edit</a>
 		</td>
 		<td>
-		    
+		    <?php
+		    if ($site->active == 0) {
+			echo anchor(base_url('app/sites/status/enable/' . $site->sid), $disable, array('class' => 'ajax-action site_status'));
+		    }else if ($site->active == 1) {
+			echo anchor(base_url('app/sites/status/disable/' . $site->sid), $enable, array('class' => 'ajax-action site_status'));
+		    }
+		    ?>
 		</td>
 		<td>
-		    
+		    <a href="<?= base_url('app/sites/delete/confirm/' . $site->sid);?>" class="ajax-action">
+			<span class="delete cmsicon"></span>delete
+		    </a>
 		</td>
 	    </tr>
 	<?php } ?>

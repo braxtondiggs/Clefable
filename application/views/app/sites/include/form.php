@@ -1,20 +1,31 @@
 <?php
-    $extra_password = $has_key = $ftp_secure = $port = $mode = $url = "";$account_type = $this->session->userdata('account_type');
-    $keyword = $path = $ftp_password = $ftp_user = $server = $name = $url;
-    if (isset($id)) {
-	$user = $this->ion_auth->user($id)->result();
-	$first_name = $user[0]->first_name;
-	$last_name = $user[0]->last_name;
-	$email = $user[0]->email;
-	$user_languages = $user[0]->language;
-	$type = $user[0]->user_type;
-	
+    $account_type = $this->session->userdata('account_type');
+    $url = "";
+    $port = 21;
+    $keyword = "cms-editable";
+    $has_key = 0;
+    $extra_password  = $ftp_secure = $mode = $path = $ftp_password = $ftp_user = $server = $name = $url;
+    if (isset($site)) {
+	$url = $site->url;
+	$name = $site->name;
+	$server = $site->server;
+	$ftp_user = $site->ftp_username;
+	$ftp_password = $site->ftp_password;
+	$path = $site->path;
+	$keyword = $site->keyword;
+	$mode = $site->ftp_mode;
+	$port = $site->ftp_port;
+	$ftp_secure = $site->ftp_secure;
+	$has_key = $site->has_key;
+	$extra_password = $site->extra_password;
+	$is_new = FALSE;
+	$id = $site->sid;
     }else {
 	$id = "";
     }
 ?>
 <div class="validate_errors alert-error" style="display:none;"></div>
-<form id="site" class="formular" method="post" action="<?php echo base_url("app/sites/submit/");?>">
+<form id="site" class="formular" method="post" action="<?php echo base_url("app/sites/submit/".$id);?>">
     <div class="jQTabs">
 	<ul>
 	    <li><a href="#tabs-1">Settings</a></li>
@@ -26,7 +37,7 @@
 		<label for="url">
 		    <span>*</span>&nbsp;Site URL&nbsp;
 		</label>
-		<input id="url" name="url" type="text" value="<?= $url;?>" class=" text-rounded txt-xxl" />
+		<input id="url" name="url" type="text" value="<?= $url;?>" class="validate[required,custom[url]] text-rounded txt-xxl" />
 		<p>Example: http://www.examplesite.com/</p>
 	    </div>
 	    <div class="form-item">
@@ -67,7 +78,7 @@
 		    </label>
 		    <input id="password" name="password" type="password" value="<?= $ftp_password; ?>" class="validate[required] text-rounded txt-xl" />
 		    <div style="margin: 15px 0;">
-			<a href="#" class="button test-ftp left">Test</a><span id="ftp-msg" style="line-height: 2.5em;"></span>
+			<a href="<?= base_url('app/ftp/test_connection'); ?>" class="button test_ftp left">Test</a><span id="ftp-msg" style="line-height: 2.5em;"></span>
 		    </div>
 		</div>
 	    </div>
@@ -90,10 +101,10 @@
 	    <fieldset>
         	<legend>Site Information</legend>
 		<div class="form-item">
-		    <label for="css">
+		    <label for="keyword">
 			<span>*</span>&nbsp;Editable CSS Class Name
 		    </label>
-		    <input id="css" name="css" value="<?= $keyword;?>" type="text" class="validate[required, onlyLetterNumber] text-rounded txt-xl" />
+		    <input id="keyword" name="keyword" value="<?= $keyword;?>" type="text" class="validate[required, onlyLetterNumber] text-rounded txt-xl" />
 		    <p>
 			This CSS class determines which areas of your site are<br/>
 			editable (the default is 'cms-editable')
@@ -140,17 +151,19 @@
         	</div>
 		<p>&nbsp;</p>
 		<div class="form-item" style="margin-bottom:20px;">
-		    <label style="margin-bottom:10px;">
-			&nbsp;Publish Passkey
-		    </label>
-		    <input id="passkey" name="passkey" type="checkbox" value="true" <?= ($has_key == 1 ? 'checked="checked"':'');?> style="margin-left:20px;">
-		    <label for="passkey" style="display:inline;font:normal 14px Arial, Helvetica, sans-serif;">
-			Use Publish Passkey
-		    </label>
-		    <p>&nbsp;</p>
-		    <div style="display:none;">
+		    <div>
+			<label style="margin-bottom:10px;">
+			    &nbsp;Publish Passkey
+			</label>
+			<input id="passkey" name="passkey" type="checkbox" value="true" <?= ($has_key == 1 ? 'checked="checked"':'');?> style="margin-left:20px;">
+			<label for="passkey" style="display:inline;font:normal 14px Arial, Helvetica, sans-serif;">
+			    Use Publish Passkey
+			</label>
+		    </div>
+		    <div <?= ($has_key != 1 ? 'style="display:none;"':''); ?>>
 			<input id="passkey-value" name="passkey-value" type="password" value="<?= $extra_password;?>" class="validate[required] text-rounded txt-xs" style="margin-left:20px;" />
 		    </div>
+		    <p>&nbsp;</p>
 		    <p>We use the passkey to encrypt your FTP information, but we do NOT store it. Every time you want to publish a page, we ask for your passkey to decrypt the FTP info. Bottom line: your data is safe.</p>
         	</div>
 	    </fieldset>
@@ -179,3 +192,20 @@
 	</a>
     </p>
 </form>
+<script type="text/javascript">
+	$(function() {
+	    $('#passkey, #changepass').click(function() {
+		$(this).parent('div').next('div').toggle().children('input[type="text"]').val("");
+	    });
+	    $('.test_ftp').click(function() {
+		 $.ajax($(this).attr('href'), {
+		    type: "POST",
+		    data: $(".formular").serialize(),
+		    success: function(data) {
+			
+		    }
+		 });
+		return false;
+	    });
+	});
+</script>

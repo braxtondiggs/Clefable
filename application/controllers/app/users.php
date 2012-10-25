@@ -41,19 +41,20 @@ class Users extends CI_Controller{
 		if ($status === "confirm") {
 		    if ($id === $this->session->userdata("QID")) {
 			if  ($this->session->userdata("user_type") == 1) {
-			    $output = array('status' => "success", 'dialog' => 'confirm', 'redirect' => base_url('app/users/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete your account? You will be logged out and everything related to your account will be removed, if you are the only administrative user on the account.'));
+			    $output = array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/users/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete your account? You will be logged out and everything related to your account will be removed, if you are the only administrative user on the account.'));
 			}else if ($this->session->userdata("user_type") != 1) {
-			    $output = array('status' => "success", 'dialog' => 'confirm', 'redirect' => base_url('app/users/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete your account? You will be logged out and all of your information will be removed permanently.'));
+			    $output = array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/users/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete your account? You will be logged out and all of your information will be removed permanently.'));
 			}
 		    }else {
-			$output = array('status' => "success", 'dialog' => 'confirm', 'redirect' => base_url('app/users/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete this user?'));
+			$output = array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/users/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete this user?'));
 		    }
 		}else if($status === "approved") {
 		    if ($this->ion_auth->has_ownership($id)) {
 			if ($this->ion_auth->is_only_admin()) {
 			    $output = array('status' => 'reload');
 			}else {
-			    $output = array('status' => "succcess", 'action' => 'delete', 'output' => array('id' => $id, 'gritter' => $this->lang->line('gritter_user_delete')));
+			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_user_delete')));
+			    $output = array('status' => "reload");
 			}
 			$this->ion_auth->delete_user($id);
 		    }else {
