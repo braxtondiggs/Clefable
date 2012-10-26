@@ -105,11 +105,12 @@ $(function() {
 		hide: "fade",
 		position: 'center',
 		open: function() {
-                    //if (y < 40) {//Mke sure the dialog doesn't go outside window
-                    //    $(this).parents('.ui-dialog').css({'top':'40px'});
-                    //}
-                    $(document).delegate('.ui-widget-overlay', 'click', function() {//close dialog if overlay is closed
-                        $(this).dialog("close");
+                    var _this = $(this);
+                    if (parseInt($(this).parent('.ui-dialog').css('top')) < 0) {//Mke sure the dialog doesn't go outside window
+                        $(this).parent('.ui-dialog').css('top', 0);
+                    }
+                    $('.ui-widget-overlay').click(function() {//close dialog if overlay is closed
+                        $(_this).dialog("close");
                     });
                     $(this).dialog( "option" , "title" ,$(this).attr('title'));
 		},
@@ -155,16 +156,18 @@ $(function() {
 		resizable: false,
 		modal: true,
 		width: $(this).width(),
+                height: $(this).height(),
 		draggable: false,
 		show: "fade",
 		hide: "fade",
 		position: 'center',
 		open: function() {
-                    if (y < 40) {//Mke sure the dialog doesn't go outside window
-                        $(this).parents('.ui-dialog').css({'top':'40px'});
+                    var _this = $(this);
+                    if (parseInt($(this).parent('.ui-dialog').css('top')) < 0) {//Mke sure the dialog doesn't go outside window
+                        $(this).parent('.ui-dialog').css('top', 0);
                     }
-                    $(document).delegate('.ui-widget-overlay', 'click', function() {//close dialog if overlay is closed
-                        $("#dialog-confirm").dialog("close");
+                    $('.ui-widget-overlay').click(function() {//close dialog if overlay is closed
+                        $(_this).dialog("close");
                     });
                     $(this).dialog( "option" , "title" ,$(this).attr('title'));
 		},

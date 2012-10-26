@@ -72,6 +72,20 @@ class Sites_model extends CI_Model {
         $query = $this->db->get_where('sites', array('account' => $id));
         return $query->num_rows();
     }
+    function check_unique($input, $table, $sid) {
+        $pieces = explode(".", $table);
+        if ($sid != FALSE) {
+            $query = $this->db->get_where($pieces[0], array($pieces[1] => $input,  'sid !=' => $sid), 1);
+           
+        }else {
+            $query = $this->db->get_where($pieces[0], array($pieces[1] => $input), 1);
+        }
+        if ($query->num_rows() > 0) {
+            return FALSE;
+        }else {
+            return TRUE;
+        }
+    }
     protected function _filter_data($table, $data){
 	$filtered_data = array();
 	$columns = $this->db->list_fields($table);

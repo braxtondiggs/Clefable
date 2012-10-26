@@ -96,8 +96,7 @@
 		    <a href="<?= base_url('app/ftp/browse_index');?>" class="button asjax-action browse-site"><span class="docarrow cmsicon"></span>Browse</a>
 		</div>
 		<p>
-		    Select your homepage on your FTP server here, so that we can correctly<br />
-		    map your web files to your ftp files.
+		    Select your homepage on your FTP server here, so that we can correctly map your web files to your ftp files.
 		</p>
 	    </div>
 	</div>
@@ -110,8 +109,7 @@
 		    </label>
 		    <input id="keyword" name="keyword" value="<?= $keyword;?>" type="text" class="validate[required, onlyLetterNumber] text-rounded txt-xl" />
 		    <p>
-			This CSS class determines which areas of your site are<br/>
-			editable (the default is 'cms-editable')
+			This CSS class determines which areas of your site are editable (the default is 'cms-editable')
 		    </p>
         	</div>
             <!--<div class="form-item">
@@ -215,9 +213,9 @@
 		return false;
 	    });
 	    $('.browse-site').click(function() {
-		$('#dialog-buttonless').dialog("open").children('#dialog-buttonless-body').html('<div id="fileTree">s</div>');
+		$('#dialog-buttonless').dialog({ title: "FTP Browser" }).dialog('open').children('#dialog-buttonless-body').html('<div id="fileTree"></div>');
 		var server = $('#address').val();var user = $('#user').val();var pass = $('#password').val();var path = $('#path').val();//From Formurlencode
-		$('#fileTree').fileTree({ root: '/', script: 'http://localhost/igniter/app/ftp/browse_index/', server: server, user: user, password: pass, path: path }, function(file) { 
+		$('#fileTree').fileTree({ root: '/', script: '<?= base_url('app/ftp/browse_index'); ?>', server: server, user: user, password: pass, path: path }, function(file) { 
 			$('#path').val(file);//selected file
 			$('#dialog-buttonless').dialog("close");
 		});

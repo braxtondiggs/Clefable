@@ -9,10 +9,11 @@ $lang['gritter_password_email']  = array('title' => 'Email Sent!', 'text' => 'Lo
 $lang['gritter_impersonate'] 	 = array('title' => 'Impersonation Active', 'text' => 'You are currently impersonating another user and you can see everything as they would in their account.', 'icon' => 'user-business-boss');
 $lang['gritter_impersonate_exit']= array('title' => 'GET ME OUT!!!', 'text' => 'To exit out of impersonation mode just click the yellow banner above.', 'icon' => 'lifebuoy');
 $lang['gritter_impersonate_done']= array('title' => 'Welcome back!', 'text' => 'Hello again! You have returned to your orginal account.', 'icon' => 'yin-yang');
-$lang['gritter_max_user'] 	 = array('title' => 'Max Number of Users', 'text' => 'You have maxed out on the number of shared users for this account. If you need more, please contact us or upgrade your account.', 'icon' => 'battery-low');
+$lang['gritter_max_user'] 	 = array('title' => 'Max Number of Users', 'text' => 'You have maxed out on the number of shared users for this account. If you need more, please <a href="' . base_url('contact') . '">contact us</a> or upgrade your account.', 'icon' => 'battery-low');
 $lang['gritter_site_delete'] 	 = array('title' => 'Site has been deleted!', 'text' => 'The site has been permanently deleted from our database, including all of it\'s child pages, history and permission.<p>&nbsp;</p><p><strong>*Note</strong>: Your site still exists on your server.</p>', 'icon' => 'cross');
 $lang['gritter_site_update'] 	 = array('title' => 'Site has been updated!', 'text' => 'The site information has been updated.', 'icon' => 'globe-green');
 $lang['gritter_site_create'] 	 = array('title' => 'Site has been created!', 'text' => 'Your new site has been added to our CMS.', 'icon' => 'globe-green');
 $lang['gritter_site_next'] 	 = array('title' => 'What\'s next?', 'text' => 'Try adding a new page next.', 'icon' => 'light-bulb');
 $lang['gritter_site_enabled'] 	 = array('title' => 'Site Enabled', 'text' => 'The site has been enabled, now editors will be able to view the site.', 'icon' => 'star');
 $lang['gritter_site_disabled'] 	 = array('title' => 'Site Disabled', 'text' => 'The site has been disabled, editors will not be able to view this site in thier account.', 'icon' => 'star-empty');
+$lang['gritter_max_site'] 	 = array('title' => 'Max Number of Sites', 'text' => 'You have maxed out on the number of shared sites for this account. If you need more, please <a href="' . base_url('contact') . '">contact us</a> or upgrade your account.', 'icon' => 'battery-low');

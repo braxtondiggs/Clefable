@@ -26,7 +26,7 @@ class Sites extends CI_Controller{
     function create() {
         if ($this->session->userdata('user_type') == 1) {    
 	    if ($this->sites->get_num_sites() > 3) {
-		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_sites'))); //
+		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_sites')));
 		redirect('app/sites');
 	    }
 	    $this->template->title('Site Settings');
@@ -39,9 +39,9 @@ class Sites extends CI_Controller{
     function dashboard($id = null) {
 	$sites = $this->sites->get_site($id);
 	if ($sites) { 	
-	    $this->template->title('Dashboard');
+	    $this->template->title('Site Actions');
 	    $this->template->set('site', $sites);
-	    $this->template->set_layout('default_app')->build('app/sites/edit');
+	    $this->template->set_layout('default_app')->build('app/sites/dashboard');
 	}else {
 	    redirect('app/sites');
 	}
@@ -115,7 +115,7 @@ class Sites extends CI_Controller{
 		array(
 		    'field' => 'url',
 		    'label' => 'Site URL',
-		    'rules' => 'trim|required|callback__is_valid_url'
+		    'rules' => 'trim|required|callback__is_valid_url|callback__is_used[sites.url]'
 		),
 		array(
 		    'field' => 'site-name',
@@ -168,12 +168,22 @@ class Sites extends CI_Controller{
                 $output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
             }else{
 		$additional_data = array('url' => $url, 'name' => $site_name, 'server' => $address, 'ftp_username' => $user, 'ftp_password' => $password, 'path' => $path, 'keyword' => $keyword, 'ftp_mode' => $mode, 'ftp_port' => $port, 'extra_password' =>  $passkey_value);
-		if ($id === null) {
-		    $this->sites->create($additional_data);
+		if ($this->_test_ftp_connection($address, $user, $password, $port, FALSE)) {
+		    if ($id === null) {
+			if ($this->sites->get_num_sites() > 3) {
+			    $this->sites->create($additional_data);
+			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_create'), $this->lang->line('gritter_site_next')));
+			}else {
+			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_site')));
+			}
+		    }else {
+			$this->sites->update($id, $additional_data);
+			$this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_update')));
+		    }
+		    $output = array('status' => "success", 'redirect' => base_url('app/sites'));
 		}else {
-		    $this->sites->update($id, $additional_data);
+		    $output = array('status' => "error", 'output' => '<strong>Error: </strong> Your site\'s FTP information has failed, please review.');
 		}
-		$output = array('status' => "success");
 	    }
 	    header('Content-Type: application/json',true);
             echo json_encode($output);
@@ -188,5 +198,29 @@ class Sites extends CI_Controller{
 	} else {
 	    return TRUE;
         }
+    }
+    public function _is_used($str, $table) {
+	if ($this->sites->check_unique($str, $table, $this->uri->segment(4))) {
+	    return TRUE;
+	}else {
+	    $this->form_validation->set_message('_is_used', 'The %s is already in use, please select something else.');
+	    return FALSE;
+	}
+    }
+    function _test_ftp_connection($ftp_server, $ftp_user, $ftp_password, $port, $sftp) {
+	if ($sftp == TRUE) {
+	    $conn_id = @ftp_ssl_connect($ftp_server, $port);
+	}else {
+	    $conn_id = @ftp_connect($ftp_server, $port);
+	}
+    
+	// login with username and password
+	if (!@ftp_login($conn_id, $ftp_user, $ftp_password)) {
+	    return FALSE;
+	}else {
+	    return TRUE;
+	}
+	
+	ftp_close($conn_id);
     }
 }
