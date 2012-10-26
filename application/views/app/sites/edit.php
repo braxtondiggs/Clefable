@@ -19,3 +19,4 @@
 </div>
 <h3 class="underline"><?= $template['title']; ?></h3>
 <?php include('include/form.php'); ?>
+<?php $this->load->view('app/include/modal/buttonless'); ?>

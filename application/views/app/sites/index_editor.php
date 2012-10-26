@@ -15,7 +15,7 @@
 <?php
 foreach ($sites as $site) {
     if ($site->active == 1) {?>
-        <a href="<?= base_url('app/sites/dashboard' . $site->sid); ?>" class="site_dashboard nav-section">
+        <a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="site_dashboard nav-section">
             <h4 class="underline"><span class="geticon" title="<?= $site->url; ?>"></span><?= $site->name; ?></h4>
             <p>Click to manage user and access.</p>
         </a>

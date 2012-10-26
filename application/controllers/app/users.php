@@ -100,7 +100,7 @@ class Users extends CI_Controller{
 			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_impersonate_done')));
 			}
 			$this->session->set_userdata('user_type', $user->user_type);
-			$output = array('status' => "success", 'redirect' => base_url('app'));
+			$output = array('status' => "reload");
 		    }
 		}
 	    }

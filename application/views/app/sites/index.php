@@ -31,7 +31,7 @@ $disable = '<span class="status-red cmsicon"></span><span>disabled</span>';
 	    <tr>
 		<td>
 		    <span class="icon_home"></span>
-		    <a href="<?= base_url('app/sites/edit/' . $site->sid);?>" class="<?= ($site->active == 0)? 'disabled-link' : '';?>">
+		    <a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="<?= ($site->active == 0)? 'disabled-link' : '';?>">
 			<?= $site->name; ?>
 		    </a>
 		</td>

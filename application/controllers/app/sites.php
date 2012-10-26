@@ -82,12 +82,13 @@ class Sites extends CI_Controller{
 	    if ($sites) {
 		if ($action === "enable") {
 		    $data = array('active' => 1);
-		    $output = array('status' => "success", 'action' => 'enable', 'output' => array('id' => $id, 'gritter' => $this->lang->line('gritter_user_delete')));
+		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_enabled')));
 		}else if ($action === "disable") {
 		    $data = array('active' => 0);
-		    $output = array('status' => "success", 'action' => 'disable', 'output' => array('id' => $id, 'gritter' => $this->lang->line('gritter_welcome')));
+		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_disabled')));
 		}
 		$this->sites->update($id, $data);
+		$output = array('status' => "reload");
     	    }
 	    header('Content-Type: application/json',true);
 	    echo json_encode($output);

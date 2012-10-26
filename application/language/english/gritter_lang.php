@@ -14,3 +14,5 @@ $lang['gritter_site_delete'] 	 = array('title' => 'Site has been deleted!', 'tex
 $lang['gritter_site_update'] 	 = array('title' => 'Site has been updated!', 'text' => 'The site information has been updated.', 'icon' => 'globe-green');
 $lang['gritter_site_create'] 	 = array('title' => 'Site has been created!', 'text' => 'Your new site has been added to our CMS.', 'icon' => 'globe-green');
 $lang['gritter_site_next'] 	 = array('title' => 'What\'s next?', 'text' => 'Try adding a new page next.', 'icon' => 'light-bulb');
+$lang['gritter_site_enabled'] 	 = array('title' => 'Site Enabled', 'text' => 'The site has been enabled, now editors will be able to view the site.', 'icon' => 'star');
+$lang['gritter_site_disabled'] 	 = array('title' => 'Site Disabled', 'text' => 'The site has been disabled, editors will not be able to view this site in thier account.', 'icon' => 'star-empty');

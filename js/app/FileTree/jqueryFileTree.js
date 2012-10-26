@@ -41,6 +41,10 @@ if(jQuery) (function($){
 			
 			if( o.root == undefined ) o.root = '/';
 			if( o.script == undefined ) o.script = 'jqueryFileTree.php';
+			if( o.server == undefined ) o.script = 'ftp.server.com';
+			if( o.user == undefined ) o.script = 'username';
+			if( o.password == undefined ) o.script = 'password';
+			if( o.path == undefined ) o.script = '/';
 			if( o.folderEvent == undefined ) o.folderEvent = 'click';
 			if( o.expandSpeed == undefined ) o.expandSpeed= 500;
 			if( o.collapseSpeed == undefined ) o.collapseSpeed= 500;
@@ -52,9 +56,9 @@ if(jQuery) (function($){
 			if( o.getFolder == undefined ) o.getFolder = false;
 			$(this).each( function() {
 				
-				function showTree(c, t) {
+				function showTree(c, t, server, user, password, path) {
 					$(c).addClass('wait');
-					$.post(o.script, { dir: t }, function(data) {
+					$.post(o.script, { dir: t, server: server, username: user, password: password, path: path }, function(data) {
 						$(".FileTree.start").remove();
 						$(c).find('.start').html('');
 						$(c).removeClass('wait').append(data);
@@ -82,7 +86,7 @@ if(jQuery) (function($){
 									$(this).parent().parent().find('LI.directory').removeClass('expanded').addClass('collapsed');
 								}
 								$(this).parent().find('UL').remove(); // cleanup
-								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )) );
+								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )), o.server, o.user, o.password, o.path);
 								$(this).parent().removeClass('collapsed').addClass('expanded');
 							} else {
 								// Collapse
@@ -108,7 +112,7 @@ if(jQuery) (function($){
 				// Loading message
 				$(this).html('<div class="FileTree start">' + o.loadMessage + '</div>');
 				// Get the initial file list
-				showTree( $(this), escape(o.root));
+				showTree( $(this), escape(o.root), o.server, o.user, o.password, o.path);
 			});
 		}
 	});

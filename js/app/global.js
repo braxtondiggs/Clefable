@@ -49,17 +49,6 @@ $(function() {
         });
         return false;
     });
-    $(".site_status").bind("click", function() {
-        var text = $(this).children('span:not(.cmsicon)');
-         var link = $(this);
-        if ($(text).text() == "enabled") {
-            $(this).find('.status-green').addClass('status-red').removeClass('status-green')
-            $(text).text('disabled');
-        }else if ($(text).text() == "disabled") {   
-            $(this).find('.status-red').addClass('status-green').removeClass('status-red');
-            $(text).text('enabled');
-        }
-    });
     $(".gritter-notify").livequery(function() {
 	$.GritControl({'title': $(this).children('.gritter-title').text(), 'text':$(this).children('.gritter-text').text(), 'icon':$(this).children('.gritter-icon').text()});
     });
@@ -87,6 +76,21 @@ $(function() {
         $(".jQTabs").tabs().children('ul').removeClass('ui-widget-header').addClass('ui-widget-header-tab');
         $(".button").button();
         $(".formular").validationEngine('attach');
+	$(".geticon").livequery(function() {//refers to icons for Manage Websites page, grabs the favicon
+		var prependto, href, iconclass = "cmsicon";
+		if ($('#cymbitcms-page').hasClass('dashboard')) {
+			href = $(this).attr("title");
+			iconclass = iconclass + "iconpadding";
+			prependto = $(this);
+		}else if($('#cymbitcms-page').hasClass('manage_sites') || $('#cymbitcms-page').hasClass('users')) {
+			href= 'http://'+$(this).text();
+			prependto = $(this).parent('td').prev('td').find('.icon_home, .groupname');
+		}
+		$('<img>',{'src':'http://g.etfv.co/'+href+'?defaulticon=lightpng'})
+        .addClass(iconclass)
+        .prependTo(prependto);//handles favicon of the site
+		
+	});
         $("#dialog-confirm").livequery(function() {//Dialog with OK & Cancel button
 	    $.fx.speeds._default = 1000;//animation speed
 	    var x = (getScreenDimensions().screenWidth - $(this).width()) / 2;
@@ -101,11 +105,11 @@ $(function() {
 		hide: "fade",
 		position: 'center',
 		open: function() {
-                    if (y < 40) {//Mke sure the dialog doesn't go outside window
-                        $(this).parents('.ui-dialog').css({'top':'40px'});
-                    }
+                    //if (y < 40) {//Mke sure the dialog doesn't go outside window
+                    //    $(this).parents('.ui-dialog').css({'top':'40px'});
+                    //}
                     $(document).delegate('.ui-widget-overlay', 'click', function() {//close dialog if overlay is closed
-                        $("#dialog-confirm").dialog("close");
+                        $(this).dialog("close");
                     });
                     $(this).dialog( "option" , "title" ,$(this).attr('title'));
 		},
@@ -140,6 +144,33 @@ $(function() {
                         $(this).dialog("close");
                     }
                 }
+		});
+	});
+	$("#dialog-buttonless").livequery(function() {//dialog w/o any buttons
+	    $.fx.speeds._default = 1000;//animation speed
+	    var x = (getScreenDimensions().screenWidth - $(this).width()) / 2;
+	    var y = (getScreenDimensions().screenHeight - $(this).height()) / 2;
+	    $(this).dialog({
+		autoOpen: false,
+		resizable: false,
+		modal: true,
+		width: $(this).width(),
+		draggable: false,
+		show: "fade",
+		hide: "fade",
+		position: 'center',
+		open: function() {
+                    if (y < 40) {//Mke sure the dialog doesn't go outside window
+                        $(this).parents('.ui-dialog').css({'top':'40px'});
+                    }
+                    $(document).delegate('.ui-widget-overlay', 'click', function() {//close dialog if overlay is closed
+                        $("#dialog-confirm").dialog("close");
+                    });
+                    $(this).dialog( "option" , "title" ,$(this).attr('title'));
+		},
+		beforeClose: function(event, ui) {
+		    $(this).fadeOut(1000);
+		}
 		});
 	});
     }

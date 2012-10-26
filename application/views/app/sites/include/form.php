@@ -72,13 +72,17 @@
 			</label>
 		    </div>
 		<? }?>
-		<div style="<?= (!$is_new)?'display:none;':''; ?>">
+		<div style="margin-top:15px;<?= (!$is_new)?'display:none;':''; ?>">
 		    <label for="password">
 			<span>*</span>&nbsp;FTP Password&nbsp;
 		    </label>
 		    <input id="password" name="password" type="password" value="<?= $ftp_password; ?>" class="validate[required] text-rounded txt-xl" />
 		    <div style="margin: 15px 0;">
-			<a href="<?= base_url('app/ftp/test_connection'); ?>" class="button test_ftp left">Test</a><span id="ftp-msg" style="line-height: 2.5em;"></span>
+			<a href="<?= base_url('app/ftp/test_connection'); ?>" class="button test_ftp left" style="margin-right:15px;">Test</a>
+			<span style="margin-top: 9px;float: left;">
+			    <img id="ajax-loading" src="<?= base_url('css/images/indicator.gif'); ?>" class="ftp-alert" style="display:none;">
+			    <span id="ftp-msg"></span>
+			</span>
 		    </div>
 		</div>
 	    </div>
@@ -89,7 +93,7 @@
 		</label>
 		<input id="path" name="path" type="text" value="<?= $path; ?>" class="validate[required] text-rounded txt-xl" />
 		<div style="display: inline;">
-		    <a href="#" class="button browse-site"><span class="docarrow cmsicon"></span>Browse</a>
+		    <a href="<?= base_url('app/ftp/browse_index');?>" class="button asjax-action browse-site"><span class="docarrow cmsicon"></span>Browse</a>
 		</div>
 		<p>
 		    Select your homepage on your FTP server here, so that we can correctly<br />
@@ -198,13 +202,25 @@
 		$(this).parent('div').next('div').toggle().children('input[type="text"]').val("");
 	    });
 	    $('.test_ftp').click(function() {
+		$('.ftp-alert').show();
+		$('#ftp-msg').hide();
 		 $.ajax($(this).attr('href'), {
 		    type: "POST",
 		    data: $(".formular").serialize(),
 		    success: function(data) {
-			
+			$('.ftp-alert').hide();
+			$('#ftp-msg').show().html(data.output);
 		    }
 		 });
+		return false;
+	    });
+	    $('.browse-site').click(function() {
+		$('#dialog-buttonless').dialog("open").children('#dialog-buttonless-body').html('<div id="fileTree">s</div>');
+		var server = $('#address').val();var user = $('#user').val();var pass = $('#password').val();var path = $('#path').val();//From Formurlencode
+		$('#fileTree').fileTree({ root: '/', script: 'http://localhost/igniter/app/ftp/browse_index/', server: server, user: user, password: pass, path: path }, function(file) { 
+			$('#path').val(file);//selected file
+			$('#dialog-buttonless').dialog("close");
+		});
 		return false;
 	    });
 	});
