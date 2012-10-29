@@ -22,10 +22,13 @@ class Sites_model extends CI_Model {
         return TRUE;
         
     }
-    function get_sites() {
+    function get_sites($relative = FALSE) {
 	$this->db->select('sites.url, sites.name, sites.active, sites.sid');
         $this->db->from('sites');
         $this->db->where('sites.account', $this->session->userdata('account'));
+	if ($relative) {
+	    $this->db->where('sites.active', 1);
+	}
         $this->db->order_by("active", "desc");
         $this->db->order_by("created_date", "desc"); 
 	$query = $this->db->get();
@@ -69,7 +72,9 @@ class Sites_model extends CI_Model {
     }
     function get_num_sites($id = FALSE) {
         $id || $id = $this->session->userdata('account');
-        $query = $this->db->get_where('sites', array('account' => $id));
+	$this->db->select('sid');
+	$this->db->where('account', $id);
+	$query = $this->db->get('sites');
         return $query->num_rows();
     }
     function check_unique($input, $table, $sid) {
@@ -124,5 +129,16 @@ class Sites_model extends CI_Model {
             }
         }
         return $UID;
+    }
+    function _account_type($type =  FALSE) {
+	$type || $type = $this->session->userdata('account_type');
+	switch ($type) {
+	    case 1:
+		return "Free";
+	    break;
+	    case 2:
+		return "Undefined";
+	    break;
+	}
     }
 }

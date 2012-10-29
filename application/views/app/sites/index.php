@@ -29,14 +29,14 @@ $disable = '<span class="status-red cmsicon"></span><span>disabled</span>';
     <tbody>
         <?php foreach ($sites as $site) { ?>
 	    <tr>
-		<td>
-		    <span class="icon_home"></span>
+		<td style="max-width: 150px;">
+		    <span class="geticon" data-url="<?= $site->url;?>"></span>
 		    <a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="<?= ($site->active == 0)? 'disabled-link' : '';?>">
 			<?= $site->name; ?>
 		    </a>
 		</td>
-		<td>
-		    <?= (($site->active != 0) ? '<span class="geticon">' : '<span class="disabled-text geticon">').str_replace(array('http://', 'https://'), "", $site->url);?></span>
+		<td style="max-width: 150px;">
+		    <?= (($site->active == 0) ? '<span class="disabled-text">':'<span>').str_replace(array('http://', 'https://'), "", $site->url);?></span>
 		</td>
 		<td>
 		    <a href="<?= base_url('app/sites/edit/' . $site->sid); ?>"><span class="edit-doc cmsicon"></span>edit</a>
@@ -60,7 +60,7 @@ $disable = '<span class="status-red cmsicon"></span><span>disabled</span>';
         <tr>
             <td class="add-userbtn" colspan="5" style="padding:15px 0 15px 50px;font-weight:bold;">
                 <a href="<?php echo base_url("app/sites/create");?>">
-                    <span class="user-add cmsicon"></span>Register New Site
+                    <span class="newsite cmsicon"></span>Register New Site
                 </a>
             </td>
         </tr>

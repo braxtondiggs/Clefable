@@ -3,18 +3,20 @@
 class Default_Controller extends CI_Controller{
     function __construct() {
         parent::__construct();
+	$this->load->library('ion_auth');
 	$this->output->enable_profiler(TRUE);
     }
     function index(){
-	$this->load->library('ion_auth');
 	if (!$this->ion_auth->logged_in()) {
 	    redirect('login');
 	}
+	$this->load->model('Sites_model', 'sites');
         $this->template->title('Account Dashboard');
+	$this->template->set('sites', $this->sites->get_sites(TRUE));
+	$this->template->set('sidebar', array('app/list_sites', 'app/upgrade_1', 'app/help'));
 	$this->template->set_layout('default_app')->build('app/index');
     }
     function logout() {
-	$this->load->library('ion_auth');
 	$this->ion_auth->logout();
 	if ($this->input->is_ajax_request()) {
 	    header('Content-Type: application/json',true);

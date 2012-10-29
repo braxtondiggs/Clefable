@@ -1,6 +1,7 @@
 $(function() {
     var internal_error = "An internal error has occurred, the page will auto-refresh.";
     Init();
+    ddsmooth();
     $(".submit").bind("click", function() {
         var form = $(this).parents('form');
         if ($(".formular").validationEngine('validate')) {
@@ -13,7 +14,7 @@ $(function() {
 		    if(data.status == "success") {
 			window.location.href= data.redirect;
 		    }else if(data.status =="error") {
-			$(".validate_errors").html(data.output).slideDown('slow');
+			$.scrollTo($("#main h3").position().top, 600, {onAfter: function() {$(".validate_errors").html(data.output).slideDown('slow');}});
 		    } else {
 			alert(internal_error);
 			//window.location.reload();
@@ -51,6 +52,31 @@ $(function() {
     });
     $(".gritter-notify").livequery(function() {
 	$.GritControl({'title': $(this).children('.gritter-title').text(), 'text':$(this).children('.gritter-text').text(), 'icon':$(this).children('.gritter-icon').text()});
+	
+    });
+    $('.ghost').livequery(function() {
+	$(this).each(function(index) {// Adds the Ghost effect on textbox, this could be converted to a plugin
+	    if ($(this).val() === "" || $(this).val() === $(this).attr("title")) {
+		$(this).attr("value", $(this).attr("title")).css({"color": "#999"});
+		$(this).focusin(function() {
+		    if ($(this).val() === $(this).attr("title")) {
+			$(this).val("").css({"color": "#000000"});
+		    }
+		}).focusout(function() {
+		    if ($(this).val() === "") {
+			$(this).val($(this).attr("title")).css({"color": "#999"});
+		    }
+		});
+	    }
+	});
+    });
+    $("#usage_progressbar").livequery(function() {
+	    var progress = ((parseInt($('#usage_start').text()) / parseInt($('#usage_end').text())) * 100)
+	    //pull usage a mximums from DOM
+	    $(this).progressbar({
+		    value: progress
+	    });//jquery native progree bar
+	    if (progress <= 0) {$(this).children('.ui-progressbar-value').hide();}
     });
     function getScreenDimensions (){
         if (window.innerHeight) {
@@ -77,19 +103,7 @@ $(function() {
         $(".button").button();
         $(".formular").validationEngine('attach');
 	$(".geticon").livequery(function() {//refers to icons for Manage Websites page, grabs the favicon
-		var prependto, href, iconclass = "cmsicon";
-		if ($('#cymbitcms-page').hasClass('dashboard')) {
-			href = $(this).attr("title");
-			iconclass = iconclass + "iconpadding";
-			prependto = $(this);
-		}else if($('#cymbitcms-page').hasClass('manage_sites') || $('#cymbitcms-page').hasClass('users')) {
-			href= 'http://'+$(this).text();
-			prependto = $(this).parent('td').prev('td').find('.icon_home, .groupname');
-		}
-		$('<img>',{'src':'http://g.etfv.co/'+href+'?defaulticon=lightpng'})
-        .addClass(iconclass)
-        .prependTo(prependto);//handles favicon of the site
-		
+	    $('<img>',{'src':'http://g.etfv.co/'+$(this).attr('data-url')+'?defaulticon=lightpng'}).addClass('cmsicon').prependTo($(this));//handles favicon of the site
 	});
         $("#dialog-confirm").livequery(function() {//Dialog with OK & Cancel button
 	    $.fx.speeds._default = 1000;//animation speed
@@ -176,6 +190,16 @@ $(function() {
 		}
 		});
 	});
+    }
+    function ddsmooth() {
+	ddsmoothmenu.init({
+		mainmenuid: "smoothmenu1", //menu DIV id
+		orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+		classname: 'ddsmoothmenu', //class added to menu's outer DIV
+		//customtheme: ["#1c5a80", "#18374a"],
+		contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+	});
+	$("#smoothmenu1").height(function() {return $(".menu_standard li:first").height();}).disableSelection();
     }
 });
 

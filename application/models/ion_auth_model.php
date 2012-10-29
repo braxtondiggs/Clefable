@@ -626,7 +626,8 @@ class Ion_auth_model extends CI_Model
 
 		return $this->db->where('email', $email)
                                 ->where('username !=',  $this->session->userdata('QID'))
-		                ->count_all_results($this->tables['users']) > 0;
+                                ->limit(1)
+		                ->count_all_results($this->tables['users']) <= 0;
         }
 	/**
 	 * Identity check

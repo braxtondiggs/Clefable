@@ -13,6 +13,7 @@ class Users extends CI_Controller{
     function index(){
         if ($this->session->userdata('user_type') == 1) {
 	    $this->template->title('Users and Permissions');
+	    $this->template->set('sidebar', array('app/upgrade_2', 'app/help'));
 	    $this->template->set_layout('default_app')->build('app/users/index');
 	}else {
 	    $QID = $this->session->userdata("QID");
@@ -22,7 +23,7 @@ class Users extends CI_Controller{
     }
     function create() {
 	if ($this->session->userdata('user_type') == 1) {    
-	    if ($this->ion_auth->get_num_user() > 3) {
+	    if ($this->ion_auth->get_num_user() > $config['max_users']) {
 		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_user')));
 		redirect('app/users');
 	    }
@@ -94,13 +95,14 @@ class Users extends CI_Controller{
 			    if($this->session->userdata("user_type") == 1) {
 				$this->session->set_userdata('impersonate', true);
 				$this->session->set_flashdata('gritter', array($this->lang->line('gritter_impersonate'), $this->lang->line('gritter_impersonate_exit')));
+				$output = array('status' => "success", 'redirect' => base_url('app'));
 			    }
 			}else{
 			    $this->session->unset_userdata('impersonate');
 			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_impersonate_done')));
+			    $output = array('status' => "reload");
 			}
 			$this->session->set_userdata('user_type', $user->user_type);
-			$output = array('status' => "reload");
 		    }
 		}
 	    }
@@ -166,7 +168,7 @@ class Users extends CI_Controller{
 		    }
 		}else {//edit
 		    if ($this->ion_auth->username_check($id)) {
-			if (!$this->ion_auth->is_my_email($email)) {
+			if ($this->ion_auth->is_my_email($email)) {
 			    $gritter = array();$redirect = base_url('app/users');
 			    $this->ion_auth->update($id, array('first_name' => set_value('first_name'), 'last_name' => set_value('last_name'), 'email' => set_value('email'), 'language' => set_value('language')));
 			    if ($this->input->post('new_password') == true) {//Password Change
@@ -186,8 +188,6 @@ class Users extends CI_Controller{
 			    }
 			    if ($this->session->userdata('account_type') != 1) {
 				$this->ion_auth->update($id, array('user_type' => set_value('account_type')));
-			    }else {
-				$redirect = base_url('app');
 			    }
 			    if ($this->session->userdata("QID") === $id) {
 				array_push($gritter, $this->lang->line('gritter_self_edit'));

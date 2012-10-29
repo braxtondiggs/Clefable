@@ -74,7 +74,11 @@
 			<input id="editor" name="account_type" type="radio" class="validate[required]" value="2" <?php echo ($type == "2")?"checked=\"checked\"":"";?> <?php echo ($account_type == "1" && $type == "1")?"disabled=\"disabled\"":"";?>/>
 			<label for="editor" style="display: inline;">Editor&nbsp;</label>
 		    </div>
-		<?php } ?>
+		    <?php if ($this->session->userdata('account_type') == 1) { ?>
+			<div class="warning">
+			    Only Business Accounts can have more than one Account Administrator. Upgrade to a Business Account.
+			</div>
+		<?php }} ?>
 		<?php if (!(isset($is_new) && $is_new)) { ?>
 		<div class="form-item">
 		    <input id="new_password" name="new_password" type="checkbox" value="true" />
@@ -98,6 +102,9 @@
 		<?php } ?>
 	    </div>
 	    <br class="clr" />
+	</div>
+	<div id="tabs-2" class="Form_Block">
+	    Permission
 	</div>
     </div>
     <p>&nbsp;</p>

@@ -23,11 +23,11 @@
     </thead>
     <tbody>
 	<?php foreach($this->ion_auth->users($this->session->userdata("account"))->result() as $user) {?>
-		<tr id = "<?= $user->username?>">
-			<td>
+		<tr>
+			<td style="max-width: 150px;">
 				<span class="<?php echo ($user->user_type == 1) ? "user": "user-share";?> cmsicon"></span><?php echo $user->first_name." ".$user->last_name;?>
 			</td>
-			<td>
+			<td style="max-width: 150px;">
 				<?php echo $user->email;?>
 			</td>
 			<td>

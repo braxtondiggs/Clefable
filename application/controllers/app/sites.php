@@ -15,6 +15,7 @@ class Sites extends CI_Controller{
         if ($this->session->userdata('user_type') == 1) {
 	    $this->template->title('Manage Sites');
 	    $this->template->set('sites', $this->sites->get_sites());
+	    $this->template->set('sidebar', array('app/sites_usage', 'app/account_type', 'app/help'));
 	    $this->template->set_layout('default_app')->build('app/sites/index');
 	}else {
 	    $this->template->title('Manage Sites');
@@ -25,7 +26,7 @@ class Sites extends CI_Controller{
     
     function create() {
         if ($this->session->userdata('user_type') == 1) {    
-	    if ($this->sites->get_num_sites() > 3) {
+	    if ($this->sites->get_num_sites() > $config['max_sites']) {
 		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_sites')));
 		redirect('app/sites');
 	    }
@@ -170,7 +171,7 @@ class Sites extends CI_Controller{
 		$additional_data = array('url' => $url, 'name' => $site_name, 'server' => $address, 'ftp_username' => $user, 'ftp_password' => $password, 'path' => $path, 'keyword' => $keyword, 'ftp_mode' => $mode, 'ftp_port' => $port, 'extra_password' =>  $passkey_value);
 		if ($this->_test_ftp_connection($address, $user, $password, $port, FALSE)) {
 		    if ($id === null) {
-			if ($this->sites->get_num_sites() > 3) {
+			if ($this->sites->get_num_sites() > $config['max_sites']) {
 			    $this->sites->create($additional_data);
 			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_create'), $this->lang->line('gritter_site_next')));
 			}else {

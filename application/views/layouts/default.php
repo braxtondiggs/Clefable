@@ -15,8 +15,8 @@
 			</div>
 			<div id="main">
 				<div id="main_container">
-					<div id="content<?php echo (isset($sidebar))?"":"_wide"; ?>">
-						<?php echo $template['body']; ?>
+					<div id="content<?= (isset($sidebar))?"":"_wide"; ?>">
+						<?= $template['body']; ?>
 					</div>
 					<?php include('include/default/sidebar/index.php');?>
 				</div>
