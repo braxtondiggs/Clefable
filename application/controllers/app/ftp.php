@@ -3,6 +3,7 @@
 class Ftp extends CI_Controller{
     function __construct() {
         parent::__construct();
+	$this->load->model('Sites_model', 'sites');
 	$this->load->library(array('ftp'));
 	if (!$this->ion_auth->logged_in()) {
 	    redirect('login');
@@ -37,17 +38,27 @@ class Ftp extends CI_Controller{
         }else {
             show_404();
         }
-        
     }
-    function browse_index() {
+    function browse_file($action = null, $id = null) {
 	if ($this->input->is_ajax_request()) {
-	    $ftp_server = trim($this->input->post('server'));
-	    $ftp_user = trim($this->input->post('username'));
-	    $ftp_password = trim($this->input->post('password'));
-	    $port = trim($this->input->post('port'));
-	    $dir = trim($this->input->post('dir'));
-	    $sftp = $this->input->post('SFTP');
+	   // if ($id == null) {
+		$ftp_server = trim($this->input->post('server'));
+		$ftp_user = trim($this->input->post('username'));
+		$ftp_password = trim($this->input->post('password'));
+		$port = trim($this->input->post('port'));
+		$dir = trim($this->input->post('dir'));
+		$sftp = $this->input->post('SFTP');
+	    //}else {
+		
+	    //}
 	    
+	    if ($action === "index") {
+		$allowed_extentions = array("htm", "html", "php");
+	    }else if ($action === "img") {
+		$allowed_extentions = array("jpg", "jpeg", "gif", "png", "bmp", "psd", "pxd");
+	    }else if ($action === "docs") {
+		$allowed_extentions = array("txt", "pdf", "doc", "docx", "log", "rtf", "ppt", "pptx", "swf");
+	    }
 	    $this->_open_connection($ftp_server, $ftp_user, $ftp_password, $port, $sftp);
 	    $ftp_nlist = $this->ftp->list_files($dir);
 	    sort($ftp_nlist);
@@ -64,7 +75,6 @@ class Ftp extends CI_Controller{
   		if (!(@ftp_size($this->ftp->conn_id, $dir.$file) == '-1')) {
 		    //output as file
 		    $ext = preg_replace('/^.*\./', '', $file);
-		    $allowed_extentions = array("htm", "html", "php");
 		    if (in_array($ext, $allowed_extentions)) {
 	  		$output .= '<li class="file ext_' . $ext . '"><a href="' . htmlentities($file) . '" rel="' .$dir.htmlentities($file) . '">' . htmlentities($file) . '</a></li>';
 	  	    }

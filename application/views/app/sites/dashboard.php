@@ -22,7 +22,7 @@
     </h4>
     <p>Click to open the sitemap.</p>
 </a>
-<a href="<?= base_url('app'); ?>" class="nav-section assets">
+<a href="<?= base_url('app/ftp/assets/' . $site->sid); ?>" class="nav-section assets-action">
     <h4 class="underline">
         <span class="image_icon cmsicon"></span>Digital Assets
     </h4>
@@ -52,3 +52,25 @@
     </h4>
     <p>Click to manage intergration settings.</p>
 </a>
+<script type="text/javascript">
+    $(function() {
+	$('.assets-action').click(function() {
+	    $('#dialog-buttonless').css({'min-height':'600px', 'padding': '.5em 0px'}).dialog({ title: "Assets Manager", width: '90%'}).dialog('open');
+	    $('#dialog-buttonless #manager').fileTree({ root: '/', script: '<?= base_url('app/ftp/browse_file/img/' . $site->sid); ?>', server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', path: '<?= $site->path ?>', multiFolder: false, getFolder: true}, function(file) { //once connection has been established
+		if (file !== null) {
+		    var img = file.substr(0, file.length-1).split(',');//array of files returned 
+		    var len=img.length;
+		    $("#assets").empty();//clear empty images
+		    for(var i=0; i<len; i++) {//go throughall files
+			$("#assets").append('<div id="digitalimg_'+i+'"class="asset_img_cont"><img class="asset_img" src="'+jQuery.trim($(".breadCrumb").find("li:last").text())+img[i]+'" style="display:none;" /></div>');//Add images to DOM to choose from 
+		    }
+		}
+	    });
+	    $("#assest_manager, #asset_body").height(function() { return ($("#ModalWindow").parents('#dialog-buttonless').height() -5);});//custom fit dialog to size of window screen
+	return false;
+	});
+    });
+</script>
+<?php
+$data['html'] = '<div id="ModalWindow">' . $this->load->view('app/include/modal/HTML/assets', '', TRUE) . '</div>';
+$this->load->view('app/include/modal/buttonless', $data); ?>

@@ -215,7 +215,7 @@
 	    $('.browse-site').click(function() {
 		$('#dialog-buttonless').dialog({ title: "FTP Browser" }).dialog('open').children('#dialog-buttonless-body').html('<div id="fileTree"></div>');
 		var server = $('#address').val();var user = $('#user').val();var pass = $('#password').val();var path = $('#path').val();//From Formurlencode
-		$('#fileTree').fileTree({ root: '/', script: '<?= base_url('app/ftp/browse_index'); ?>', server: server, user: user, password: pass, path: path }, function(file) { 
+		$('#fileTree').fileTree({ root: '/', script: '<?= base_url('app/ftp/browse_file/index'); ?>', server: server, user: user, password: pass, path: path }, function(file) { 
 			$('#path').val(file);//selected file
 			$('#dialog-buttonless').dialog("close");
 		});

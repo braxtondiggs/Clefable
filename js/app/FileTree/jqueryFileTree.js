@@ -41,10 +41,10 @@ if(jQuery) (function($){
 			
 			if( o.root == undefined ) o.root = '/';
 			if( o.script == undefined ) o.script = 'jqueryFileTree.php';
-			if( o.server == undefined ) o.script = 'ftp.server.com';
-			if( o.user == undefined ) o.script = 'username';
-			if( o.password == undefined ) o.script = 'password';
-			if( o.path == undefined ) o.script = '/';
+			if( o.server == undefined ) o.server = 'ftp.server.com';
+			if( o.user == undefined ) o.user = 'username';
+			if( o.password == undefined ) o.password = 'password';
+			if( o.path == undefined ) o.path = '/';
 			if( o.folderEvent == undefined ) o.folderEvent = 'click';
 			if( o.expandSpeed == undefined ) o.expandSpeed= 500;
 			if( o.collapseSpeed == undefined ) o.collapseSpeed= 500;
