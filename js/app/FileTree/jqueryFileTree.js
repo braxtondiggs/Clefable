@@ -112,7 +112,7 @@ if(jQuery) (function($){
 				// Loading message
 				$(this).html('<div class="FileTree start">' + o.loadMessage + '</div>');
 				// Get the initial file list
-				showTree( $(this), escape(o.root), o.server, o.user, o.password, o.path);
+				showTree( $(this), escape(o.root), escape(o.server), escape(o.user), escape(o.password), escape(o.path));
 			});
 		}
 	});

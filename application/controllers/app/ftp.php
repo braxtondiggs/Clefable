@@ -82,17 +82,34 @@ class Ftp extends CI_Controller{
 	    }
 	    echo $output . '</ul>';
 	    //print_r($this->ftp->list_files());
+	    //header('Content-Type: application/json',true);
+	    //echo json_encode(array('status' => 'success', 'dialog' => 'buttonless', 'output' => array('title' => 'FTP Browser', 'text' =>  $output . '</ul>')));
 	    $this->ftp->close();
 	}else {
             show_404();
         }
-    } 
+    }
+    function save_file($sid = null) {
+	if ($this->input->is_ajax_request()) {
+	    $file = trim($this->input->post('file'));
+	    $ftp_server = trim($this->input->post('server'));
+		$ftp_user = trim($this->input->post('username'));
+		$ftp_password = trim($this->input->post('password'));
+		$port = trim($this->input->post('port'));
+		$dir = trim($this->input->post('dir'));
+		$sftp = $this->input->post('SFTP');
+	    $this->_open_connection($ftp_server, $ftp_user, $ftp_password, $port, $sftp);
+	    $this->ftp->close();
+	}else {
+            show_404();
+        }
+    }
     private function _open_connection($server, $user, $password, $port, $sftp) {
 	$config['hostname'] = $server;
 	$config['username'] = $user;
 	$config['password'] = $password;
 	$config['port']     = 21;
-	$config['passive']  = FALSE;
+	$config['passive']  = TRUE;
 	$config['debug']    = TRUE;
 	
 	$this->ftp->connect($config);

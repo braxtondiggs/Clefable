@@ -16,7 +16,7 @@
 </div>
 <h3 class="underline"><?= $template['title']; ?></h3>
 <p>Start editing your site, images, documents or templates from here.</p>
-<a href="<?= base_url('app/pages'); ?>" class="nav-section sitemap">
+<a href="<?= base_url('app/pages/manage/' . $site->sid); ?>" class="nav-section sitemap">
     <h4 class="underline">
         <span class="sitemap_blue cmsicon"></span>Site Pages
     </h4>

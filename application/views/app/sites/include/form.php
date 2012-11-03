@@ -37,7 +37,7 @@
 		<label for="url">
 		    <span>*</span>&nbsp;Site URL&nbsp;
 		</label>
-		<input id="url" name="url" type="text" value="<?= $url;?>" class="validate[required,custom[url]] text-rounded txt-xxl" />
+		<input id="url" name="url" type="text" value="<?= $url;?>" class="validate[required,custom[url]] text-rounded txt-xl" />
 		<p>Example: http://www.examplesite.com/</p>
 	    </div>
 	    <div class="form-item">
