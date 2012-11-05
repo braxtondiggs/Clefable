@@ -75,7 +75,7 @@ body{width:100%;}
 #sidebar_container .clients p {margin-top:10px;}
 
 /********** footer **********/
-#footer { background:#e5e5e5; border-top:1px solid #dbdbdb;position:relative;margin-top: -72px;height: 72px;clear:both;font-size:0.875em;}
+#footer { background:#e5e5e5; border-top:1px solid #dbdbdb;position:relative;/*margin-top: -72px;*/height: 72px;clear:both;font-size:0.875em;}
 #footer .resize { width:920px; margin:0 auto;}
 #footer .resize div { padding:20px 0; color:#8d8d8d;}
 #footer .resize div a { color:#8d8d8d;}

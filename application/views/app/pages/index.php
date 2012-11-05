@@ -29,7 +29,10 @@
 <?php foreach($directories as $directory) {?>
     <a href="<?= base_url('app/pages/manage/'  . $site->sid . '/' . urlencode(base64_encode($url_path . $directory))); ?>" class="site page_folder">
 	<span class="icon_lrg folders"></span>
-     	<h4><?= ucwords($directory); ?></h4>
+     	<span class="page_menu delete_folder">
+	    <span class="delete cmsicon" title="Delete <?= $directory;?> page"></span>
+        </span>
+	<h4><?= ucwords($directory); ?></h4>
         <p><?=  $url_path . $directory; ?></p>
     </a>
 <?php } ?>

@@ -4,6 +4,7 @@ class Ftp extends CI_Controller{
     function __construct() {
         parent::__construct();
 	$this->load->model('Sites_model', 'sites');
+	$this->load->model('Pages_model', 'pages');
 	$this->load->library(array('ftp'));
 	if (!$this->ion_auth->logged_in()) {
 	    redirect('login');
@@ -91,14 +92,21 @@ class Ftp extends CI_Controller{
     }
     function save_file($sid = null) {
 	if ($this->input->is_ajax_request()) {
+	    $qid = $this->session->userdata("QID");
 	    $file = trim($this->input->post('file'));
 	    $ftp_server = trim($this->input->post('server'));
-		$ftp_user = trim($this->input->post('username'));
-		$ftp_password = trim($this->input->post('password'));
-		$port = trim($this->input->post('port'));
-		$dir = trim($this->input->post('dir'));
-		$sftp = $this->input->post('SFTP');
+	    $ftp_user = trim($this->input->post('username'));
+	    $ftp_password = trim($this->input->post('password'));
+	    $port = trim($this->input->post('port'));
+	    $dir = trim($this->input->post('dir'));
+	    $sftp = $this->input->post('SFTP');
 	    $this->_open_connection($ftp_server, $ftp_user, $ftp_password, $port, $sftp);
+	    if ($this->pages->_site_folder($qid)) {
+		if ($this->pages->_create_folder($qid, $file)) {
+		    $this->ftp->download($file, './CMS/' . $qid . $file);
+		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_page')));
+		}
+	    }
 	    $this->ftp->close();
 	}else {
             show_404();

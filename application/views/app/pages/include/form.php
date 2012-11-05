@@ -31,7 +31,7 @@ if (isset($site)) {
 	    </div>
 	    <div class="form-item">
 		<label for="path">File Path:</label>
-		<input id="path" name="path" type="text" value="<?= $path;?>" class="validate[required] text-rounded txt-xl" disabled="disabled"/>
+		<input id="path" name="path" type="text" value="<?= $url_path . $path;?>" class="validate[required] text-rounded txt-xl" disabled="disabled"/>
 	    </div>
 	    <p>&nbsp;</p>
 	    <h3>There is more to come here!! We promise!!</h3>

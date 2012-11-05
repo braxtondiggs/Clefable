@@ -12,7 +12,7 @@
 	</a>
     </div>
     <div>
-	<a href="<?= base_url('app/folder/create')?>" class="button ajax-action">
+	<a href="<?= base_url('app/pages/create/folder/' . $this->uri->segment(5))?>" class="button ajax-action">
 	    <span class="newfolder cmsicon"></span>Create New Folder
 	</a>
     </div>
@@ -23,9 +23,8 @@
 	    var action = $(this);
 	    $('#dialog-confirm').children('#dialog-confirm-body').html('<div id="fileTree"></div>').find('#fileTree').height('500px');
 	    $('#dialog-confirm').dialog({ title: "Add File"}).dialog('open').dialog({buttons: {"Ok": function() {
-		$.post('<?= base_url('app/ftp/save_file/' .$site->sid); ?>', {file: $('.jqueryFileTree .selected').attr('rel'), server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', path: '<?= $site->path ?>'});
-                         $(this).dialog("close");
-                         
+		$.post('<?= base_url('app/ftp/save_file/' .$site->sid); ?>', {file: $('.jqueryFileTree .selected').attr('rel'), server: '<?= $site->server ?>', username: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', path: '<?= $site->path ?>'}, function() {window.location.reload();});
+                        $(this).dialog("close");
                     },
                     "Cancel": function() {
                         $(this).dialog("close");
