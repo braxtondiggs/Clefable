@@ -48,6 +48,22 @@ class Pages_model extends CI_Model {
 	    return TRUE;
 	}
     }
+    function _create_file($sid = null, $folder = null) {
+	if(!is_dir('./CMS/' . $sid . $folder)) {
+	    $path = dirname((substr($folder, 0 ,1) === "/")?substr($folder, 1):$folder);
+	    if(!is_dir('./CMS/' . $sid . $path)) {
+		if (write_file('./CMS/' . $sid . '/' . $path, 'empty')) {
+		    return TRUE;
+		}else {
+		    return FALSE;
+		}
+	    }else {
+		return TRUE;
+	    }
+	}else {
+	    return TRUE;
+	}
+    } 
     function _create_folder($sid = null, $folder = null) {
 	if(!is_dir('./CMS/' . $sid . $folder)) {
 	    $path = dirname((substr($folder, 0 ,1) === "/")?substr($folder, 1):$folder);

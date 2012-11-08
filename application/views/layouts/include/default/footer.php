@@ -1,7 +1,10 @@
 <?php
 if (!empty($this->session)) {
 	$gritter = $this->session->flashdata('gritter');
-	if (! empty($gritter)) {
+	if (!empty($gritter) || ! empty($gritter_instant)) {
+		$gritter = (is_array($gritter))?$gritter:array();$gritter_instant = (is_array($gritter_instant))?$gritter_instant:array();
+		//$gritter_merge = array_merge($gritter, $gritter_instant);
+		//echo print_r($gritter_merge);
 		foreach($gritter as $key) {
 			echo '<div class="gritter-notify" style="display:none;">
 				<span class="gritter-title">' . $key['title'] . '</span>

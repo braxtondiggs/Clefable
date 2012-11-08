@@ -92,7 +92,6 @@ class Ftp extends CI_Controller{
     }
     function save_file($sid = null) {
 	if ($this->input->is_ajax_request()) {
-	    $qid = $this->session->userdata("QID");
 	    $file = trim($this->input->post('file'));
 	    $ftp_server = trim($this->input->post('server'));
 	    $ftp_user = trim($this->input->post('username'));
@@ -101,9 +100,9 @@ class Ftp extends CI_Controller{
 	    $dir = trim($this->input->post('dir'));
 	    $sftp = $this->input->post('SFTP');
 	    $this->_open_connection($ftp_server, $ftp_user, $ftp_password, $port, $sftp);
-	    if ($this->pages->_site_folder($qid)) {
-		if ($this->pages->_create_folder($qid, $file)) {
-		    $this->ftp->download($file, './CMS/' . $qid . $file);
+	    if ($this->pages->_site_folder($sid)) {
+		if ($this->pages->_create_folder($sid, $file)) {
+		    $this->ftp->download($file, './CMS/' . $sid . $file);
 		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_page')));
 		}
 	    }
@@ -111,6 +110,9 @@ class Ftp extends CI_Controller{
 	}else {
             show_404();
         }
+    }
+    function get_file($sid = null) {
+	echo $this->input->post('src', TRUE);;
     }
     private function _open_connection($server, $user, $password, $port, $sftp) {
 	$config['hostname'] = $server;

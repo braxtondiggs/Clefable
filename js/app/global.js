@@ -78,6 +78,59 @@ $(function() {
 	    });//jquery native progree bar
 	    if (progress <= 0) {$(this).children('.ui-progressbar-value').hide();}
     });
+    $(".asset_img_cont").livequery(function() {//Asset Manager images and documents
+        $(this).hover(function() { 
+        var asset = $(this);var img = asset.children('img');var position = asset.position();var img_src = img.attr("src");var w_img = img.width(); var h_img = img.height();var img_size = "Small";
+	if(w_img <= 249)img_size = "Small";else if(w_img >=250 && w_img <= 499)img_size = "Medium";else if(w_img >=500)img_size = "Large";//declare vars
+            $('#asset_helper').css({'top':function() {return (position.top+5);}, 'left':function() {return (position.left-($(this).width())-11);}}).show().data("pixlr", {src: img_src});//information window located next to the image
+	    if (img.attr('class') == "asset_img") {//insides for the helper, only images
+                $("#asset_helper").find('.asset_helper_title').addClass(asset.attr('id')).find('.img_title').text(img_src.substring(img_src.lastIndexOf('/')+1)).end().end().find('#asset_img_src').attr('href', img_src).end().find('.size .img_size').text(img_size).end().find('.size .img_width').text(w_img).end().find('.size .img_height').text(h_img);
+	    }else if (img.attr('class') == "asset_doc") {//info window for documents only
+		$('#asset_helper').html("<p class=\""+asset.attr('id')+"\">"+$(this).find('#doc_title').text()+"</p><div class=\"right\"><a href=\"#\" class=\"button coming_soon\" title=\"Edit Image\" style=\"margin-right:6px;\"><span class=\"edit cmsicon\"></span>Edit</a><a href=\"#\" class=\"button coming_soon\" title=\"Delete Image\"><span class=\"delete cmsicon\"></span>Delete</a></div >");	
+	    }
+        }, function() {                
+            $('#asset_helper').hide();
+	});
+    });
+    $("#asset_helper").livequery(function() {//functionality for assest helper 
+	$(this).hover(function() { 
+	    $(this).show();
+	    $(this).stop().fadeTo("fast", 1.0);
+        }, function() {
+	    $(this).stop().fadeTo("fast",0.75);
+	    $('#asset_helper').hide();
+        });
+    });
+    $("img.asset_img, img.asset_doc").livequery(function() {//image block, gives cool transition effect once image has loaded
+	$(this).one('load',function() {
+  	    $(this).fadeIn(700).css('display',"block");
+	}).each(function() {
+ 	    if (this.complete) $(this).trigger('load');
+	});
+    });
+    /*$("#asset_helper .edit-imgbtn").livequery(function() {//edit button inside helper window
+        $(this).click(function() {
+            pixlr.settings.target = 'http://cymbit.com/site/js/pixlr/asset_save?SID='+$("#main").find('.push-cymbit').attr('id').split('_')[0]+'&src='+src;//place to save image posted back from pixlr
+	    pixlr.overlay.show({image: "http://cymbit.com/site/CMS/"+$('body').attr('class')+src.replace(/^[^\/]*(?:\/[^\/]*){2}/, ""), title: src.substring(src.lastIndexOf('/')+1), service:'express'})//init pixlr
+			var src = $("#asset_helper .edit-imgbtn").parents('#asset_helper').children('a').attr('href');//src of image
+			var select_img = $("#asset_helper .edit-imgbtn").parents('#asset_helper').children('p').attr('class');
+			$('#assets #'+select_img+' img').addClass('img_changed');//addes class to tell pixlr to update
+			$.ajax('include/ftp/file_get.php', {//grabs files off users server
+			async: true,
+			type: 'POST',
+			data: 'SID='+$("#main").find('.push-cymbit').attr('id').split('_')[0]+'&src='+src,
+  			success: function(data) {
+				Loading(false);
+				var src = $("#asset_helper .edit-imgbtn").parents('#asset_helper').children('a').attr('href');
+				pixlr.settings.target = 'http://cymbit.com/site/js/pixlr/asset_save?SID='+$("#main").find('.push-cymbit').attr('id').split('_')[0]+'&src='+src;//place to save image posted back from pixlr
+				pixlr.overlay.show({image: "http://cymbit.com/site/CMS/"+$('body').attr('class')+src.replace(/^[^\/]*(?:\/[^\/]*){2}/, ""), title: src.substring(src.lastIndexOf('/')+1), service:'express'})//init pixlr
+				
+			}
+		});
+			;
+			return false;
+		});
+	});*/
     function getScreenDimensions (){
         if (window.innerHeight) {
           screenWidth = window.innerWidth;
@@ -147,7 +200,7 @@ $(function() {
                                         $.GritControl({'title': data.output.gritter.title, 'text': data.output.gritter.text, 'icon': data.output.gritter.icon});
                                     }
                                 } else if(data.status == "reload") {
-                                    //window.location.reload();
+                                    window.location.reload();
                                 } else{
                                     alert(internal_error);
                                     //window.location.reload();

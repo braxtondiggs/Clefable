@@ -2,7 +2,7 @@
 <div class="breadCrumbHolder module">
     <div id="breadCrumb" class="breadCrumb module">
         <ul>
-    	<li>
+	    <li>
                 <a href="<?= base_url('app'); ?>">Account Dashboard</a>
             </li>
             <li>
@@ -39,13 +39,13 @@
         <span class="blue-documents cmsicon"></span>Manage Templates
     </h4>
     <p>Click here to manage your templates.</p>
-</a><!--
-	<?php //if ($_SESSION['Type'][$_SESSION['me']] == 0) {?>
-    <div class="nav-section activate">
-		<h4 class="underline"><span class="switch cmsicon"></span>Activate Features</h4>
-		<p>Use this page to turn site features on and off.</p>
-	</div>
-	<?php //if ($SID !== "XOujlec") { ?>-->
+</a>
+<a href="<?= base_url('app'); ?>" class="nav-section activate">
+	<h4 class="underline">
+	    <span class="switch cmsicon"></span>Activate Features
+	</h4>
+	<p>Use this page to turn site features on and off.</p>
+</a>
 <a href="<?= base_url('app/sites/edit/' . $site->sid);?>" class="nav-section edit_site">
     <h4 class="underline">
         <span class="ham_screw cmsicon"></span>Site Settings
@@ -55,7 +55,7 @@
 <script type="text/javascript">
     $(function() {
 	$('.assets-action').click(function() {
-	    $('#dialog-buttonless').css({'min-height':'600px', 'padding': '.5em 0px'}).dialog({ title: "Assets Manager", width: '90%'}).dialog('open');
+	    $('#dialog-buttonless').css({'min-height':'600px', 'padding': '.5em 0px', 'overflow':'hidden'}).dialog({ title: "Assets Manager", width: '90%'}).dialog('open');
 	    $('#dialog-buttonless #manager').fileTree({ root: '/', script: '<?= base_url('app/ftp/browse_file/img/' . $site->sid); ?>', server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', path: '<?= $site->path ?>', multiFolder: false, getFolder: true}, function(file) { //once connection has been established
 		if (file !== null) {
 		    var img = file.substr(0, file.length-1).split(',');//array of files returned 
@@ -69,8 +69,19 @@
 	    $("#assest_manager, #asset_body").height(function() { return ($("#ModalWindow").parents('#dialog-buttonless').height() -5);});//custom fit dialog to size of window screen
 	return false;
 	});
+	 $("#asset_helper .edit-imgbtn").click(function() {
+            $.ajax($(this).attr('href'),{
+		type: "POST",
+		data: {src: $('#asset_helper').data('pixlr').src},
+		success: function(data) {
+		}
+	    });
+	    //pixlr.settings.target = '<?= base_url('app/ftp/save_img/' . $site->sid); ?>';//place to save image posted back from pixlr
+	    //pixlr.overlay.show({image: "<?= base_url('CMS'); ?>"/"+$('body').attr('class')+src.replace(/^[^\/]*(?:\/[^\/]*){2}/, ""), title: src.substring(src.lastIndexOf('/')+1), service:'express'})//init pixlr
+	 return false;
+	 });
     });
 </script>
 <?php
-$data['html'] = '<div id="ModalWindow">' . $this->load->view('app/include/modal/HTML/assets', '', TRUE) . '</div>';
+$data['html'] = '<div id="ModalWindow">' . $this->load->view('app/include/modal/HTML/assets', $site, TRUE) . '</div>';
 $this->load->view('app/include/modal/buttonless', $data); ?>
