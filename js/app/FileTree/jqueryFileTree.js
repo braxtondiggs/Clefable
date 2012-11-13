@@ -44,7 +44,6 @@ if(jQuery) (function($){
 			if( o.server == undefined ) o.server = 'ftp.server.com';
 			if( o.user == undefined ) o.user = 'username';
 			if( o.password == undefined ) o.password = 'password';
-			if( o.path == undefined ) o.path = '/';
 			if( o.folderEvent == undefined ) o.folderEvent = 'click';
 			if( o.expandSpeed == undefined ) o.expandSpeed= 500;
 			if( o.collapseSpeed == undefined ) o.collapseSpeed= 500;
@@ -58,7 +57,9 @@ if(jQuery) (function($){
 				
 				function showTree(c, t, server, user, password, path) {
 					$(c).addClass('wait');
-					$.post(o.script, { dir: t, server: server, username: user, password: password, path: path }, function(data) {
+					if (t.charAt(t.length-1) !== "/") t = t + "/";
+					if (t.charAt(0) !== "/") t = "/" + t;
+					$.post(o.script, { dir: t, server: server, username: user, password: password}, function(data) {
 						$(".FileTree.start").remove();
 						$(c).find('.start').html('');
 						$(c).removeClass('wait').append(data);
@@ -112,7 +113,7 @@ if(jQuery) (function($){
 				// Loading message
 				$(this).html('<div class="FileTree start">' + o.loadMessage + '</div>');
 				// Get the initial file list
-				showTree( $(this), escape(o.root), escape(o.server), escape(o.user), escape(o.password), escape(o.path));
+				showTree( $(this), escape(o.root), escape(o.server), escape(o.user), escape(o.password));
 			});
 		}
 	});
