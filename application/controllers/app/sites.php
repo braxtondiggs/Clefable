@@ -76,6 +76,16 @@ class Sites extends CI_Controller{
 	    show_404();
 	}
     }
+    function features($sid = null) {
+	$sites = $this->sites->get_site($sid);
+	if ($sites) { 	
+	    $this->template->title('Activate Features');
+	    $this->template->set('site', $sites);
+	    $this->template->set_layout('default_app')->build('app/sites/features');
+	}else {
+	    redirect('app/sites');
+	}
+    }
     function status($action = null, $id = null) {
         $output = array('status' => 'fail');
 	$sites = $this->sites->get_site($id);
@@ -192,6 +202,16 @@ class Sites extends CI_Controller{
 	    show_404();
 	}
     }
+    function templates($sid = null) {
+	$sites = $this->sites->get_site($sid);
+	if ($sites) { 	
+	    $this->template->title('Manage Templates');
+	    $this->template->set('site', $sites);
+	    $this->template->set_layout('default_app')->build('app/sites/templates');
+	}else {
+	    redirect('app/sites');
+	}
+    }
     public function _is_valid_url($str) {
 	if(!filter_var($str, FILTER_VALIDATE_URL)) {
 	    $this->form_validation->set_message('_is_valid_url', 'Your URL is incorrect');
@@ -223,5 +243,22 @@ class Sites extends CI_Controller{
 	}
 	
 	ftp_close($conn_id);
+    }
+    function test() {
+	$params = array(
+   'www.cymbit.com', // site url
+   'yoursite.jpg',  // image filename
+   NULL,        // $custom_id 
+   NULL,        // $browserWidth 
+   NULL,        // $browserHeight
+   NULL,        // $width - width of the generated image
+   NULL,        // $height - height of the generated image
+   NULL,        // $format - the file format 
+   NULL                // $delay - milliseconds before the screenshot being taken
+);  
+
+$this->load->library('Grabzit');
+$result = $this->grabzit->grab_image($params);
+var_dump($result);
     }
 }

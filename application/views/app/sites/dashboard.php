@@ -34,13 +34,13 @@
     </h4>
     <p>Add or edit documents in your library.</p>
 </a>
-<a href="<?= base_url('app/sites/template'); ?>"class="nav-section templates">
+<a href="<?= base_url('app/sites/templates/' . $site->sid); ?>"class="nav-section templates">
     <h4 class="underline">
         <span class="blue-documents cmsicon"></span>Manage Templates
     </h4>
     <p>Click here to manage your templates.</p>
 </a>
-<a href="<?= base_url('app'); ?>" class="nav-section activate">
+<a href="<?= base_url('app/sites/features/' . $site->sid); ?>" class="nav-section activate">
 	<h4 class="underline">
 	    <span class="switch cmsicon"></span>Activate Features
 	</h4>
@@ -56,13 +56,13 @@
     $(function() {
 	$('.assets-action').click(function() {
 	    $('#dialog-buttonless').css({'min-height':'600px', 'padding': '.5em 0px', 'overflow':'hidden'}).dialog({ title: "Assets Manager", width: '90%'}).dialog('open');
-	    $('#dialog-buttonless #manager').fileTree({ root: '/', script: '<?= base_url('app/ftp/browse_file/img/' . $site->sid); ?>', server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', path: '<?= $site->path ?>', multiFolder: false, getFolder: true}, function(file) { //once connection has been established
+	    $('#dialog-buttonless #manager').fileTree({ root: '<?= dirname($site->path) ?>/', script: '<?= base_url('app/ftp/browse_file/img/' . $site->sid); ?>', server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', multiFolder: false, getFolder: true}, function(file) { //once connection has been established
 		if (file !== null) {
 		    var img = file.substr(0, file.length-1).split(',');//array of files returned 
 		    var len=img.length;
 		    $("#assets").empty();//clear empty images
 		    for(var i=0; i<len; i++) {//go throughall files
-			$("#assets").append('<div id="digitalimg_'+i+'"class="asset_img_cont"><img class="asset_img" src="'+jQuery.trim($(".breadCrumb").find("li:last").text())+img[i]+'" style="display:none;" /></div>');//Add images to DOM to choose from 
+			$("#assets").append('<div id="digitalimg_'+i+'" class="asset_img_cont"><img class="asset_img" src="<?= (substr($site->url, -1) !== '/')?$site->url: substr($site->url, 0, -1); ?>'+img[i]+'" data-file="'+img[i]+'" style="display:none;" /></div>');//Add images to DOM to choose from 
 		    }
 		}
 	    });
@@ -70,14 +70,16 @@
 	return false;
 	});
 	 $("#asset_helper .edit-imgbtn").click(function() {
-            $.ajax($(this).attr('href'),{
+            var src = $('#asset_helper').data('pixlr').src;
+	    alert(src);
+	    $.ajax($(this).attr('href'),{
 		type: "POST",
-		data: {src: $('#asset_helper').data('pixlr').src},
+		data: {file: src, server: '<?= $site->server ?>', username: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', notifyalert: false},
 		success: function(data) {
+		    pixlr.settings.target =''; //'http://cymbit.com/site/js/pixlr/asset_save?SID='+$("#main").find('.push-cymbit').attr('id').split('_')[0]+'&src='+src;//place to save image posted back from pixlr
+		    pixlr.overlay.show({image: '"<?= base_url('CMS/' . $site->sid);?>'+$('#asset_helper').data('pixlr').file+ '"', title: src.substring(src.lastIndexOf('/')+1), service:'express'})//init pixlr
 		}
 	    });
-	    //pixlr.settings.target = '<?= base_url('app/ftp/save_img/' . $site->sid); ?>';//place to save image posted back from pixlr
-	    //pixlr.overlay.show({image: "<?= base_url('CMS'); ?>"/"+$('body').attr('class')+src.replace(/^[^\/]*(?:\/[^\/]*){2}/, ""), title: src.substring(src.lastIndexOf('/')+1), service:'express'})//init pixlr
 	 return false;
 	 });
     });

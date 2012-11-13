@@ -1,5 +1,5 @@
 <div id="asset_container">
-	<div id="assest_manager" style="float:left;width: 20.5%;padding:1.5% 0 1.5% 1.5%;">
+	<div id="assest_manager" style="float:left;width: 20.5%;padding:1.5% 0 1.5% 1.5%;overflow-y: scroll;">
 		<div id="manager" style="overflow-x: hidden;height:90%;"></div>
 	</div>
 	<div id="asset_body" style="float:left;width:75.5%;padding: 1.5% 0px 1.5% 1%;">
@@ -13,7 +13,7 @@
 		<a id="asset_img_src" target="_blank">view full size in new window</a>
 		<p class="size">Size: <span class="img_size"></span> (<span class="img_width"></span>x<span class="img_height"></span>)</p>
 		<div class="right">
-			<a href="<?= base_url('app/ftp/get_file/' . $sid); ?>" class="button edit-imgbtn" title="Edit Image" style="margin-right:6px;">
+			<a href="<?= base_url('app/ftp/save_file/' . $sid); ?>" class="button edit-imgbtn" title="Edit Image" style="margin-right:6px;">
 				<span class="edit cmsicon"></span>Edit
 			</a>
 			<a href="<?= base_url('app/')?>" class="button ajax-action" title="Delete Image">

@@ -23,7 +23,7 @@
 	    var action = $(this);
 	    $('#dialog-confirm').children('#dialog-confirm-body').html('<div id="fileTree"></div>').find('#fileTree').height('500px');
 	    $('#dialog-confirm').dialog({ title: "Add File"}).dialog('open').dialog({buttons: {"Ok": function() {
-		$.post('<?= base_url('app/ftp/save_file/' .$site->sid); ?>', {file: $('.jqueryFileTree .selected').attr('rel'), server: '<?= $site->server ?>', username: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', path: '<?= $site->path ?>'}, function() {window.location.reload();});
+		$.post('<?= base_url('app/ftp/save_file/' .$site->sid); ?>', {file: $('.jqueryFileTree .selected').attr('rel'), server: '<?= $site->server ?>', username: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>'}, function() {window.location.reload();});
                         $(this).dialog("close");
                     },
                     "Cancel": function() {
@@ -31,7 +31,7 @@
                     }
 		}
 	    });
-	    $('#fileTree').fileTree({ root: '/', script: $(action).attr('href'), server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', path: '<?= $site->path ?>', selected: true}, function(file) {/*empty*/});
+	    $('#fileTree').fileTree({ root: '/', script: $(action).attr('href'), server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', selected: true}, function(file) {/*empty*/});
 	return false;
 	});
     });

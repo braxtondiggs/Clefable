@@ -49,6 +49,9 @@ class Ftp extends CI_Controller{
 		$port = trim($this->input->post('port'));
 		$dir = trim($this->input->post('dir'));
 		$sftp = $this->input->post('SFTP');
+		if ($dir === "/") {
+		    $dir = ""; 
+		}
 	    //}else {
 		
 	    //}
@@ -62,6 +65,7 @@ class Ftp extends CI_Controller{
 	    }
 	    $this->_open_connection($ftp_server, $ftp_user, $ftp_password, $port, $sftp);
 	    $ftp_nlist = $this->ftp->list_files($dir);
+	    
 	    sort($ftp_nlist);
 	    $output = '<ul class="jqueryFileTree" style="display: none;">';
 	    foreach ($ftp_nlist as $folder) {
@@ -72,6 +76,7 @@ class Ftp extends CI_Controller{
   		}
 	    }
 	    foreach ($ftp_nlist as $file) {
+		
 		//2. Size is not '-1' => file
   		if (!(@ftp_size($this->ftp->conn_id, $dir.$file) == '-1')) {
 		    //output as file
@@ -92,7 +97,7 @@ class Ftp extends CI_Controller{
     }
     function save_file($sid = null) {
 	if ($this->input->is_ajax_request()) {
-	    $file = trim($this->input->post('file'));
+	    $file = parse_url(trim($this->input->post('file'), PHP_URL_PATH));$file= $file['path'];
 	    $ftp_server = trim($this->input->post('server'));
 	    $ftp_user = trim($this->input->post('username'));
 	    $ftp_password = trim($this->input->post('password'));
@@ -110,9 +115,6 @@ class Ftp extends CI_Controller{
 	}else {
             show_404();
         }
-    }
-    function get_file($sid = null) {
-	echo $this->input->post('src', TRUE);;
     }
     private function _open_connection($server, $user, $password, $port, $sftp) {
 	$config['hostname'] = $server;
