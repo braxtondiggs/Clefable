@@ -15,9 +15,9 @@
 <?php
 foreach ($sites as $site) {
     if ($site->active == 1) {?>
-        <a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="site_dashboard nav-section">
+        <a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="nav-section" style="height:auto;">
             <h4 class="underline"><span class="geticon" data-url="<?= $site->url;?>"></span><?= $site->name; ?></h4>
-            <p>&lt;Placeholder for site snapshot&gt;</p>
+            <img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/>
         </a>
 <?php
     }

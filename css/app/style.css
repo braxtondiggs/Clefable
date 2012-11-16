@@ -18,7 +18,7 @@
 .nav-section:hover h4{color:#6EAC2C!important;}
 .nav-section h4 {margin:7px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 .nav-section h4 span{margin:3px 5px 0 0;}
-
+.nav-section img {display:block;margin:0 auto;}
 .table-standard {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
     font-size: 12px;
@@ -406,4 +406,28 @@ background-color: #FFF;
 }
 #asset_helper p {
 	margin: 0 0 1em;
+}
+.features h4 {margin:10px 0;}
+.features .half {
+	padding: 0 10px;
+	width:45%;
+}
+.features .half:last-child {
+	border-left:1px #CCC solid;
+}
+.features ul {
+	list-style-type: none;
+	padding: 0;
+	margin:0;
+}
+.features ul li {
+	border-bottom: 1px solid #EEE;
+	padding: 10px 0;
+	color: #8D8D8D;
+}
+.features ul li:hover {
+	border-bottom: 1px solid #DDD;
+}
+.features ul li span.checkbox {
+	float:right;
 }

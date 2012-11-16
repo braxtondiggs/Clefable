@@ -1,4 +1,4 @@
-<?php $site = $site[0]; ?>
+<?php $site = $site[0]; $activate = $activate[0]; ?>
 <div class="breadCrumbHolder module">
     <div id="breadCrumb" class="breadCrumb module">
         <ul>
@@ -22,24 +22,30 @@
     </h4>
     <p>Click to open the sitemap.</p>
 </a>
-<a href="<?= base_url('app/ftp/assets/' . $site->sid); ?>" class="nav-section assets-action">
-    <h4 class="underline">
-        <span class="image_icon cmsicon"></span>Digital Assets
-    </h4>
-    <p>Organize your various digital assets.</p>
-</a>
-<a href="<?= base_url('app'); ?>" class="nav-section doc_assets">
-    <h4 class="underline">
-        <span class="doc-pdf cmsicon"></span>Manage Documents
-    </h4>
-    <p>Add or edit documents in your library.</p>
-</a>
+<?php if ($activate->gallery) {?>
+    <a href="<?= base_url('app/ftp/assets/' . $site->sid); ?>" class="nav-section assets-action">
+	<h4 class="underline">
+	    <span class="image_icon cmsicon"></span>Digital Assets
+	</h4>
+	<p>Organize your various digital assets.</p>
+    </a>
+<? }?>
+<?php if ($activate->document) {?>
+    <a href="<?= base_url('app'); ?>" class="nav-section doc_assets">
+	<h4 class="underline">
+	    <span class="doc-pdf cmsicon"></span>Manage Documents
+	</h4>
+	<p>Add or edit documents in your library.</p>
+    </a>
+<?php } ?>
+<?php if ($activate->template) {?>
 <a href="<?= base_url('app/sites/templates/' . $site->sid); ?>"class="nav-section templates">
     <h4 class="underline">
         <span class="blue-documents cmsicon"></span>Manage Templates
     </h4>
     <p>Click here to manage your templates.</p>
 </a>
+<?php } ?>
 <a href="<?= base_url('app/sites/features/' . $site->sid); ?>" class="nav-section activate">
 	<h4 class="underline">
 	    <span class="switch cmsicon"></span>Activate Features

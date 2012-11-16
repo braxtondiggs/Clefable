@@ -7,6 +7,29 @@ class Sites_model extends CI_Model {
 	$this->load->database();
 	$this->load->helper('date');
     }
+    function activate($id = null, $type = 'update', $data = array()) {
+        if ($type === 'create') {
+            $data = array(
+            'sid'            => $id,
+	    'template'       => true,
+            'gallery'        => true,
+	    'document'       => false,
+	    'history'        => false,
+	    'rss'            => false,
+            'seo'            => true,
+            'navigation'     => false,
+            'page_permission'=> false,
+            'analytics'      => true,
+            'optimiztion'    => true,
+            'includes'       => false
+	);
+        $this->db->insert('activate', $site_data);
+        return TRUE;
+        }else if ($type === 'update') {
+            $this->db->update('activate', $data, array('activate.sid' => $id));
+            return TRUE;
+        }
+    }
     function create($additional_data = array()) {
         $sid = $this->_id_generator('sites', 'sid');
         $data = array(
@@ -34,6 +57,22 @@ class Sites_model extends CI_Model {
 	$query = $this->db->get();
 
 	return $query->result();
+    }
+    function get_features($id = null) {
+        if ($id != null) {
+            $this->db->select('activate.*');
+            $this->db->from('activate');
+            $this->db->where('activate.sid', $id);
+            $this->db->limit(1);
+            $query = $this->db->get();
+            if ($query->num_rows() > 0) {
+                return $query->result();;
+            }else {
+                return FALSE;
+            }
+        }else {
+            return FALSE;
+        }
     }
     
     function get_site($id = null) {

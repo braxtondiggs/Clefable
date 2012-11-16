@@ -39,9 +39,11 @@ class Sites extends CI_Controller{
     }
     function dashboard($id = null) {
 	$sites = $this->sites->get_site($id);
-	if ($sites) { 	
+	$activate = $this->sites->get_features($id);
+	if ($sites && $activate) { 	
 	    $this->template->title('Site Actions');
 	    $this->template->set('site', $sites);
+	    $this->template->set('activate', $activate);
 	    $this->template->set_layout('default_app')->build('app/sites/dashboard');
 	}else {
 	    redirect('app/sites');
@@ -76,14 +78,24 @@ class Sites extends CI_Controller{
 	    show_404();
 	}
     }
-    function features($sid = null) {
-	$sites = $this->sites->get_site($sid);
-	if ($sites) { 	
-	    $this->template->title('Activate Features');
-	    $this->template->set('site', $sites);
-	    $this->template->set_layout('default_app')->build('app/sites/features');
-	}else {
-	    redirect('app/sites');
+    function features($sid = null, $isajax = null, $item = null, $action = null) {
+	if ($isajax === null) {
+	    $sites = $this->sites->get_site($sid);
+	    $activate = $this->sites->get_features($sid);
+	    if ($sites && $activate) { 	
+		$this->template->title('Activate Features');
+		$this->template->set('site', $sites);
+		$this->template->set('activate', $activate);
+		$this->template->set_layout('default_app')->build('app/sites/features');
+	    }else {
+		redirect('app/sites');
+	    }
+	}else if($isajax === 'ajax'){
+	    if ($this->input->is_ajax_request()) {
+		$this->sites->activate($sid, 'update', array($item => ($action === "enable")?true:false));
+	    }else{
+		show_404();
+	    }
 	}
     }
     function status($action = null, $id = null) {

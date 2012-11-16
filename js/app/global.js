@@ -54,6 +54,12 @@ $(function() {
 	$.GritControl({'title': $(this).children('.gritter-title').text(), 'text':$(this).children('.gritter-text').text(), 'icon':$(this).children('.gritter-icon').text()});
 	
     });
+    $(".iButton").livequery(function() {
+        $(this).iButton({easing: "easeOutBounce"}).change(function() {
+            var url = '/igniter/app/sites/features/' + $('.features').attr('data-class') + '/ajax/' + $(this).attr('id') + '/' + ($(this).is(':checked')?'enable':'disable');
+            $.ajax(url, {type: "GET"});
+        });
+    });
     $('.ghost').livequery(function() {
 	$(this).each(function(index) {// Adds the Ghost effect on textbox, this could be converted to a plugin
 	    if ($(this).val() === "" || $(this).val() === $(this).attr("title")) {
