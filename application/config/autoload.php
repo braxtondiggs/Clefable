@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('assets', 'database', 'ion_auth', 'template', 'Grabzit.php');
+$autoload['libraries'] = array('database', 'ion_auth', 'template', 'Grabzit.php');
 /*
 | -------------------------------------------------------------------
 |  Auto-load Helper Files
@@ -63,7 +63,7 @@ $autoload['libraries'] = array('assets', 'database', 'ion_auth', 'template', 'Gr
 */
 
 
-$autoload['helper']    = array('url', 'file', 'directory', 'string', 'html', 'assets');
+$autoload['helper']    = array('url', 'file', 'directory', 'string', 'html');
 
 
 /*
@@ -79,7 +79,7 @@ $autoload['helper']    = array('url', 'file', 'directory', 'string', 'html', 'as
 |
 */
 
-$autoload['config'] = array('assets', 'template');
+$autoload['config'] = array('template');
 
 
 /*
