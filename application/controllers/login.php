@@ -36,7 +36,6 @@ class Login extends CI_Controller{
 		    $output = array('status' => "error", 'error_type' => 'max_login', 'output' => "<strong>Alert:</strong> You have too many login attempts. Please " . anchor(base_url('login/reset_password'), 'reset your password.'));
 		}
             }
-	    Assets::clear_cache();
 	    echo json_encode($output);
         }else{
             show_404();    

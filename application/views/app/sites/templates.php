@@ -1,8 +1,10 @@
-<?php $site = $site[0]; ?>
+<?php $site = $site[0];
+$map = directory_map('./CMS/screenshots/' . $this->session->userdata('account') . '/');
+?>
 <div class="breadCrumbHolder module">
 	<div id="breadCrumb" class="breadCrumb module">
     	<ul>
-        	<li>
+		<li>
             	<a href="<?= base_url('app'); ?>">Account Dashboard</a>
             </li>
             <li>
@@ -18,27 +20,31 @@
     </div>
 </div>
 <h3 class="underline"><?php echo $template['title']; ?></h3>
-
 <div class="scroll flexcroll" style="">
-    <ul>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
-    <li><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/></li>
+    <ul class="templates">
+	<?php foreach($map as $img) {?>
+		<li class=""><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $img)?>"/></a></li>
+	<?php }?>
     </ul>
     
     
 </div>
+HTML
+<textarea style="display:block;">
+	
+</textarea>
+CSS
+<textarea style="display:block;">
+	
+</textarea>
+JS
+<textarea style="display:block;">
+	
+</textarea>
 <style>
     .scroll {
         overflow: auto;
-        height:210px;
+        height:190px;
         margin:0 15px;
         background-color:#999;
         white-space: nowrap;
@@ -46,7 +52,7 @@
         border-radius: 10px;
     }
     .scroll img{
-        margin: 20px 10px 0 10px;
+        margin: 10px 10px 0 10px;
         border: 5px solid transparent;
     }
     .scroll img:hover{
@@ -57,6 +63,7 @@ float:left;
 margin-right:-999em;
 white-space:nowrap;
 list-style:none;
+padding: 0;
 }
 .scroll li {
 text-align:center;
@@ -85,3 +92,8 @@ background:#222;
 border:1px solid #222;
 }
 </style>
+<script>
+	$('.templates').click(function() {
+			
+	});
+</script>
