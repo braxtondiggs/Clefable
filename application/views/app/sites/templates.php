@@ -23,23 +23,20 @@ $map = directory_map('./CMS/screenshots/' . $this->session->userdata('account') 
 <div class="scroll flexcroll" style="">
     <ul class="templates">
 	<?php foreach($map as $img) {?>
-		<li class=""><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $img)?>"/></a></li>
+		<li class="" data-template-id="<?=preg_replace("/\\.[^.\\s]{3,4}$/", "", $img);?>"><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $img)?>"/></a></li>
 	<?php }?>
     </ul>
     
     
 </div>
 HTML
-<textarea style="display:block;">
-	
+<textarea style="display:block;" id="html_textarea" data-type="html">
 </textarea>
 CSS
-<textarea style="display:block;">
-	
+<textarea style="display:block;" id="css_textarea" data-type="css">
 </textarea>
 JS
-<textarea style="display:block;">
-	
+<textarea style="display:block;" id="js_textarea" data-type="js">
 </textarea>
 <style>
     .scroll {
@@ -93,7 +90,39 @@ border:1px solid #222;
 }
 </style>
 <script>
-	$('.templates').click(function() {
-			
-	});
+	$(document).ready(function() {
+            var template_id = null;
+            var typingTimer;
+            var haschanged = false;
+            $('.templates').click(function() {
+                template_id = $(this).children('li').attr('data-template-id');
+                $.ajax('<?= base_url('app/templates/get/')?>'+'/'+template_id,{
+                    type: "GET",
+                    success: function(data) {
+                        $('#html_textarea').val(data.template[0].html);
+                        $('#js_textarea').val(data.template[0].js);
+                        $('#css_textarea').val(data.template[0].css);
+                    }
+                });
+                return false;
+            });
+            $('textarea').bind('keyup', function() {
+                haschanged = true;
+                clearTimeout(typingTimer);
+                typingTimer= setTimeout(function() {AutoSaveTemplate($(this).attr('id'), $(this).attr('data-type'))},1000);
+            });
+            
+            function AutoSaveTemplate(id, type) {
+                if (template_id && haschanged) {
+                    $.ajax('<?= base_url('app/templates/save/')?>'+'/'+template_id,{
+                       type: "POST",
+                       data: {type: type, content: $('#'+id).val()},
+                       success: function(data) {
+                           console.log('');
+                           haschanged = false;
+                       }
+                   });
+                }
+            }
+        });
 </script>

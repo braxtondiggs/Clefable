@@ -77,13 +77,14 @@
 	});
 	 $("#asset_helper .edit-imgbtn").click(function() {
             var src = $('#asset_helper').data('pixlr').src;
-	    alert(src);
-	    $.ajax($(this).attr('href'),{
+	    $('.ui-widget-overlay').show();
+	    $.ajax(src,{
 		type: "POST",
 		data: {file: src, server: '<?= $site->server ?>', username: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', notifyalert: false},
 		success: function(data) {
-		    pixlr.settings.target =''; //'http://cymbit.com/site/js/pixlr/asset_save?SID='+$("#main").find('.push-cymbit').attr('id').split('_')[0]+'&src='+src;//place to save image posted back from pixlr
-		    pixlr.overlay.show({image: '"<?= base_url('CMS/' . $site->sid);?>'+$('#asset_helper').data('pixlr').file+ '"', title: src.substring(src.lastIndexOf('/')+1), service:'express'})//init pixlr
+		    pixlr.settings.target ='<?= base_url('CMS/' . $site->sid);?>'; //'http://cymbit.com/site/js/pixlr/asset_save?SID='+$("#main").find('.push-cymbit').attr('id').split('_')[0]+'&src='+src;//place to save image posted back from pixlr
+		    pixlr.overlay.show({image: '<?= base_url('CMS/' . $site->sid);?>'+$('#asset_helper').data('pixlr').file, title: src.substring(src.lastIndexOf('/')+1), service:'express'})//init pixlr
+		    $('.ui-widget-overlay').hide();
 		}
 	    });
 	 return false;

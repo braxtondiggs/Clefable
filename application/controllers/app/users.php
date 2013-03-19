@@ -22,8 +22,8 @@ class Users extends CI_Controller{
 	
     }
     function create() {
-	if ($this->session->userdata('user_type') == 1) {    
-	    if ($this->ion_auth->get_num_user() > $config['max_users']) {
+	if ($this->session->userdata('user_type') == 1) {
+	    if ($this->ion_auth->get_num_user() > $this->config->item('max_users')) {
 		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_user')));
 		redirect('app/users');
 	    }

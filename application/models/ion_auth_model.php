@@ -924,8 +924,8 @@ class Ion_auth_model extends CI_Model
 	function get_attempts_num($identity)
 	{
 		if ($this->config->item('track_login_attempts', 'ion_auth')) {
-			$ip_address = $this->_prepare_ip($this->input->ip_address());;
-			
+			$ip_address = $this->_prepare_ip($this->input->ip_address());
+                        
 			$this->db->select('1', FALSE);
 			$this->db->where('ip_address', $ip_address);
 			if (strlen($identity) > 0) $this->db->or_where('login', $identity);
@@ -1775,14 +1775,14 @@ class Ion_auth_model extends CI_Model
 	}
 	
 	protected function _prepare_ip($ip_address) {
-		if ($this->db->platform() === 'postgre')
-		{
+		//if ($this->db->platform() === 'postgre') ///this is causing errors, seems to be giving me some UTF-8 chars
+		//{
 			return $ip_address;
-		}
-		else
-		{
-			return inet_pton($ip_address);
-		}
+		//}
+		///else
+		//{
+			//return inet_pton($ip_address);
+		//}
 	}
         public function id_generator($table, $var) {
 		$length = 12;$UID = "";$possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345677689"; $i = 0; 
