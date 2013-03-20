@@ -20,4 +20,22 @@ class Templates extends CI_Controller{
 	    redirect('app/sites');
 	}
     }
+    function save($sid = null, $tid = null) {
+        $template = false;
+        if ($tid !== "new") {
+            $template = $this->templates->update($tid, $sid, $this->input->post(NULL, TRUE));
+        }else {
+            $template = $this->templates->create($sid, $this->input->post(NULL, TRUE));
+            $tid = $template;
+            $template = true;
+            //add code to generate image here
+        }
+        if ($template) {
+            $output = array('status' => "success", 'redirect' => base_url('app/sites/templates/' . $sid . '/' . $tid));
+        }else {
+            $output = array('status' => "error");
+        }
+        header('Content-Type: application/json',true);
+        echo json_encode($output);
+    }
 }

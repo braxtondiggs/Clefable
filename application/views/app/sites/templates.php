@@ -22,22 +22,51 @@ $map = directory_map('./CMS/screenshots/' . $this->session->userdata('account') 
 <h3 class="underline"><?php echo $template['title']; ?></h3>
 <div class="scroll flexcroll" style="">
     <ul class="templates">
-	<?php foreach($map as $img) {?>
-		<li class="" data-template-id="<?=preg_replace("/\\.[^.\\s]{3,4}$/", "", $img);?>"><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $img)?>"/></a></li>
+        <li data-template-id="new"><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/add_template.png')?>"/></a></li>
+	<?php foreach($map as $img) {
+            $temp_tid = preg_replace("/\\.[^.\\s]{3,4}$/", "", $img);?>
+		<li class= "<?= ($tid == $temp_tid)?'selected':'' ?>" data-template-id="<?=$temp_tid?>"><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $img)?>"/></a></li>
 	<?php }?>
     </ul>
     
     
 </div>
-HTML
-<textarea style="display:block;" id="html_textarea" data-type="html">
-</textarea>
-CSS
-<textarea style="display:block;" id="css_textarea" data-type="css">
-</textarea>
-JS
-<textarea style="display:block;" id="js_textarea" data-type="js">
-</textarea>
+<form id="template_form" class="formular Form_Block" action="">
+    <div class="form-item" >
+	<label for="name">
+	    <span>*</span>&nbsp;Template Name&nbsp;
+	</label>
+        <span class="saving_name"><span class="spinner"></span>&nbsp;Saving...</span>
+	<input id="name" name="name" type="text" data-type="name" class="validate[required] text-rounded txt-xl" />
+    </div>
+    <div class="form-item textarea">
+        <label for="html_textarea">
+	    <span>*</span>&nbsp;HTML Code&nbsp;
+	</label>
+        <span class="saving_html"><span class="spinner"></span>&nbsp;Saving...</span>
+        <textarea style="display:block;" id="html_textarea" name="html" data-type="html" class="validate[required] text-rounded"></textarea>
+    </div>
+    <div class="form-item textarea">
+        <label for="css_textarea">
+	    <span>*</span>&nbsp;Cascading Style Sheets(CSS) Code&nbsp;
+	</label>
+        <span class="saving_css"><span class="spinner"></span>&nbsp;Saving...</span>
+        <textarea style="display:block;" id="css_textarea" name="css" data-type="css" class="validate[required] text-rounded"></textarea>
+    </div>
+    <div class="form-item textarea">
+        <label for="html_textarea">
+	    <span>*</span>&nbsp;Javascript Code&nbsp;
+	</label>
+        <span class="saving_js"><span class="spinner"></span>&nbsp;Saving...</span>
+        <textarea style="display:block;" id="js_textarea" name="js" data-type="js" class="validate[required] text-rounded"></textarea>
+    </div>
+    <p>&nbsp;</p>
+    <p>
+        <a href="#" class="submit button">
+	    <span class="save cmsicon"></span><span class="save_text">Add as New Template</span>
+	</a>
+    </p>
+</form>
 <style>
     .scroll {
         overflow: auto;
@@ -52,7 +81,7 @@ JS
         margin: 10px 10px 0 10px;
         border: 5px solid transparent;
     }
-    .scroll img:hover{
+    .scroll img:hover, .scroll li.selected img{
         border: 5px solid black;
     }
     .scroll ul {
@@ -88,37 +117,75 @@ border:1px solid #999;
 background:#222;
 border:1px solid #222;
 }
+textarea {
+    height:100px;
+    width:100%;
+}
+.form-item {
+    margin:25px 0 0 50px;
+    width:80%;
+}
+.saving_html, .saving_js, .saving_css, .saving_name {
+    float:right;
+    display: none;
+}
+.spinner {
+    background: url('../../../css/images/indicator.gif') no-repeat;
+    display: inline-block;
+    width: 18px;
+    height: 16px;
+}
+.Form_Block .textarea label {
+    display:inline-block;
+}
 </style>
 <script>
 	$(document).ready(function() {
             var template_id = null;
             var typingTimer;
             var haschanged = false;
-            $('.templates').click(function() {
-                template_id = $(this).children('li').attr('data-template-id');
-                $.ajax('<?= base_url('app/templates/get/')?>'+'/'+template_id,{
-                    type: "GET",
-                    success: function(data) {
-                        $('#html_textarea').val(data.template[0].html);
-                        $('#js_textarea').val(data.template[0].js);
-                        $('#css_textarea').val(data.template[0].css);
-                    }
-                });
+            
+            $('.templates li').bind('click', function() {
+                if (!$(this).hasClass('selected')) {
+                    $(this).toggleClass('selected').siblings().removeClass('selected');
+                }
+                template_id = $(this).attr('data-template-id');
+                $('form').attr('action', '<?= base_url('app/templates/save/' . $site->sid)?>' + '/' + template_id);
+                if (template_id !== "new") {
+                    $.ajax('<?= base_url('app/templates/get/')?>'+'/'+template_id,{
+                        type: "GET",
+                        success: function(data) {
+                            $('#html_textarea').val(data.template[0].html);
+                            $('#js_textarea').val(data.template[0].js);
+                            $('#css_textarea').val(data.template[0].css);
+                            $('#name').val(data.template[0].name);
+                            $('.save_text').text("Save Template");
+                        }
+                    });
+                }else {
+                    $('#html_textarea, #js_textarea, #css_textarea, #name').val("");
+                    $('.save_text').text("Add as New Template");
+                }
                 return false;
             });
-            $('textarea').bind('keyup', function() {
+            $('textarea, input[type="text"]').bind('keyup', function() {
+                var _this = $(this);
                 haschanged = true;
                 clearTimeout(typingTimer);
-                typingTimer= setTimeout(function() {AutoSaveTemplate($(this).attr('id'), $(this).attr('data-type'))},1000);
+                typingTimer= setTimeout(function() {AutoSaveTemplate($(_this).attr('id'), $(_this).data('type'))},1000);
             });
             
+            $('.templates li.selected').trigger('click');
             function AutoSaveTemplate(id, type) {
-                if (template_id && haschanged) {
-                    $.ajax('<?= base_url('app/templates/save/')?>'+'/'+template_id,{
+                if (template_id && haschanged && template_id !== "new") {
+                    var data = {};
+                    data[type] = $('#'+id).val();
+                    $('.saving_'+type).fadeIn('slow');
+                    $.ajax('<?= base_url('app/templates/save/' . $site->sid)?>'+'/'+template_id,{
                        type: "POST",
-                       data: {type: type, content: $('#'+id).val()},
+                       data: data,
                        success: function(data) {
-                           console.log('');
+                            $('.saving_'+type).fadeOut('slow');
                            haschanged = false;
                        }
                    });

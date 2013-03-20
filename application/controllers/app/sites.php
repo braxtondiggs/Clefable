@@ -214,11 +214,14 @@ class Sites extends CI_Controller{
 	    show_404();
 	}
     }
-    function templates($sid = null) {
+    function templates($sid = null, $tid = null) {
 	$sites = $this->sites->get_site($sid);
 	if ($sites) { 	
 	    $this->template->title('Manage Templates');
 	    $this->template->set('site', $sites);
+	    //if ($tid !== null) {
+		$this->template->set('tid', $tid);
+	    //}
 	    $this->template->set_layout('default_app')->build('app/sites/templates');
 	}else {
 	    redirect('app/sites');
