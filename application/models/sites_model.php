@@ -38,7 +38,7 @@ class Sites_model extends CI_Model {
             'sid'           => $sid,
 	    'active'        => 1,
 	    'modified_user' => $this->session->userdata("QID"),
-	    'created_date' => time()
+	    'created_date'  => time()
 	);
         $site_data = array_merge($this->_filter_data('sites', $additional_data), $data);
         $this->db->insert('sites', $site_data);
@@ -68,7 +68,15 @@ class Sites_model extends CI_Model {
             if ($query->num_rows() > 0) {
                 return $query->result();;
             }else {
-                return FALSE;
+		$data = array(
+		    'sid'    	    => $id,
+		    'template'      => 1,
+		    'gallery'       => 1,
+		    'document'      => 1,
+		    'seo          ' => 1
+		);
+		$this->db->insert('activate', $data);
+		$this->get_features();
             }
         }else {
             return FALSE;
