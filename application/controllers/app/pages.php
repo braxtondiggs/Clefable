@@ -109,6 +109,7 @@ class Pages extends CI_Controller{
 	    $this->template->set('directories', $directories);
 	    $this->template->set('files', $files);
 	    $this->template->set('url_path', (($path == '/' || $path == $dir)?'/':$path. '/'));
+	    $this->template->set('dir', $dir);
 	    $this->template->set_layout('default_app')->build('app/pages/index');
 	}else {
 	    show_404();
