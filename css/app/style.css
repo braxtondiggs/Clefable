@@ -431,3 +431,53 @@ background-color: #FFF;
 .features ul li span.checkbox {
 	float:right;
 }
+.scroll {
+	overflow-y: hidden;
+	overflow-x: auto;
+        height:190px;
+        margin:0 15px;
+        background-color:#999;
+        white-space: nowrap;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+.scroll img{
+        margin: 10px 10px 0 10px;
+        border: 5px solid transparent;
+}
+.scroll img:hover, .scroll li.selected img{
+        border: 5px solid black;
+ }
+.scroll ul {
+	float:left;
+	margin-right:-999em;
+	white-space:nowrap;
+	list-style:none;
+	padding: 0;
+}
+.scroll li {
+	text-align:center;
+	float:left;
+	display:inline;           
+}
+.scrollgeneric {
+	line-height:1px;
+	font-size:1px;
+	position:absolute;
+	top:0;left:0;
+}
+.hscrollerbase {
+	height:17px;
+	background:#999;
+	border-radius: 0 0 10px 10px;
+}
+.hscrollerbar {
+	height:12px;
+	background:#000;
+	padding:3px;
+	border:1px solid #999;
+}
+.hscrollerbar:hover {
+	background:#222;
+	border:1px solid #222;
+}

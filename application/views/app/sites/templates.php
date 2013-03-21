@@ -1,5 +1,5 @@
 <?php $site = $site[0];
-$map = directory_map('./CMS/screenshots/' . $this->session->userdata('account') . '/');
+$map = directory_map('./CMS/screenshots/' .  $this->session->userdata('account') . '/' . $site->sid);
 ?>
 <div class="breadCrumbHolder module">
 	<div id="breadCrumb" class="breadCrumb module">
@@ -23,13 +23,14 @@ $map = directory_map('./CMS/screenshots/' . $this->session->userdata('account') 
 <div class="scroll flexcroll" style="">
     <ul class="templates">
         <li data-template-id="new"><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/add_template.png')?>"/></a></li>
-	<?php foreach($map as $img) {
-            $temp_tid = preg_replace("/\\.[^.\\s]{3,4}$/", "", $img);?>
-		<li class= "<?= ($tid == $temp_tid)?'selected':'' ?>" data-template-id="<?=$temp_tid?>"><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $img)?>"/></a></li>
-	<?php }?>
+	<?php
+        if (!empty($map)) {
+            foreach($map as $img) {
+                $temp_tid = preg_replace("/\\.[^.\\s]{3,4}$/", "", $img);?>
+                    <li class= "<?= ($tid == $temp_tid)?'selected':'' ?>" data-template-id="<?=$temp_tid?>"><a href="<?= base_url('app/sites/template/')?>"><img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '/' . $img)?>"/></a></li>
+	<?php }
+        }?>
     </ul>
-    
-    
 </div>
 <form id="template_form" class="formular Form_Block" action="">
     <div class="form-item" >
@@ -68,55 +69,6 @@ $map = directory_map('./CMS/screenshots/' . $this->session->userdata('account') 
     </p>
 </form>
 <style>
-    .scroll {
-        overflow: auto;
-        height:190px;
-        margin:0 15px;
-        background-color:#999;
-        white-space: nowrap;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-    }
-    .scroll img{
-        margin: 10px 10px 0 10px;
-        border: 5px solid transparent;
-    }
-    .scroll img:hover, .scroll li.selected img{
-        border: 5px solid black;
-    }
-    .scroll ul {
-float:left;
-margin-right:-999em;
-white-space:nowrap;
-list-style:none;
-padding: 0;
-}
-.scroll li {
-text-align:center;
-float:left;
-display:inline;           
-}
-.scrollgeneric {
-line-height:1px;
-font-size:1px;
-position:absolute;
-top:0;left:0;
-}
-.hscrollerbase {
-height:17px;
-background:#999;
-border-radius: 0 0 10px 10px;
-}
-.hscrollerbar {
-height:12px;
-background:#000;
-padding:3px;
-border:1px solid #999;
-}
-.hscrollerbar:hover {
-background:#222;
-border:1px solid #222;
-}
 textarea {
     height:100px;
     width:100%;
