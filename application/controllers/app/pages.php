@@ -71,46 +71,52 @@ class Pages extends CI_Controller{
         }
     }
     function manage($sid = null, $path = null) {
-	$sites = $this->sites->get_site($sid);
-	$this->template->title('Site Pages');
-	$this->template->set('sidebar', array('app/page_actions', 'app/help'));
-	
-	$this->template->set('site', $sites);
-	$path_output = array(array('title' => 'Root Folder', 'path' => urlencode(base64_encode('/'))));
-	if ($path == null) {
-	    $path = '/';
-	}else {
-	    $path = base64_decode(urldecode($path));
-	    $path_explode = explode('/', $path);
-	    foreach ($path_explode as $menu_path) {
-		if(!empty($menu_path)) {
-		    array_push($path_output, array('title' => $menu_path, 'path' => urlencode(base64_encode('/' . $menu_path))));
-		}
-	    }
-	}
-	$map = directory_map('./CMS/' . $sid . $path, 2);
-	$files = array();$directories = array();
-	if (!empty($map)) {
-	    foreach ($map as $k => $v) {
-		if (!is_array($v)) {
-		    $ext = preg_replace('/^.*\./', '', $v);
-		    if (in_array($ext, array("htm", "html", "php"))) {
-			array_push($files, $v);
+	if ($sid !== null) {
+	    $sites = $this->sites->get_site($sid);
+	    $this->template->title('Site Pages');
+	    $this->template->set('sidebar', array('app/page_actions', 'app/help'));
+	    $this->template->set('site', $sites);
+	    $dir = dirname($sites[0]->path);
+	    $path_output = array(array('title' => 'Root Folder', 'path' => urlencode(base64_encode('/'))));
+	    if ($path == null) {
+		$path = '/';
+	    }else {
+		$path = base64_decode(urldecode($path));
+		$path_explode = explode('/', $path);
+		foreach ($path_explode as $menu_path) {
+		    if(!empty($menu_path)) {
+			array_push($path_output, array('title' => $menu_path, 'path' => urlencode(base64_encode('/' . $menu_path))));
 		    }
-		} else{
-		    array_push($directories, $k);
 		}
 	    }
+	    $map = directory_map('./CMS/' . $sid . $dir . $path, 2);
+	    $files = array();$directories = array();
+	    if (!empty($map)) {
+		foreach ($map as $k => $v) {
+		    if (!is_array($v)) {
+			$ext = preg_replace('/^.*\./', '', $v);
+			if (in_array($ext, array("htm", "html", "php"))) {
+			    array_push($files, $v);
+			}
+		    } else{
+			array_push($directories, $k);
+		    }
+		}
+	    }else {
+		$this->template->set('gritter_instant', array($this->lang->line('gritter_empty_page')));
+	    }
+	    $this->template->set('paths', $path_output);
+	    $this->template->set('directories', $directories);
+	    $this->template->set('files', $files);
+	    $this->template->set('url_path', (($path == '/' || $path == $dir)?'/':$path. '/'));
+	    $this->template->set_layout('default_app')->build('app/pages/index');
 	}else {
-	    $this->template->set('gritter_instant', array($this->lang->line('gritter_empty_page')));
+	    show_404();
 	}
-	$this->template->set('paths', $path_output);
-	$this->template->set('directories', $directories);
-	$this->template->set('files', $files);
-	$this->template->set('url_path', (($path == '/')?'/':$path. '/'));
-	$this->template->set_layout('default_app')->build('app/pages/index');
     }
     private function _edit_alert($action = 'create', $sid = null, $path = null, $input = null) {
-        return array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/pages/' . $action . '/' . $sid . '/' . $path . (!empty($input)?'/'.$input:$input) . '/approved'), 'output' => array('title' => 'Create New File?', 'text' => '<p>Select the template and enter the file name for your new page.</p><form id="new_page_form" class="formular"><div class="form-item Form_Block"><label for="file"><span>*</span> File Name</label><input id="file" name="file" type="text" class="validate[required] text-rounded txt-xl" value="' . base64_decode(urldecode($input)) . '"></div></form>'));
+	$data = array('input' => $input, 'sid' => $sid, 'action' => $action);
+        $html = $this->load->view('app/pages/include/modal/create_new', $data, true);
+	return array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/pages/' . $action . '/' . $sid . '/' . $path . (!empty($input)?'/'.$input:$input) . '/approved'), 'output' => array('title' => 'Create New File?', 'text' => $html));
     }
 }

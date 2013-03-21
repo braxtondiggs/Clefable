@@ -67,7 +67,7 @@ class Pages_model extends CI_Model {
     function _create_folder($sid = null, $folder = null) {
 	if(!is_dir('./CMS/' . $sid . $folder)) {
 	    $path = dirname((substr($folder, 0 ,1) === "/")?substr($folder, 1):$folder);
-	    if(!is_dir('./CMS/' . $sid . $path)) {
+	    if(!is_dir('./CMS/' . $sid . '/' . $path)) {
 		if (@mkdir('./CMS/' . $sid . '/' . $path, 0777, true)) {
 		    return TRUE;
 		}else {

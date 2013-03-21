@@ -31,7 +31,7 @@
                     }
 		}
 	    });
-	    $('#fileTree').fileTree({ root: '/', script: $(action).attr('href'), server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', selected: true}, function(file) {/*empty*/});
+	    $('#fileTree').fileTree({ root: '<?= dirname($site->path) ?>/', script: $(action).attr('href'), server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', selected: true}, function(file) {/*empty*/});
 	return false;
 	});
     });

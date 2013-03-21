@@ -42,19 +42,15 @@ class Ftp extends CI_Controller{
     }
     function browse_file($action = null, $id = null) {
 	if ($this->input->is_ajax_request()) {
-	   // if ($id == null) {
-		$ftp_server = trim($this->input->post('server'));
-		$ftp_user = trim($this->input->post('username'));
-		$ftp_password = trim($this->input->post('password'));
-		$port = trim($this->input->post('port'));
-		$dir = trim($this->input->post('dir'));
-		$sftp = $this->input->post('SFTP');
-		if ($dir === "/") {
-		    $dir = ""; 
-		}
-	    //}else {
-		
-	    //}
+	    $ftp_server = trim($this->input->post('server'));
+	    $ftp_user = trim($this->input->post('username'));
+	    $ftp_password = trim($this->input->post('password'));
+	    $port = trim($this->input->post('port'));
+	    $dir = trim($this->input->post('dir'));
+	    $sftp = $this->input->post('SFTP');
+	    if ($dir === "." || $dir === "./" ||  $dir === "//" || $dir === "../" || $dir === "/./" || $dir ==="") {
+		$dir = "/"; 
+	    }
 	    
 	    if ($action === "index") {
 		$allowed_extentions = array("htm", "html", "php");
@@ -87,9 +83,6 @@ class Ftp extends CI_Controller{
   		}
 	    }
 	    echo $output . '</ul>';
-	    //print_r($this->ftp->list_files());
-	    //header('Content-Type: application/json',true);
-	    //echo json_encode(array('status' => 'success', 'dialog' => 'buttonless', 'output' => array('title' => 'FTP Browser', 'text' =>  $output . '</ul>')));
 	    $this->ftp->close();
 	}else {
             show_404();
@@ -106,7 +99,7 @@ class Ftp extends CI_Controller{
 	    $sftp = $this->input->post('SFTP');
 	    $this->_open_connection($ftp_server, $ftp_user, $ftp_password, $port, $sftp);
 	    if ($this->pages->_site_folder($sid)) {
-		if ($this->pages->_create_folder($sid, $file)) {
+		if ($this->pages->_create_folder($sid, (substr($file, 0, 2) =='/./')?substr($file, 2):$file)) {
 		    $this->ftp->download($file, './CMS/' . $sid . $file);
 		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_page')));
 		}
