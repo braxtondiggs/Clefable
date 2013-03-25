@@ -10,7 +10,7 @@ class Ftp extends CI_Controller{
 	    redirect('login');
 	}
 	if (!$this->input->is_ajax_request()) {
-	    $this->output->enable_profiler(TRUE);
+	    $this->output->enable_profiler(FALSE);
 	}
     }
     function test_connection() {
@@ -98,10 +98,12 @@ class Ftp extends CI_Controller{
 	    $dir = trim($this->input->post('dir'));
 	    $sftp = $this->input->post('SFTP');
 	    $this->_open_connection($ftp_server, $ftp_user, $ftp_password, $port, $sftp);
-	    if ($this->pages->_site_folder($sid)) {
-		if ($this->pages->_create_folder($sid, (substr($file, 0, 2) =='/./')?substr($file, 2):$file)) {
-		    $this->ftp->download($file, './CMS/' . $sid . $file);
-		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_page')));
+	    if ($this->pages->_account_folder($this->session->userdata('account'))) {
+		if ($this->pages->_site_folder($sid)) {
+		    if ($this->pages->_create_folder($sid, (substr($file, 0, 2) =='/./')?substr($file, 2):$file)) {
+			$this->ftp->download($file, './CMS/' . $this->session->userdata('account') . '/' . $sid . $file);
+			$this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_page')));
+		    }
 		}
 	    }
 	    $this->ftp->close();

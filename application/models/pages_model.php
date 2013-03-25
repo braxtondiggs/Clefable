@@ -37,9 +37,20 @@ class Pages_model extends CI_Model {
             return FALSE;
         }
     }
+    function _account_folder($account_id = null) {
+	if(!is_dir('./CMS/' . $account_id)) {	
+	    if(@mkdir('./CMS/' . $account_id , 0777)) {
+		return TRUE;
+	    }else{
+		return FALSE;
+	    }
+	}else {
+	    return TRUE;
+	}
+    }
     function _site_folder($qid = null) {
-	if(!is_dir('./CMS/'.$qid)) {	
-	    if(@mkdir('./CMS/'.$qid , 0777)) {
+	if(!is_dir('./CMS/' . $this->session->userdata('account') . '/' . $qid)) {	
+	    if(@mkdir('./CMS/' . $this->session->userdata('account') . '/' . $qid , 0777)) {
 		return TRUE;
 	    }else{
 		return FALSE;
@@ -49,10 +60,10 @@ class Pages_model extends CI_Model {
 	}
     }
     function _create_file($sid = null, $folder = null) {
-	if(!is_dir('./CMS/' . $sid . $folder)) {
+	if(!is_dir('./CMS/' . $this->session->userdata('account') . '/' . $sid . $folder)) {
 	    $path = dirname((substr($folder, 0 ,1) === "/")?substr($folder, 1):$folder);
-	    if(!is_dir('./CMS/' . $sid . $path)) {
-		if (write_file('./CMS/' . $sid . '/' . $path, 'empty')) {
+	    if(!is_dir('./CMS/' . $this->session->userdata('account') . '/' . $sid . $path)) {
+		if (write_file('./CMS/' . $this->session->userdata('account') . '/' . $sid . '/' . $path, 'empty')) {
 		    return TRUE;
 		}else {
 		    return FALSE;
@@ -67,8 +78,8 @@ class Pages_model extends CI_Model {
     function _create_folder($sid = null, $folder = null) {
 	if(!is_dir('./CMS/' . $sid . $folder)) {
 	    $path = dirname((substr($folder, 0 ,1) === "/")?substr($folder, 1):$folder);
-	    if(!is_dir('./CMS/' . $sid . '/' . $path)) {
-		if (@mkdir('./CMS/' . $sid . '/' . $path, 0777, true)) {
+	    if(!is_dir('./CMS/' . $this->session->userdata('account') . '/' . $sid . '/' . $path)) {
+		if (@mkdir('./CMS/'. $this->session->userdata('account') . '/' . $sid . '/' . $path, 0777, true)) {
 		    return TRUE;
 		}else {
 		    return FALSE;

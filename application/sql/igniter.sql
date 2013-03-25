@@ -3,11 +3,10 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 16, 2012 at 03:58 PM
+-- Generation Time: Mar 22, 2013 at 10:49 PM
 -- Server version: 5.5.25
 -- PHP Version: 5.4.4
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -28,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 DROP TABLE IF EXISTS `accounts`;
-CREATE TABLE IF NOT EXISTS `accounts` (
+CREATE TABLE `accounts` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` varchar(32) COLLATE latin1_general_ci NOT NULL,
   `type` mediumint(11) NOT NULL,
@@ -53,7 +52,7 @@ INSERT INTO `accounts` (`id`, `account_id`, `type`, `created_on`) VALUES
 --
 
 DROP TABLE IF EXISTS `account_types`;
-CREATE TABLE IF NOT EXISTS `account_types` (
+CREATE TABLE `account_types` (
   `id` mediumint(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `description` varchar(100) COLLATE latin1_general_ci NOT NULL,
@@ -76,7 +75,7 @@ INSERT INTO `account_types` (`id`, `name`, `description`) VALUES
 --
 
 DROP TABLE IF EXISTS `activate`;
-CREATE TABLE IF NOT EXISTS `activate` (
+CREATE TABLE `activate` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `sid` varchar(12) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `template` tinyint(4) NOT NULL,
@@ -92,14 +91,15 @@ CREATE TABLE IF NOT EXISTS `activate` (
   `includes` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sid` (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `activate`
 --
 
 INSERT INTO `activate` (`id`, `sid`, `template`, `gallery`, `document`, `history`, `rss`, `seo`, `navigation`, `page_permission`, `analytics`, `optimization`, `includes`) VALUES
-(1, 'sga9DS7zWzfR', 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0);
+(1, 'sga9DS7zWzfR', 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0),
+(2, 'sE59DS7zWzfR', 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -108,7 +108,7 @@ INSERT INTO `activate` (`id`, `sid`, `template`, `gallery`, `document`, `history
 --
 
 DROP TABLE IF EXISTS `ci_sessions`;
-CREATE TABLE IF NOT EXISTS `ci_sessions` (
+CREATE TABLE `ci_sessions` (
   `session_id` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '0',
   `ip_address` varchar(45) COLLATE latin1_general_ci NOT NULL DEFAULT '0',
   `user_agent` varchar(120) COLLATE latin1_general_ci NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('c727a2a5cbe676378ae0ce4ae56d8f8a', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11', 1353010842, 'a:12:{s:9:"user_data";s:0:"";s:8:"identity";s:22:"braxtondiggs@gmail.com";s:12:"identity_QID";s:13:"uPjTuxiRz9fOH";s:3:"QID";s:13:"uPjTuxiRz9fOH";s:7:"account";s:13:"aYqeViE2mOcGa";s:5:"email";s:22:"braxtondiggs@gmail.com";s:7:"user_id";s:1:"5";s:14:"old_last_login";s:10:"1352932278";s:10:"first_name";s:7:"Braxton";s:9:"last_name";s:5:"Diggs";s:9:"user_type";s:1:"1";s:12:"account_type";s:1:"1";}');
+('4975e9d452b61ef9b61867c05901268d', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.172 Safari/537.22', 1363903833, 'a:12:{s:9:"user_data";s:0:"";s:8:"identity";s:22:"braxtondiggs@gmail.com";s:12:"identity_QID";s:13:"uPjTuxiRz9fOH";s:3:"QID";s:13:"uPjTuxiRz9fOH";s:7:"account";s:13:"aYqeViE2mOcGa";s:5:"email";s:22:"braxtondiggs@gmail.com";s:7:"user_id";s:1:"5";s:14:"old_last_login";s:10:"1363813374";s:10:"first_name";s:7:"Braxton";s:9:"last_name";s:5:"Diggs";s:9:"user_type";s:1:"1";s:12:"account_type";s:1:"1";}');
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,7 @@ INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activ
 --
 
 DROP TABLE IF EXISTS `language`;
-CREATE TABLE IF NOT EXISTS `language` (
+CREATE TABLE `language` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `text` varchar(128) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `value` varchar(5) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -258,13 +258,13 @@ INSERT INTO `language` (`id`, `text`, `value`) VALUES
 --
 
 DROP TABLE IF EXISTS `login_attempts`;
-CREATE TABLE IF NOT EXISTS `login_attempts` (
+CREATE TABLE `login_attempts` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(16) COLLATE latin1_general_ci NOT NULL,
   `login` varchar(100) COLLATE latin1_general_ci NOT NULL,
   `time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -273,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
 --
 
 DROP TABLE IF EXISTS `sites`;
-CREATE TABLE IF NOT EXISTS `sites` (
+CREATE TABLE `sites` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `created_by` varchar(32) COLLATE latin1_general_ci NOT NULL,
   `created_date` datetime NOT NULL,
@@ -316,11 +316,45 @@ INSERT INTO `sites` (`id`, `created_by`, `created_date`, `account`, `sid`, `url`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `templates`
+--
+
+DROP TABLE IF EXISTS `templates`;
+CREATE TABLE `templates` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `html` longtext COLLATE latin1_general_ci NOT NULL,
+  `js` longtext COLLATE latin1_general_ci NOT NULL,
+  `css` longtext COLLATE latin1_general_ci NOT NULL,
+  `created_by` varchar(32) COLLATE latin1_general_ci NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_user` varchar(32) COLLATE latin1_general_ci NOT NULL,
+  `modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `name` varchar(128) COLLATE latin1_general_ci NOT NULL,
+  `tid` varchar(12) COLLATE latin1_general_ci NOT NULL,
+  `sid` varchar(12) COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tid` (`tid`),
+  UNIQUE KEY `modified_user` (`modified_user`),
+  KEY `sid` (`sid`),
+  KEY `created_by` (`created_by`,`modified_user`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `templates`
+--
+
+INSERT INTO `templates` (`id`, `html`, `js`, `css`, `created_by`, `created_date`, `modified_user`, `modified_date`, `name`, `tid`, `sid`) VALUES
+(2, 'HTML Goes HEREsd', 'JS goes Heresd Hello', 'CSs Goes Heresdsdf', 'u9jTuxiRz9fOf', '2013-03-19 04:00:00', 'u9jTuxiRz9fOf', '2013-03-19 21:08:50', 'Test Templatedfsdxcsdsd', '459DS7zWzfR', 'sga9DS7zWzfR'),
+(3, 'dfvdfv', 'dfvdfv', 'dfvdv', 'uPjTuxiRz9fOH', '0000-00-00 00:00:00', 'uPjTuxiRz9fOH', '2013-03-20 21:47:39', 'dfvdfv', 'teN8TJpjvOs0', 'sga9DS7zWzfR');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `ip_address` varbinary(16) NOT NULL,
   `username` varchar(32) COLLATE latin1_general_ci NOT NULL,
@@ -355,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `account`, `first_name`, `last_name`, `user_type`, `language`, `has_demo`, `provider`, `all_one`, `all_one_id`) VALUES
-(5, '\0\0', 'uPjTuxiRz9fOH', '291df99500ce620bd3d03131e66d0d78c6318363', '0ad853e514', 'braxtondiggs@gmail.com', NULL, NULL, NULL, 'd2eae6562b2d28b0f5bf43aea28e201706a3aaf1', 1349975615, 1352992325, 1, 'aYqeViE2mOcGa', 'Braxton', 'Diggs', 1, 'en', 1, 'CymbitCMS', NULL, NULL),
+(5, '\0\0', 'uPjTuxiRz9fOH', '291df99500ce620bd3d03131e66d0d78c6318363', '0ad853e514', 'braxtondiggs@gmail.com', NULL, NULL, NULL, 'd2eae6562b2d28b0f5bf43aea28e201706a3aaf1', 1349975615, 1363883893, 1, 'aYqeViE2mOcGa', 'Braxton', 'Diggs', 1, 'en', 1, 'CymbitCMS', NULL, NULL),
 (6, '7f000001', 'u9jTuxiRz9fOf', '', '0ad853e514', '123braxtondiggs@gmail.com', NULL, NULL, NULL, NULL, 1349975615, 1350329734, 1, 'aYqeViE2mOcGa', 'John', 'Doe', 2, 'en', 1, 'CymbitCMS', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -365,7 +399,7 @@ INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`
 --
 
 DROP TABLE IF EXISTS `user_types`;
-CREATE TABLE IF NOT EXISTS `user_types` (
+CREATE TABLE `user_types` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `description` varchar(100) COLLATE latin1_general_ci NOT NULL,
@@ -405,13 +439,20 @@ ALTER TABLE `sites`
   ADD CONSTRAINT `sites_ibfk_4` FOREIGN KEY (`account`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `templates`
+--
+ALTER TABLE `templates`
+  ADD CONSTRAINT `templates_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `sites` (`sid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `templates_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `templates_ibfk_3` FOREIGN KEY (`modified_user`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_type`) REFERENCES `user_types` (`id`),
   ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`language`) REFERENCES `language` (`value`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`account`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

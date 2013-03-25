@@ -1,8 +1,11 @@
 <?php $site = $site[0]; ?>
 <div id="page_actions" class="sidebar">
     <h3 class="underline">Page Actions</h3>
-    <div><?php $url_seg = $this->uri->segment(5);?>
-	<a href="<?= base_url('app/pages/create/' . $site->sid . '/' . (!empty($url_seg)?$url_seg:urlencode(base64_encode('/')))); ?>" class="button ajax-action">
+    <div><?php
+    $url_seg = $this->uri->segment(5);
+    $url_seg = (!empty($url_seg)?urlencode(base64_encode(dirname($site->path) . base64_decode(urldecode($url_seg)))):urlencode(base64_encode(dirname($site->path) . '/')));
+    ?>
+	<a href="<?= base_url('app/pages/create/' . $site->sid . '/' . $url_seg); ?>" class="button ajax-action">
 	    <span class="newpage cmsicon"></span>Create New Page
 	</a>
     </div>
@@ -12,7 +15,7 @@
 	</a>
     </div>
     <div>
-	<a href="<?= base_url('app/folders/create/' . $site->sid . '/' . (!empty($url_seg)?$url_seg:urlencode(base64_encode('/')))); ?>" class="button ajax-action">
+	<a href="<?= base_url('app/folders/create/' . $site->sid . '/' . $url_seg); ?>" class="button ajax-action">
 	    <span class="newfolder cmsicon"></span>Create New Folder
 	</a>
     </div>

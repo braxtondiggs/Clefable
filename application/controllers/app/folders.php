@@ -9,7 +9,7 @@ class Folders extends CI_Controller{
 	    redirect('login');
 	}
 	if (!$this->input->is_ajax_request()) {
-	    $this->output->enable_profiler(TRUE);
+	    $this->output->enable_profiler(FALSE);
 	}
     }
     function create($sid = null, $path = null, $approved = null) {
@@ -22,11 +22,13 @@ class Folders extends CI_Controller{
                 $path = base64_decode(urldecode($path));
                 $path = (empty($path)?'/':((substr($path, -1, 1) == "/"))?$path:$path.'/');
                 $path .= '/' . $folder . '/index.php';
-                if ($this->pages->_site_folder($sid)) {
-                    if ($this->pages->_create_folder($sid, $path)) {
-                        $this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_folder')));
-                    }
-                }
+                if ($this->pages->_account_folder($this->session->userdata('account'))) {
+		    if ($this->pages->_site_folder($sid)) {
+			if ($this->pages->_create_folder($sid, $path)) {
+			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_folder')));
+			}
+		    }
+		}
                 $output = array('status' => 'reload');
 	    }
 	    echo json_encode($output);
@@ -41,7 +43,7 @@ class Folders extends CI_Controller{
                 $output = array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/folders/delete/' . $sid . '/'  . $path . '/approved'), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete this Folder? All the information related to this Folder will be removed.<p>&nbsp;</p><p><strong>*Note</strong>: Nothing on your site will be deleted.'));
 	    }else if ($approved === "approved") {
                 $path = base64_decode(urldecode($path));
-                $this->_deleteDirectory('./CMS/' . $sid  . $path);
+                $this->_deleteDirectory('./CMS/' . $this->session->userdata('account') . '/' . $sid  . $path);
                 $this->session->set_flashdata('gritter', array($this->lang->line('gritter_delete_folder')));
                 $output = array('status' => 'reload');
 	    }
@@ -63,7 +65,7 @@ class Folders extends CI_Controller{
                 $path = base64_decode(urldecode($path));
                 $path = (empty($path)?'/':((substr($path, -1, 1) == "/"))?$path:$path.'/');
                 if ($this->pages->_site_folder($sid)) {
-                    rename('./CMS/' . $sid  . $path . base64_decode(urldecode($name)), './CMS/' . $sid  . $path . $folder);
+                    rename('./CMS/' . $this->session->userdata('account') . '/' . $sid  . $path . base64_decode(urldecode($name)), './CMS/' . $this->session->userdata('account') . '/' . $sid  . $path . $folder);
                     $this->session->set_flashdata('gritter', array($this->lang->line('gritter_rename_folder')));
                     $output = array('status' => 'reload');
                 }

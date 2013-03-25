@@ -4,7 +4,7 @@ class Default_Controller extends CI_Controller{
     function __construct() {
         parent::__construct();
 	$this->load->library('ion_auth');
-	$this->output->enable_profiler(TRUE);
+	$this->output->enable_profiler(FALSE);
     }
     function index(){
 	if (!$this->ion_auth->logged_in()) {

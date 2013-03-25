@@ -9,7 +9,7 @@ class Pages extends CI_Controller{
 	    redirect('login');
 	}
 	if (!$this->input->is_ajax_request()) {
-	    $this->output->enable_profiler(TRUE);
+	    $this->output->enable_profiler(FALSE);
 	}
     }
     function create($sid = null, $path = null, $approved = null) {
@@ -22,11 +22,13 @@ class Pages extends CI_Controller{
                 $path = base64_decode(urldecode($path));
                 $path = (empty($path)?'/':((substr($path, -1, 1) == "/"))?$path:$path.'/');
                 $path .= $file;
-		if ($this->pages->_site_folder($sid)) {
-		    $this->pages->_create_folder($sid, $path);
-		    write_file('./CMS/' . $sid . '/' . $path, 'empty');
-                    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_file')));
-                }
+		if ($this->pages->_account_folder($this->session->userdata('account'))) {
+		    if ($this->pages->_site_folder($sid)) {
+			$this->pages->_create_folder($sid, $path);
+			write_file('./CMS/' . $this->session->userdata('account') . '/' . $sid . '/' . $path, 'empty');
+			$this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_file')));
+		    }
+		}
                 $output = array('status' => 'reload');
 	    }
 	    echo json_encode($output);
@@ -41,7 +43,7 @@ class Pages extends CI_Controller{
                 $output = array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/pages/delete/' . $sid . '/'  . $path . '/approved'), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete this File? All the information related to this Folder will be removed.<p>&nbsp;</p><p><strong>*Note</strong>: Nothing on your site will be deleted.'));
 	    }else if ($approved === "approved") {
                 $path = base64_decode(urldecode($path));
-                unlink('./CMS/' . $sid  . $path);
+                unlink('./CMS/' . $this->session->userdata('account') . '/' . $sid  . $path);
                 $this->session->set_flashdata('gritter', array($this->lang->line('gritter_delete_file')));
                 $output = array('status' => 'reload');
 	    }
@@ -59,11 +61,13 @@ class Pages extends CI_Controller{
                 $file = trim($this->input->post('file'));
                 $path = base64_decode(urldecode($path));
                 $path = (empty($path)?'/':((substr($path, -1, 1) == "/"))?$path:$path.'/');
-                if ($this->pages->_site_folder($sid)) {
-                    rename('./CMS/' . $sid  . $path . base64_decode(urldecode($name)), './CMS/' . $sid  . $path . $file);
-                    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_rename_file')));
-                    $output = array('status' => 'reload');
-                }
+                if ($this->pages->_account_folder($this->session->userdata('account'))) {
+		    if ($this->pages->_site_folder($sid)) {
+			rename('./CMS/' . $this->session->userdata('account') . '/' . $sid  . $path . base64_decode(urldecode($name)), './CMS/' . $this->session->userdata('account') . '/' . $sid  . $path . $file);
+			$this->session->set_flashdata('gritter', array($this->lang->line('gritter_rename_file')));
+			$output = array('status' => 'reload');
+		    }
+		}
             }
             echo json_encode($output);
         }else {
@@ -89,7 +93,7 @@ class Pages extends CI_Controller{
 		    }
 		}
 	    }
-	    $map = directory_map('./CMS/' . $sid . $dir . $path, 2);
+	    $map = directory_map('./CMS/' . $this->session->userdata('account') . '/' . $sid . $dir . $path, 2);
 	    $files = array();$directories = array();
 	    if (!empty($map)) {
 		foreach ($map as $k => $v) {
