@@ -183,8 +183,10 @@ $(function() {
                                         $.GritControl({'title': data.output.gritter.title, 'text': data.output.gritter.text, 'icon': data.output.gritter.icon});
                                     }
                                 } else if(data.status == "reload") {
-                                    //window.location.reload();
-                                } else{
+                                    window.location.reload();
+				}else if (data.status == "relcate") {
+				    window.location = data.location;
+				} else{
                                     alert(internal_error);
                                     //window.location.reload();
                                 }
