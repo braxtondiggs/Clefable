@@ -46,12 +46,28 @@
 */
 
 $active_group = 'default';
-$active_record = TRUE;
+$hostname = 'localhost';
+$username = '';
+$password = '';
+$database = '';
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'igniter';//'2r9pH9fR35UmE#afu#ahaweSusutejahu$a?hawrusp5tH+!uvAthUDafuyetreM';
+$active_record = TRUE;
+if ($_SERVER['SERVER_NAME'] == 'localhost') {
+    $username = 'root';
+    $database = 'igniter';
+    if ($_SERVER['SERVER_PORT'] == '8080') {
+        $password = 'root';
+    }
+}else {
+    $username = 'cymbitco_user';
+    $password = 'XkRb@8SEBq5A';
+    $database = 'cymbitco_development';
+}
+
+$db['default']['hostname'] = $hostname;
+$db['default']['username'] = $username;
+$db['default']['password'] = $password;
+$db['default']['database'] = $database;//'2r9pH9fR35UmE#afu#ahaweSusutejahu$a?hawrusp5tH+!uvAthUDafuyetreM';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
