@@ -51,7 +51,7 @@
 <?php } ?>
 <?php foreach($files as $file) {?>
     <div style="position: relative;">
-	<a href="<?= base_url('app'); ?>" class="site page">
+	<a href="<?= base_url('app/sitebuilder/pages/' .  $site->sid . '/' . urlencode(base64_encode($dir . $url_path . $file))); ?>" class="site page">
 	    <span class="icon_lrg pages"></span>
 	    <h4><?= ucfirst($file)?></h4>
 	    <p><?=  $url_path . $file; ?></p>
