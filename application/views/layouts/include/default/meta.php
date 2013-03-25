@@ -5,5 +5,14 @@
 <title><?php echo $template['title']; ?> &raquo; CymbitCMS</title>
 <?php echo meta('Content-type', 'text/html; charset=utf-8', 'equiv'); ?>
 <?php echo $template['metadata']; ?>
-<?php ($assets == "app")?include('assets_app.php'):($assets=="sitebuilder")?include('assets_sitebuilder.php'):include('assets.php'); ?>
-<?php //Assets::clear_cache(); ?>
+<?php switch ($assets){
+    case 'app':
+        include('assets_app.php');
+        break;
+    case 'sitebuilder':
+        include('assets_sitebuilder.php');
+        break;
+    default:
+        include('assets.php');
+        break;
+} ?>

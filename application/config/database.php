@@ -55,7 +55,7 @@ $active_record = TRUE;
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
     $username = 'root';
     $database = 'igniter';
-    if ($_SERVER['SERVER_PORT'] == '8080') {
+    if ($_SERVER['SERVER_PORT'] == '8888') {
         $password = 'root';
     }
 }else {

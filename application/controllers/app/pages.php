@@ -9,7 +9,7 @@ class Pages extends CI_Controller{
 	    redirect('login');
 	}
 	if (!$this->input->is_ajax_request()) {
-	    $this->output->enable_profiler(FALSE);
+	    $this->output->enable_profiler(TRUE);
 	}
     }
     function create($sid = null, $path = null, $approved = null) {
@@ -118,6 +118,52 @@ class Pages extends CI_Controller{
 	}else {
 	    show_404();
 	}
+    }
+    function browse_local($sid = null) {
+	if ($this->input->is_ajax_request()) {
+	    $sites = $this->sites->get_site($sid);
+
+	    $allowed_extentions = array("htm", "html", "php");
+	    $dir = trim($this->input->post('dir'));
+	    ///$dir = dirname($sites[0]->path) . '/';
+	    $map = directory_map('./CMS/' . $this->session->userdata('account') . '/' . $sid . $dir, 2);
+	    $files = array();$directories = array();
+	    if (!empty($map)) {
+		foreach ($map as $k => $v) {
+		    if (!is_array($v)) {
+			$ext = preg_replace('/^.*\./', '', $v);
+			if (in_array($ext, array("htm", "html", "php"))) {
+			    array_push($files, $v);
+			}
+		    } else{
+			array_push($directories, $k);
+		    }
+		}
+	    }
+
+	    $output = '<ul class="jqueryFileTree" style="display: none;">';
+	    foreach ($directories as $directory) {
+		//1. Size is '-1' => directory
+  		//if (@ftp_size($this->ftp->conn_id, $dir.$folder) == '-1' && $folder !== "." && $folder !== "..") {
+		    //output as [ directory ]
+		    $output .= '<li class="directory collapsed"><a href="' .$directory . '" rel="' . $dir . htmlentities($directory) . '/' . '">' . htmlentities($directory) . '</a></li>';
+  		//}
+	    }
+	    foreach ($files as $file) {
+		
+		//2. Size is not '-1' => file
+  		if (!(@ftp_size($this->ftp->conn_id, $dir.$file) == '-1')) {
+		    //output as file
+		    $ext = preg_replace('/^.*\./', '', $file);
+		    if (in_array($ext, $allowed_extentions)) {
+	  		$output .= '<li class="file ext_' . $ext . '"><a href="' . htmlentities($file) . '" rel="' .$dir.htmlentities($file) . '">' . htmlentities($file) . '</a></li>';
+	  	    }
+  		}
+	    }
+	    echo $output . '</ul>';
+	}else {
+            show_404();
+        }
     }
     private function _edit_alert($action = 'create', $sid = null, $path = null, $input = null) {
 	$data = array('input' => $input, 'sid' => $sid, 'action' => $action);
