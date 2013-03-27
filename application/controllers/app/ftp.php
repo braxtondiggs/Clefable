@@ -90,6 +90,7 @@ class Ftp extends CI_Controller{
     }
     function save_file($sid = null) {
 	if ($this->input->is_ajax_request()) {
+	    $site = $this->sites->get_site($sid);$site = $site[0];
 	    $file = parse_url(trim($this->input->post('file'), PHP_URL_PATH));$file= $file['path'];
 	    $ftp_server = trim($this->input->post('server'));
 	    $ftp_user = trim($this->input->post('username'));
@@ -103,6 +104,31 @@ class Ftp extends CI_Controller{
 		    if ($this->pages->_create_folder($sid, (substr($file, 0, 2) =='/./')?substr($file, 2):$file)) {
 			$this->ftp->download($file, './CMS/' . $this->session->userdata('account') . '/' . $sid . $file);
 			$this->session->set_flashdata('gritter', array($this->lang->line('gritter_add_page')));
+			
+			include('./application/third_party/parser/simple_html_dom.php');
+			$html = read_file('./CMS/' . $this->session->userdata('account') . '/' . $sid . '/' . $file);
+			if (!$html) {
+			    echo 'read error';
+			}
+			$html = str_get_html($html);
+			// find all link
+			$path = dirname($site->path);
+			foreach($html->find('link') as $e) {
+			    $href = trim(dirname($e->href));
+			    if (!empty($href)){
+				if ($this->pages->_create_folder($sid, $path . '/' . $href . '/index.html')) {
+				    $this->ftp->download($path . '/' . $e->href, './CMS/' . $this->session->userdata('account') . '/' . $sid . '/' . $path . '/' . $e->href);
+				}
+			    }
+			}
+			foreach($html->find('img, script') as $e) {
+			    $src = trim(dirname($e->src));
+			    if (!empty($src)){
+				if ($this->pages->_create_folder($sid, $path . '/' . $src . '/index.html')) {
+				    $this->ftp->download($path . '/' . $e->src, './CMS/' . $this->session->userdata('account') . '/' . $sid . '/' . $path . '/' . $e->src);
+				}
+			    }
+			}
 		    }
 		}
 	    }
