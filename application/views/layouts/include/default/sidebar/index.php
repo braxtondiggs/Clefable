@@ -1,4 +1,8 @@
-<?php if (isset($sidebar)) { ?>
+<?php if (!isset($sidebar)) { ?>
+<aside class="right">
+					
+					<h2>Right Side Panel Content</h2>
+				</aside>
     <div id="sidebar_container" class="right">
         <?php
             foreach ($sidebar as $file) {
