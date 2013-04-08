@@ -1,9 +1,17 @@
-<h3 class="underline">Account Dashboard</h3>
-<a class="nav-section manage_sitebtn" href="<?php echo base_url("app/sites");?>">
-	<h4 class="underline"><span class="icon-block cmsicon"></span>Manage Websites</h4>
-	<p>Create and manage multiple websites.</p>
-</a>
-<a class="nav-section manage_userbtn" href="<?php echo base_url("app/users".(($this->session->userdata('user_type') != 1)?"/edit/".$this->session->userdata("QID"):"")); ?>">
-	<h4 class="underline"><span class="card-stack cmsicon"></span>User &amp; Permission</h4>
-	<p>Click to manage user and access.</p>
-</a>
+<div id="page-content">
+	<!-- page header -->
+	<h1 id="page-header"><?= $template['title']; ?></h1>
+	<p>Click on one of your sites to manage it.</p>
+	<p>&nbsp;</p>
+	<?php
+	foreach ($sites as $site) {
+	    if ($site->active == 1) {?>
+		<a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="nav-section" style="height:auto;">
+		    <h4 class="underline"><span class="geticon" data-url="<?= $site->url;?>"></span><?= $site->name; ?></h4>
+		    <img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/>
+		</a>
+	<?php
+	    }
+	}
+	?>
+</div>
