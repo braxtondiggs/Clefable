@@ -18,7 +18,7 @@ div.uploader,
 div.uploader span.action,
 div.button,
 div.button span {
-  background-image: url("../img/uniform-skin/sprite-aristo.png");
+  background-image: url("../../images/app/uniform-skin/sprite-aristo.png");
   background-repeat: no-repeat;
   -webkit-font-smoothing: antialiased; }
 
@@ -53,7 +53,7 @@ div.button span {
   padding: 0; }
 
 .highContrastDetect {
-  background: url("../img/uniform-skin/bg-input-aristo.png") repeat-x 0 0;
+  background: url("../../images/app/uniform-skin/bg-input-aristo.png") repeat-x 0 0;
   width: 0px;
   height: 0px; }
 

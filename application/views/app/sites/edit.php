@@ -1,22 +1,19 @@
 <?php $site = $site[0]; ?>
-<div class="breadCrumbHolder module">
-	<div id="breadCrumb" class="breadCrumb module">
-		<ul>
-			<li>
-				<a href="<?= base_url('app'); ?>">Account Dashboard</a>
-			</li>
-			<li>
-				<a href="<?= base_url('app/sites'); ?>">Manage Sites</a>
-			</li>
-			<li>
-				<a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>"><?= $site->url; ?></a>
-			</li>
-			<li>
-				<?= $template['title']; ?>
-			</li>
-		</ul>
-	</div>
+<div id="page-content">
+    <!-- page header -->
+    <h1 id="page-header"><?= $template['title']; ?></h1>
+    <p>&nbsp;</p>
+    	<div class="fluid-container">
+            <!-- widget grid -->
+            <section id="widget-grid" class="">
+                    
+                    <!-- row-fluid -->
+                    <div class="row-fluid">
+                        <article class="span12">
+                            <?php include('include/form.php'); ?>
+                        </article>
+                    </div>
+            </section>
+        </div>
 </div>
-<h3 class="underline"><?= $template['title']; ?></h3>
-<?php include('include/form.php'); ?>
 <?php $this->load->view('app/include/modal/buttonless'); ?>

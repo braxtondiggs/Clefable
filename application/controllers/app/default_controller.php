@@ -13,7 +13,7 @@ class Default_Controller extends CI_Controller{
 	$this->load->model('Sites_model', 'sites');
         $this->template->title('Account Dashboard');
 	$this->template->set('sites', $this->sites->get_sites(TRUE));
-	$this->template->set('sidebar', array('app/list_sites', 'app/upgrade_1', 'app/help'));
+	$this->template->set('sidebar', array('app/sites_usage', 'app/users_usage'));
 	$this->template->set_layout('default_app')->build('app/index');
     }
     function logout() {

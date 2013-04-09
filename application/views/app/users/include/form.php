@@ -14,105 +14,114 @@
     }
 ?>
 <div class="validate_errors alert-error" style="display:none;"></div>
-<form id="user" class="formular" method="post" action="<?php echo base_url("app/users/submit/".$id);?>">
-    <div class="jQTabs" style="float:left;width:100%;">
-	<ul>
-	    <li>
-		<a href="#tabs-1">
-		    <span class="user cmsicon"></span>Basic Information
-		</a>
-	    </li>
-            <?php if ($this->session->userdata('user_type') == 1) { ?>
-		<li>
-		    <a href="#tabs-2">
-			<span class="shareperm cmsicon"></span>Permissions</a>
-		</li>
-	    <?php } ?>
-	</ul>
-   	<div id="tabs-1" class="Form_Block">
-	    <div class="half">
-		<div class="form-item">
-		    <label for="first-name">
-			<span>*</span>&nbsp;First Name
-		    </label>
-		    <input id="first_name" name="first_name" type="text" value="<?php echo $first_name; ?>" class="validate[required] text-rounded txt-l" />
-		    <p>Example: John</p>
-		</div>
-		<div class="form-item">
-		    <label for="last-name">
-			<span>*</span>&nbsp;Last Name
-		    </label>
-		    <input id="last_name" name="last_name" type="text" value="<?php echo $last_name; ?>"  class="validate[required] text-rounded txt-l" />
-		    <p>Example: Doe</p>
-		</div>
-		<div class="form-item">
-		    <label for="email">
-			<span>*</span>&nbsp;Email
-		    </label>
-		    <input id="email" name="email" type="text" value="<?php echo $email; ?>" class="validate[required,custom[email]] text-rounded txt-l" />
-		    <p>Example: John.Doe@mail.com</p>
-		</div>
-		<div class="form-item">
-		    <label for="language">&nbsp;Language - BETA</label>
-		    <select id="language" name="language" class="text-rounded">
-			<?php foreach($languages = $this->ion_auth->get_languages() as $lang) {
-			    echo '<option value="'.$lang['value'].'"'.($user_languages == $lang['value']?' selected="selected"':'').'>'.$lang['text'].'</option>';
-			}
-			?>
-		    </select>
-		    <p>language for this user</p>
-		</div>
-	    </div>
-	    <div class="half">
-		<?php if ($this->session->userdata('user_type') == 1) { ?>
-		    <div class="form-item">
-			<label style="margin-bottom:15px;">
-			    <span>*</span>&nbsp;Account Type
-			</label>
-			<input id="admin" name="account_type" type="radio" class="validate[required]" value="1" <?php echo ($type == "1")?"checked=\"checked\" ":"";?><?php echo ($account_type == "1")?"disabled=\"disabled\"":"";?> />
-			<label for="admin" style="display: inline;">Administor&nbsp;</label>
-			<input id="editor" name="account_type" type="radio" class="validate[required]" value="2" <?php echo ($type == "2")?"checked=\"checked\"":"";?> <?php echo ($account_type == "1" && $type == "1")?"disabled=\"disabled\"":"";?>/>
-			<label for="editor" style="display: inline;">Editor&nbsp;</label>
-		    </div>
-		    <?php if ($this->session->userdata('account_type') == 1) { ?>
-			<div class="warning">
-			    Only Business Accounts can have more than one Account Administrator. Upgrade to a Business Account.
-			</div>
-		<?php }} ?>
-		<?php if (!(isset($is_new) && $is_new)) { ?>
-		<div class="form-item">
-		    <input id="new_password" name="new_password" type="checkbox" value="true" />
-		    <label for="new_password" style="display:inline;">Change Password</label>
-		    
-		    <div style="display:none;">
-		<?php } ?>
-			<div class="form-item">
-			    <label for="password">&nbsp;New Password</label>
-			    <input id="password" name="password" type="password" class="text-rounded txt-l validate[required,minSize[6]]" />
-			    <p>Only enter a password if you wish to change the existing one.</p>
-			</div>
-			<div class="form-item">
-			    <label for="confirm_password">&nbsp;Repeat New Password</label>
-			    <input id="confirm_password" name="confirm_password" type="password" class="text-rounded txt-l validate[required,equals[password]]" />
-			    <p>re-enter the password for this account</p>
-			</div>
-		<?php if (!(isset($is_new) && $is_new)) { ?>    
-		    </div>
-		</div>
-		<?php } ?>
-	    </div>
-	    <br class="clr" />
-	</div>
-	<div id="tabs-2" class="Form_Block">
-	    Permission
-	</div>
-    </div>
-    <p>&nbsp;</p>
-    <p>
-	<a href="#" class="submit button">
-	    <span class="save cmsicon"></span>Save Users Settings
-	</a>
-    </p>
+<form id="user" class="formular form-horizontal themed" method="post" action="<?php echo base_url("app/users/submit/".$id);?>">
+    <div class="inner-spacer">
+	<ul id="myTab" class="nav nav-tabs default-tabs">
+	   <li class="active">
+	       <a href="#s1" data-toggle="tab"><span class="left cus-user"></span>&nbsp;Basic Information</a>
+	   </li>
+	   <?php if ($this->session->userdata('user_type') == 1) { ?>
+	   <li>
+	       <a href="#s2" data-toggle="tab"><span class="left cus-lock"></span>&nbsp;Permissions</a>
+	   </li>
+	   <?php } ?>
+       </ul>
+	
+       <div id="myTabContent" class="tab-content">
+	   <div class="tab-pane fade in active" id="s1">
+	       <fieldset>
+		   <div class="control-group">
+			   <label class="control-label" for="first-name"><span>*</span>&nbsp;First Name</label>
+			   <div class="controls">
+				   <input id="first_name" name="first_name" type="text" value="<?php echo $first_name; ?>" class="validate[required] text-rounded txt-l span12" />
+				   <p class="help-block">Example: John</p>
+			   </div>
+		   </div>
+		   <div class="control-group">
+			   <label class="control-label" for="last-name"><span>*</span>&nbsp;Last Name</label>
+			   <div class="controls">
+				   <input id="last_name" name="last_name" type="text" value="<?php echo $last_name; ?>"  class="validate[required] text-rounded txt-l span12" />
+				   <p class="help-block">Example: Doe</p>
+			   </div>
+		   </div>
+		   <div class="control-group">
+			   <label class="control-label" for="email"><span>*</span>&nbsp;Email</label>
+			   <div class="controls">
+				   <input id="email" name="email" type="text" value="<?php echo $email; ?>" class="validate[required,custom[email]] text-rounded txt-l span12" />
+				   <p class="help-block">Example: John.Doe@mail.com</p>
+			   </div>
+		   </div>
+		   <?php if (!(isset($is_new) && $is_new)) { ?>
+		   <div class="control-group">
+			   <div class="controls">
+				   <label class="checkbox">
+				       <input type="checkbox" id="new_password" name="new_password"  value="true">Change Password
+				   </label>
+			   </div>
+		   </div>
+		   <?php } ?>
+		   <div>
+		       <div class="control-group" <?= ((isset($is_new) && $is_new))? 'style="display:none;"':''?>>
+			       <label class="control-label" for="password"><span>*</span>&nbsp;New Password</label>
+			       <div class="controls">
+				       <input id="password" name="password" type="password" class="text-rounded txt-l validate[required,minSize[6]] span12" />
+					<p class="help-block">Only enter a password if you wish to change the existing one.</p>
+			       </div>
+		       </div>
+		       <div class="control-group">
+			       <label class="control-label" for="confirm_password"><span>*</span>&nbsp;Repeat New Password</label>
+			       <div class="controls">
+				       <input id="confirm_password" name="confirm_password" type="password" class="text-rounded txt-l validate[required,equals[password]] span12" />
+				       <p class="help-block">re-enter the password for this account</p>
+			       </div>
+		       </div>
+		   </div>
+		   <div class="control-group">
+		       <label class="control-label" for="language">&nbsp;Language - BETA</label>
+			   <div class="controls">
+			       <select id="language" name="language" class="text-rounded span12 with-search">
+				   <?php foreach($languages = $this->ion_auth->get_languages() as $lang) {
+				       echo '<option value="'.$lang['value'].'"'.($user_languages == $lang['value']?' selected="selected"':'').'>'.$lang['text'].'</option>';
+				   }
+				   ?>
+			       </select>
+			       <p class="help-block">language for this user</p>
+			   </div>
+		   </div>
+		   <?php if ($this->session->userdata('user_type') == 1) { ?>
+		   <div class="control-group">
+		       <label class="control-label"><span>*</span>&nbsp;Account Type</label>
+		       <div class="controls">
+			       <label class="radio">
+				   <input id="admin" name="account_type" type="radio" class="validate[required]" value="1" <?php echo ($type == "1")?"checked=\"checked\" ":"";?><?php echo ($account_type == "1")?"disabled=\"disabled\"":"";?> />
+				   Administor&nbsp;
+			       </label>
+			       <label class="radio">
+				   <input id="editor" name="account_type" type="radio" class="validate[required]" value="2" <?php echo ($type == "2")?"checked=\"checked\"":"";?> <?php echo ($account_type == "1" && $type == "1")?"disabled=\"disabled\"":"";?>/>
+				   Editor&nbsp;
+			       </label>
+				<?php if ($this->session->userdata('account_type') == 1) { ?>
+			       <br />
+			       <div class="alert adjusted alert-block">
+				   <p>Only Business Accounts can have more than one Account Administrator. Upgrade to a Business Account.</p>
+			       </div>
+		       </div>
+		   </div>
+		   <?php }} ?>
+	       </fieldset>
+	   </div>
+       <div class="tab-pane fade" id="s2">
+       </div>
+       </div>
+	   <div class="form-actions">
+		   <button type="reset" class="btn medium btn-danger">
+			   Cancel
+		   </button>
+		   <button type="submit" class="btn medium btn-primary submit">
+			   Save changes
+		   </button>
+	   </div>
+       </div>
 </form>
 <script type="text/javascript">
 	$(function() {
