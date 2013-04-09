@@ -14,4 +14,8 @@
 	    }
 	}
 	?>
+	<a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="nav-section" style="height:auto;">
+		    <h4 class="underline"><span class="left icon-plus" style="color: green"></span>Add New Site</h4>
+		    <img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/>
+		</a>
 </div>

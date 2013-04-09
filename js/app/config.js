@@ -1614,7 +1614,7 @@
 				lineWidth: 20,
 				barColor: function(percent) {
 				    percent /= 100;
-				    return "rgb(" + Math.round(255 * (1-percent)) + ", " + Math.round(255 * percent) + ", 0)";
+				    return "rgb(" + Math.round(255 * percent) + ", " + Math.round(255 * (1-percent)) + ", 0)";
 				},
 				size: 150
 			});

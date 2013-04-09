@@ -49,7 +49,7 @@ $assets = "app";$header=false;?>
 									<ul id="mailbox-slimscroll-js" class="mailbox">
 										<li>
 											<a href="javascript:void(0)" class="unread">
-												<img src="images/app/email-important.png" alt="important mail">
+												<img src="<?=base_url('images/app/email-important.png')?>" alt="important mail">
 												From: David Simpson
 												<i class="icon-paper-clip"></i>
 												<span>Dear Victoria, Congratulations! Your work has been uploaded to wrapbootstrap.com...</span>
@@ -58,7 +58,7 @@ $assets = "app";$header=false;?>
 										<li>
 											<a href="javascript:void(0)" class="unread attachment">
 												
-												<img src="images/app/email-unread.png" alt="important mail">
+												<img src="<?=base_url('images/app/email-unread.png')?>" alt="important mail">
 												Re:Last Year sales
 												<i class="icon-paper-clip"></i>
 												<span>Hey Vicky, find attached! Thx :-)</span>
@@ -66,7 +66,7 @@ $assets = "app";$header=false;?>
 										</li>
 										<li>
 											<a href="javascript:void(0)" class="unread">
-												<img src="images/app/email-unread.png" alt="important mail">
+												<img src="<?=base_url('images/app/email-unread.png')?>" alt="important mail">
 												Company Party
 												<i class="icon-paper-clip"></i>
 												<span>Hi, You have been cordially invited to join new year after party.</span>
@@ -74,7 +74,7 @@ $assets = "app";$header=false;?>
 										</li>
 										<li>
 											<a href="javascript:void(0)" class="read">
-												<img src="images/app/email-read.png" alt="important mail">
+												<img src="<?=base_url('images/app/email-read.png')?>" alt="important mail">
 												RE: 2 Bugs found...
 												<i class="icon-paper-clip"></i>
 												<span>I have found two more bugs in this your beta version, maybe its not working...</span>
@@ -82,7 +82,7 @@ $assets = "app";$header=false;?>
 										</li>
 										<li>
 											<a href="javascript:void(0)" class="read">
-												<img src="images/app/email-read.png" alt="important mail">
+												<img src="<?=base_url('images/app/email-read.png')?>" alt="important mail">
 												2 Bugs found...
 												<i class="icon-paper-clip"></i>
 												<span>Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales.</span>
@@ -90,7 +90,7 @@ $assets = "app";$header=false;?>
 										</li>
 										<li>
 											<a href="javascript:void(0)" class="read">
-												<img src="images/app/email-read.png" alt="important mail">
+												<img src="<?=base_url('images/app/email-read.png')?>" alt="important mail">
 												Welcome to Jarvis!
 												<i class="icon-paper-clip"></i>
 												<span>Feugiat a, tellus. Phasellus viverra nulla ut metus varius. Quisque rutrum. Aenean imperdiet... </span>
@@ -189,7 +189,7 @@ $assets = "app";$header=false;?>
 					<!-- aside item: Mini profile -->
 					<div class="my-profile">
 						<a href="<?= base_url('app/users/edit/' . $this->session->userdata('QID')); ?>" class="my-profile-pic">
-							<img src="images/app/avatar/avatar_0.jpg" alt="" />
+							<img src="<?=base_url('images/app/avatar/avatar_0.jpg')?>" alt="" />
 						</a>
 						<span class="first-child">Welcome <strong><?= $this->session->userdata('first_name') . '&nbsp;' .  ucwords(substr($this->session->userdata('last_name'), 0, 1)); ?>!</strong></span>
 						<span><a href="<?= base_url('app/users/edit/' . $this->session->userdata('QID')); ?>" class="edit-profile">Edit Profile </a></span>
@@ -201,7 +201,11 @@ $assets = "app";$header=false;?>
 					<div class="sidebar-nav-fixed">
 						
 						<ul class="menu" id="accordion-menu-js">
+							
 							<li class="current">
+								<a href="<?=base_url('app')?>"><i class="icon-home"></i>Dashboard</a>
+							</li>
+						<li class="">
 								<a href="javascript:void(0)"><i class="icon-off"></i>Master <span class="badge">2</span></a>
 								<ul>
 									<li>
@@ -211,10 +215,7 @@ $assets = "app";$header=false;?>
 										<a href="javascript:void(0);" class="logout-js" data-rel="login.html">Logout</a>
 									</li>
 								</ul>
-							</li>
-							<li class="">
-								<a href="inbox.html"><i class="icon-envelope"></i>Single Item</a>
-							</li>
+						</li>
 							<li class="">
 								<a href="javascript:void(0)"><i class="icon-check"></i>Item > Item<span class="badge">3</span></a>
 								<ul>
@@ -264,34 +265,34 @@ $assets = "app";$header=false;?>
     
     <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/app/libs/jquery.min.js"><\/script>')</script>
+    <script>window.jQuery || document.write('<script src="<?=base_url('js/app/libs/jquery.min.js')?>"><\/script>')</script>
     	<!-- OPTIONAL: Use this migrate scrpit for plugins that are not supported by jquery 1.9+ -->
 		<!-- DISABLED <script src="js/libs/jquery.migrate-1.0.0.min.js"></script> -->
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-    <script>window.jQuery.ui || document.write('<script src="js/app/libs/jquery.ui.min.js"><\/script>')</script>
+    <script>window.jQuery.ui || document.write('<script src="<?=base_url('js/app/libs/jquery.ui.min.js')?>"><\/script>')</script>
     
     <!-- IMPORTANT: Jquery Touch Punch is always placed under Jquery UI -->
-    <script src="js/app/include/jquery.ui.touch-punch.min.js"></script>
+    <script src="<?=base_url('js/app/include/jquery.ui.touch-punch.min.js')?>"></script>
     
     <!-- REQUIRED: Mobile responsive menu generator -->
-	<script src="js/app/include/selectnav.min.js"></script>
+	<script src="<?=base_url('js/app/include/selectnav.min.js')?>"></script>
 
 	<!-- REQUIRED: Datatable components -->
-    <script src="js/app/include/jquery.accordion.min.js"></script>
+    <script src="<?=base_url('js/app/include/jquery.accordion.min.js')?>"></script>
 
 	<!-- REQUIRED: Toastr & Jgrowl notifications  -->
-    <script src="js/app/include/toastr.min.js"></script>
-    <script src="js/app/include/jquery.jgrowl.min.js"></script>
+    <script src="<?=base_url('js/app/include/toastr.min.js')?>"></script>
+    <script src="<?=base_url('js/app/include/jquery.jgrowl.min.js')?>"></script>
     
     <!-- REQUIRED: Sleek scroll UI  -->
-    <script src="js/app/include/slimScroll.min.js"></script>
+    <script src="<?=base_url('js/app/include/slimScroll.min.js')?>"></script>
 	
 	<!-- REQUIRED: Datatable components -->
-	<script src="js/app/include/jquery.dataTables.min.js"></script>
-	<script src="js/app/include/DT_bootstrap.min.js"></script> 
+	<script src="<?=base_url('js/app/include/jquery.dataTables.min.js')?>"></script>
+	<script src="<?=base_url('js/app/include/DT_bootstrap.min.js')?>"></script> 
 
     <!-- REQUIRED: Form element skin  -->
-    <script src="js/app/include/jquery.uniform.min.js"></script>
+    <script src="<?=base_url('js/app/include/jquery.uniform.min.js')?>"></script>
 
 	<script type="text/javascript">
 		var ismobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));	
@@ -301,11 +302,11 @@ $assets = "app";$header=false;?>
 	    	
 	    	/* REQUIRED: Datatable PDF/Excel output componant */
 	    	
-	    	document.write('<script src="js/app/include/ZeroClipboard.min.js"><\/script>'); 
-	    	document.write('<script src="js/app/include/TableTools.min.js"><\/script>');
-	    	document.write('<script src="js/app/include/select2.min.js"><\/script>'); 
-	    	document.write('<script src="js/app/include/jquery.excanvas.min.js"><\/script>');
-	    	document.write('<script src="js/app/include/jquery.placeholder.min.js"><\/script>');
+	    	document.write('<script src="<?=base_url('js/app/include/ZeroClipboard.min.js')?>"><\/script>'); 
+	    	document.write('<script src="<?=base_url('js/app/include/TableTools.min.js')?>"><\/script>');
+	    	document.write('<script src="<?=base_url('js/app/include/select2.min.js')?>"><\/script>'); 
+	    	document.write('<script src="<?=base_url('js/app/include/jquery.excanvas.min.js')?>"><\/script>');
+	    	document.write('<script src="<?=base_url('js/app/include/jquery.placeholder.min.js')?>"><\/script>');
 	    	
 			/** DEMO SCRIPTS **/
 	        $(function() {
@@ -332,92 +333,92 @@ $assets = "app";$header=false;?>
 	    	
 	    	/** ONLY EXECUTE THESE CODES IF MOBILE DETECTION IS TRUE **/
 	    	
-			document.write('<script src="js/app/include/selectnav.min.js"><\/script>');
+			document.write('<script src="<?=base_url('js/app/include/selectnav.min.js')?>"><\/script>');
 	    }
 	</script>
 
     <!-- REQUIRED: iButton -->
-    <script src="js/app/include/jquery.ibutton.min.js"></script>
+    <script src="<?=base_url('js/app/include/jquery.ibutton.min.js')?>"></script>
 	
 	<!-- REQUIRED: Justgage animated charts -->
-	<script src="js/app/include/raphael.2.1.0.min.js"></script> 
-    <script src="js/app/include/justgage.min.js"></script> 
+	<script src="<?=base_url('js/app/include/raphael.2.1.0.min.js')?>"></script> 
+    <script src="<?=base_url('js/app/include/justgage.min.js')?>"></script> 
     
     <!-- REQUIRED: Morris Charts -->
-    <script src="js/app/include/morris.min.js"></script> 
-    <script src="js/app/include/morris-chart-settings.js"></script> 
+    <script src="<?=base_url('js/app/include/morris.min.js')?>"></script> 
+    <script src="<?=base_url('js/app/include/morris-chart-settings.js')?>"></script> 
     
     <!-- REQUIRED: Animated pie chart -->
-    <script src="js/app/include/jquery.easy-pie-chart.min.js"></script>
+    <script src="<?=base_url('js/app/include/jquery.easy-pie-chart.min.js')?>"></script>
     
     <!-- REQUIRED: Functional Widgets -->
-    <script src="js/app/include/jarvis.widget.min.js"></script>
-    <script src="js/app/include/mobiledevices.min.js"></script>
+    <script src="<?=base_url('js/app/include/jarvis.widget.min.js')?>"></script>
+    <script src="<?=base_url('js/app/include/mobiledevices.min.js')?>"></script>
 	
 	<!-- REQUIRED: Full Calendar -->
-    <script src="js/app/include/jquery.fullcalendar.min.js"></script>		
+    <script src="<?=base_url('js/app/include/jquery.fullcalendar.min.js')?>"></script>		
     
     <!-- REQUIRED: Flot Chart Engine -->
-    <script src="js/app/include/jquery.flot.cust.min.js"></script>			
-    <script src="js/app/include/jquery.flot.resize.min.js"></script>		
-    <script src="js/app/include/jquery.flot.tooltip.min.js"></script>		
-    <script src="js/app/include/jquery.flot.orderBar.min.js"></script> 	
-    <script src="js/app/include/jquery.flot.fillbetween.min.js"></script> 	
-    <script src="js/app/include/jquery.flot.pie.min.js"></script> 	 
+    <script src="<?=base_url('js/app/include/jquery.flot.cust.min.js')?>"></script>			
+    <script src="<?=base_url('js/app/include/jquery.flot.resize.min.js')?>"></script>		
+    <script src="<?=base_url('js/app/include/jquery.flot.tooltip.min.js')?>"></script>		
+    <script src="<?=base_url('js/app/include/jquery.flot.orderBar.min.js')?>"></script> 	
+    <script src="<?=base_url('js/app/include/jquery.flot.fillbetween.min.js')?>"></script> 	
+    <script src="<?=base_url('js/app/include/jquery.flot.pie.min.js')?>"></script> 	 
     
     <!-- REQUIRED: Sparkline Charts -->
-    <script src="js/app/include/jquery.sparkline.min.js"></script>
+    <script src="<?=base_url('js/app/include/jquery.sparkline.min.js')?>"></script>
 
 	<!-- REQUIRED: Infinite Sliding Menu (used with inbox page) -->
-	<script src="js/app/include/jquery.inbox.slashc.sliding-menu.js"></script> 
+	<script src="<?=base_url('js/app/include/jquery.inbox.slashc.sliding-menu.js')?>"></script> 
 
 	<!-- REQUIRED: Form validation plugin -->
-    <script src="js/app/include/jquery.validate.min.js"></script> 
+    <script src="<?=base_url('js/app/include/jquery.validate.min.js')?>"></script> 
     
     <!-- REQUIRED: Progress bar animation -->
-    <script src="js/app/include/bootstrap-progressbar.min.js"></script>
+    <script src="<?=base_url('js/app/include/bootstrap-progressbar.min.js')?>"></script>
     
     <!-- REQUIRED: wysihtml5 editor -->
-    <script src="js/app/include/wysihtml5-0.3.0.min.js"></script>
-    <script src="js/app/include/bootstrap-wysihtml5.min.js"></script>
+    <script src="<?=base_url('js/app/include/wysihtml5-0.3.0.min.js')?>"></script>
+    <script src="<?=base_url('js/app/include/bootstrap-wysihtml5.min.js')?>"></script>
 
 	<!-- REQUIRED: Masked Input -->
-    <script src="js/app/include/jquery.maskedinput.min.js"></script> 
+    <script src="<?=base_url('js/app/include/jquery.maskedinput.min.js')?>"></script> 
     
     <!-- REQUIRED: Bootstrap Date Picker -->
-    <script src="js/app/include/bootstrap-datepicker.min.js"></script>
+    <script src="<?=base_url('js/app/include/bootstrap-datepicker.min.js')?>"></script>
 
     <!-- REQUIRED: Bootstrap Wizard -->
-    <script src="js/app/include/bootstrap.wizard.min.js"></script> 
+    <script src="<?=base_url('js/app/include/bootstrap.wizard.min.js')?>"></script> 
     
 	<!-- REQUIRED: Bootstrap Color Picker -->
-     <script src="js/app/include/bootstrap-colorpicker.min.js"></script> 
+     <script src="<?=base_url('js/app/include/bootstrap-colorpicker.min.js')?>"></script> 
 
     
 	<!-- REQUIRED: Bootstrap Time Picker -->
-    <script src="js/app/include/bootstrap-timepicker.min.js"></script> 
+    <script src="<?=base_url('js/app/include/bootstrap-timepicker.min.js')?>"></script> 
     
     <!-- REQUIRED: Bootstrap Prompt -->
-    <script src="js/app/include/bootbox.min.js"></script> 
+    <script src="<?=base_url('js/app/include/bootbox.min.js')?>"></script> 
     
     <!-- REQUIRED: Bootstrap engine -->
-    <script src="js/app/include/bootstrap.min.js"></script>
+    <script src="<?=base_url('js/app/include/bootstrap.min.js')?>"></script>
     
     <!-- DO NOT REMOVE: Theme Config file -->
-    <script src="js/app/config.js"></script>
+    <script src="<?=base_url('js/app/config.js')?>"></script>
     
     <!-- d3 library placed at the bottom for better performance -->
-    <script src="js/app/include/d3.v3.min.js"></script> 
-    <script src="js/app/include/adv_charts/d3-chart-1.js"></script>
-    <script src="js/app/include/adv_charts/d3-chart-2.js"></script> 
+    <script src="<?=base_url('js/app/include/d3.v3.min.js')?>"></script> 
+    <script src="<?=base_url('js/app/include/adv_charts/d3-chart-1.js')?>"></script>
+    <script src="<?=base_url('js/app/include/adv_charts/d3-chart-2.js')?>"></script> 
 
     <!-- Google Geo Chart -->
     <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script> 
     <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     <!-- DISABLED <script src="js/include/adv_charts/geochart.js"></script> -->
     
-    <script src="js/app/include/jquery.livequery.min.js"></script>
-    <script src="js/app/include/global.js"></script>
+    <script src="<?=base_url('js/app/include/jquery.livequery.min.js')?>"></script>
+    <script src="<?=base_url('js/app/include/global.js')?>"></script>
      
     
     <!-- end scripts -->

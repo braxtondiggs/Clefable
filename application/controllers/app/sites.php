@@ -8,7 +8,7 @@ class Sites extends CI_Controller{
 	    redirect('login');
 	}
 	if (!$this->input->is_ajax_request()) {
-	    $this->output->enable_profiler(TRUE);
+	    //$this->output->enable_profiler(TRUE);
 	}
     }
     function index(){
