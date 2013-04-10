@@ -1717,9 +1717,17 @@
 	/* ---------------------------------------------------------------------- */	
 	
 	function setup_bootbox_demo() {
-		if ($('ul#bootbox-js').length){
+		
+		 $("#dash-modal").modal({                    // wire up the actual modal functionality and show the dialog
+			"backdrop"  : "static",
+			"keyboard"  : true,
+			"show"      : false                     // ensure the modal is shown immediately
+		}).find('.modal-header a').on('click', function() {
+			$("#dash-modal").modal('hide');
+		 });
+		//if ($('ul#bootbox-js').length){
 			
-			$('ul#bootbox-js a#bootbox-basic-js').click(function(e) {
+			/*$('ul#bootbox-js a#bootbox-basic-js').click(function(e) {
 				e.preventDefault();
 				play_sound_message_box();
 				bootbox.alert("Hello world!", function() {
@@ -1807,9 +1815,9 @@
 				        toastr.warning("Just a button...");
 				    }
 				}]);
-			});
+			});*/
 	
-		}// end if
+		//}// end if
 	}
 
 	/* ---------------------------------------------------------------------- */
