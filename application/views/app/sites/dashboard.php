@@ -10,8 +10,8 @@
 	</h4>
 	<p>Click to open the sitemap.</p>
     </a>
-    <?php if ($activate->gallery) {?>
-	<a href="<?= base_url('app/ftp/assets/' . $site->sid); ?>" class="nav-section assets-action">
+    <?php if ($activate->gallery) {?><!--href="<?= base_url('app/ftp/assets/' . $site->sid); ?>"-->
+	<a href="javascript:void(0);" id="bootbox-prompt-js" class="nav-section assets-action">
 	    <h4 class="underline">
 		<span class="cus-images cmsicon"></span>Digital Assets
 	    </h4>
@@ -44,14 +44,20 @@
 	<h4 class="underline">
 	    <span class="cus-plug cmsicon"></span>Site Settings
 	</h4>
-	<p>Click to manage intergration settings.</p>
+	<p>Click to manage intergration settings.</p> 
     </a>
+    <?php
+$data['html'] = $this->load->view('app/include/modal/HTML/assets', $site, TRUE);
+$this->load->view('app/include/modal/buttonless', $data); ?>
 </div>
+
+											            
+											
 <script type="text/javascript">
     $(function() {
 	$('.assets-action').click(function() {
-	    $('#dialog-buttonless').css({'min-height':'600px', 'padding': '.5em 0px', 'overflow':'hidden'}).dialog({ title: "Assets Manager", width: '90%'}).dialog('open');
-	    $('#dialog-buttonless #manager').fileTree({ root: '<?= dirname($site->path) ?>/', script: '<?= base_url('app/ftp/browse_file/img/' . $site->sid); ?>', server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', multiFolder: false, getFolder: true}, function(file) { //once connection has been established
+	    $("#dash-modal").modal('show');
+	    $('#asset_container #manager').fileTree({ root: '<?= dirname($site->path) ?>/', script: '<?= base_url('app/ftp/browse_file/img/' . $site->sid); ?>', server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', multiFolder: false, getFolder: true}, function(file) { //once connection has been established
 		if (file !== null) {
 		    var img = file.substr(0, file.length-1).split(',');//array of files returned 
 		    var len=img.length;
@@ -61,10 +67,10 @@
 		    }
 		}
 	    });
-	    $("#assest_manager, #asset_body").height(function() { return ($("#ModalWindow").parents('#dialog-buttonless').height() -5);});//custom fit dialog to size of window screen
+	    $("#assest_manager, #asset_body").height(function() { return ($("#dash-modal").height() -5);});//custom fit dialog to size of window screen
 	return false;
 	});
-	 $("#asset_helper .edit-imgbtn").click(function() {
+	/* $("#asset_helper .edit-imgbtn").click(function() {
             var src = $('#asset_helper').data('pixlr').src;
 	    $('.ui-widget-overlay').show();
 	    $.ajax(src,{
@@ -77,9 +83,6 @@
 		}
 	    });
 	 return false;
-	 });
+	 });*/
     });
 </script>
-<?php
-$data['html'] = '<div id="ModalWindow">' . $this->load->view('app/include/modal/HTML/assets', $site, TRUE) . '</div>';
-$this->load->view('app/include/modal/buttonless', $data); ?>

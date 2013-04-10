@@ -1,4 +1,4 @@
-<div id="page-content">
+<div id="page-content" class="dashboard">
 	<!-- page header -->
 	<h1 id="page-header"><?= $template['title']; ?></h1>
 	<p>Click on one of your sites to manage it.</p>
@@ -8,7 +8,7 @@
 	    if ($site->active == 1) {?>
 		<a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="nav-section" style="height:auto;">
 		    <h4 class="underline"><span class="geticon" data-url="<?= $site->url;?>"></span><?= $site->name; ?></h4>
-		    <img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/>
+		    <img class="dash-screenshot" src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '/main.jpg')?>"/>
 		</a>
 	<?php
 	    }
@@ -16,6 +16,6 @@
 	?>
 	<a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>" class="nav-section" style="height:auto;">
 		    <h4 class="underline"><span class="left icon-plus" style="color: green"></span>Add New Site</h4>
-		    <img src="<?= base_url('CMS/screenshots/' . $this->session->userdata('account') . '/' . $site->sid . '.jpg')?>"/>
+		    <img class="dash-screenshot" src="<?= base_url('CMS/screenshots/add_template.png')?>"/>
 		</a>
 </div>

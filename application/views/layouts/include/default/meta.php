@@ -46,6 +46,7 @@
 	<link rel="stylesheet" href="<?=base_url('css/app/theme-responsive.css?v=1')?>">
         
         <link rel="stylesheet" href="<?=base_url('css/app/style.css?v=1')?>">
+        <link rel="stylesheet" href="<?=base_url('css/app/jquery.filetree.css?v=1')?>">
 	<!-- // THEME CSS changed by javascript: the CSS link below will override the rules above // -->
 	<!-- For more information, please see the documentation for "THEMES" -->
     <link rel="stylesheet" id="switch-theme-js" href="<?=base_url('css/app/themes/default.css?v=1')?>">   
@@ -84,6 +85,9 @@
 	<link rel="apple-touch-startup-image" href="<?=base_url('images/app/splash/ipad-landscape.png')?>" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
 	<link rel="apple-touch-startup-image" href="<?=base_url('images/app/splash/ipad-portrait.png')?>" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
 	<link rel="apple-touch-startup-image" href="<?=base_url('images/app/splash/iphone.png')?>" media="screen and (max-device-width: 320px)">
+        <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="<?=base_url('js/app/libs/jquery.min.js')?>"><\/script>')</script>
         <?php
         //include('assets_app.php');
         break;

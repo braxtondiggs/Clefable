@@ -30,7 +30,7 @@ $assets = "app";$header=false;?>
 							<!-- search and log off button for phone devices -->
 							<div class="btn-group pull-right visible-phone">
 								<a href="javascript:void(0)" class="btn btn-inverse btn-small"><i class="icon-search"></i></a>
-								<a href="login.html" class="btn btn-inverse btn-small"><i class="icon-off"></i></a>
+								<a href="<?= base_url('app/logout'); ?>" class="btn btn-inverse btn-small"><i class="icon-off"></i></a>
 							</div>
 							<!-- end buttons for phone device -->
 							
@@ -206,18 +206,24 @@ $assets = "app";$header=false;?>
 								<a href="<?=base_url('app')?>"><i class="icon-home"></i>Dashboard</a>
 							</li>
 						<li class="">
-								<a href="javascript:void(0)"><i class="icon-off"></i>Master <span class="badge">2</span></a>
+								<a href="javascript:void(0)"><i class="icon-globe"></i>My Sites <span class="badge"><?// $this->sites->get_num_sites() ?></span></a>
 								<ul>
+								<?php
+								foreach ($sites as $site) {
+									if ($site->active == 1) {?>
 									<li>
-										<a href="javascript:void(0)" class="expanded">Master</a>
+										<a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>">
+											<?= $site->name; ?>
+										</a>
 									</li>
-									<li>
-										<a href="javascript:void(0);" class="logout-js" data-rel="login.html">Logout</a>
-									</li>
+									<?php
+									    }
+									}
+									?>
 								</ul>
 						</li>
 							<li class="">
-								<a href="javascript:void(0)"><i class="icon-check"></i>Item > Item<span class="badge">3</span></a>
+								<a href="javascript:void(0)"><i class="icon-user"></i>Users<span class="badge"><?// $this->ion_auth->get_num_user() ?></span></a>
 								<ul>
 									<li>
 										<a href="javascript:void(0)">Subclass</a>
@@ -263,9 +269,6 @@ $assets = "app";$header=false;?>
     <!--================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     
-    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="<?=base_url('js/app/libs/jquery.min.js')?>"><\/script>')</script>
     	<!-- OPTIONAL: Use this migrate scrpit for plugins that are not supported by jquery 1.9+ -->
 		<!-- DISABLED <script src="js/libs/jquery.migrate-1.0.0.min.js"></script> -->
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
@@ -418,6 +421,7 @@ $assets = "app";$header=false;?>
     <!-- DISABLED <script src="js/include/adv_charts/geochart.js"></script> -->
     
     <script src="<?=base_url('js/app/include/jquery.livequery.min.js')?>"></script>
+    <script src="<?=base_url('js/app/include/jquery.filetree.js')?>"></script>
     <script src="<?=base_url('js/app/include/global.js')?>"></script>
      
     

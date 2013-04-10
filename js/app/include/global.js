@@ -50,16 +50,6 @@ $(function() {
         });
         return false;
     });
-    $(".gritter-notify").livequery(function() {
-	$.GritControl({'title': $(this).children('.gritter-title').text(), 'text':$(this).children('.gritter-text').text(), 'icon':$(this).children('.gritter-icon').text()});
-	
-    });
-    $(".iButton").livequery(function() {
-        $(this).iButton({easing: "easeOutBounce"}).change(function() {
-            var url = '/igniter/app/sites/features/' + $('.features').attr('data-class') + '/ajax/' + $(this).attr('id') + '/' + ($(this).is(':checked')?'enable':'disable');
-            $.ajax(url, {type: "GET"});
-        });
-    });
     $('.ghost').livequery(function() {
 	$(this).each(function(index) {// Adds the Ghost effect on textbox, this could be converted to a plugin
 	    if ($(this).val() === "" || $(this).val() === $(this).attr("title")) {
@@ -75,14 +65,6 @@ $(function() {
 		});
 	    }
 	});
-    });
-    $("#usage_progressbar").livequery(function() {
-	    var progress = ((parseInt($('#usage_start').text()) / parseInt($('#usage_end').text())) * 100)
-	    //pull usage a mximums from DOM
-	    $(this).progressbar({
-		    value: progress
-	    });//jquery native progree bar
-	    if (progress <= 0) {$(this).children('.ui-progressbar-value').hide();}
     });
     $(".asset_img_cont").livequery(function() {//Asset Manager images and documents
         $(this).hover(function() { 
@@ -134,9 +116,6 @@ $(function() {
     }
     
     function Init() {
-        //$("#breadCrumb").jBreadCrumb();
-        //$(".jQTabs").tabs().children('ul').removeClass('ui-widget-header').addClass('ui-widget-header-tab');
-        //$(".button").button();
         //$(".formular").validationEngine('attach');
 	$(".geticon").livequery(function() {//refers to icons for Manage Websites page, grabs the favicon
 	    $('<img>',{'src':'http://g.etfv.co/'+$(this).attr('data-url')+'?defaulticon=lightpng'}).addClass('cmsicon').prependTo($(this));//handles favicon of the site
