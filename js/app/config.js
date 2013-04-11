@@ -1718,12 +1718,12 @@
 	
 	function setup_bootbox_demo() {
 		
-		 $("#dash-modal").modal({                    // wire up the actual modal functionality and show the dialog
+		 $("#dash-modal, #ftp-site-modal").modal({                    // wire up the actual modal functionality and show the dialog
 			"backdrop"  : "static",
 			"keyboard"  : true,
 			"show"      : false                     // ensure the modal is shown immediately
 		}).find('.modal-header a').on('click', function() {
-			$("#dash-modal").modal('hide');
+			$("#dash-modal, #ftp-site-modal").modal('hide');
 		 });
 		//if ($('ul#bootbox-js').length){
 			

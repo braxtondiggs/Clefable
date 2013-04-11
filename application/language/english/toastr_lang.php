@@ -1,0 +1,2 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['toastr_site_update'] 	 = array('title' => 'Site has been updated!', 'text' => 'The site information has been updated.', 'type' => 'success');

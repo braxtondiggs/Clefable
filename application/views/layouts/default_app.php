@@ -209,11 +209,11 @@ $assets = "app";$header=false;?>
 								<a href="javascript:void(0)"><i class="icon-globe"></i>My Sites <span class="badge"><?// $this->sites->get_num_sites() ?></span></a>
 								<ul>
 								<?php
-								foreach ($sites as $site) {
-									if ($site->active == 1) {?>
+								foreach ($this->session->userdata('sites') as $site) {
+									if ($site['active'] == 1) {?>
 									<li>
-										<a href="<?= base_url('app/sites/dashboard/' . $site->sid); ?>">
-											<?= $site->name; ?>
+										<a href="<?= base_url('app/sites/dashboard/' . $site['sid']); ?>">
+											<?= $site['name']; ?>
 										</a>
 									</li>
 									<?php
@@ -225,16 +225,20 @@ $assets = "app";$header=false;?>
 							<li class="">
 								<a href="javascript:void(0)"><i class="icon-user"></i>Users<span class="badge"><?// $this->ion_auth->get_num_user() ?></span></a>
 								<ul>
+									<?php
+								foreach ($this->session->userdata('users') as $user) {?>
 									<li>
-										<a href="javascript:void(0)">Subclass</a>
+										<a href="<?= base_url('app/users/edit/' . $user['username']); ?>">
+											<?= $user['first_name'] . '&nbsp;' .  ucwords(substr($user['last_name'], 0, 1));?>
+										</a>
 									</li>
-									<li>
-										<a href="javascript:void(0)">Subclass</a>
-									</li>
-									<li>
-										<a href="javascript:void(0)">Subclass</a>
-									</li>
+									<?php
+									}
+									?>
 								</ul>
+							</li>
+							<li>
+								<a href="<?=base_url('app/logout')?>" class="logout"><i class="icon-off"></i>Logout</a>
 							</li>
 						</ul>
 						
@@ -422,9 +426,27 @@ $assets = "app";$header=false;?>
     
     <script src="<?=base_url('js/app/include/jquery.livequery.min.js')?>"></script>
     <script src="<?=base_url('js/app/include/jquery.filetree.js')?>"></script>
-    <script src="<?=base_url('js/app/include/global.js')?>"></script>
-     
+    <script src="<?=base_url('js/app/include/jquery.jbreadcrumb.js')?>"></script>
+    <script src="<?=base_url('js/validator/jquery.validationEngine.js')?>"></script>
+    <script src="<?=base_url('js/validator/jquery.validationEngine-en.js')?>"></script>
+     <script src="<?=base_url('js/app/include/global.js')?>"></script>
     
     <!-- end scripts -->
+    <script type="text/javascript">
+	$(function() {
+		<?php
+		if (!empty($this->session)) {
+			$toastr = $this->session->flashdata('toastr');
+			if (!empty($toastr) || ! empty($toastr_instant)) {
+				$toastr = (is_array($toastr))?$toastr:array();//$toastr_instant = (is_array($toastr_instant))?$toastr_instant:array();
+		foreach($toastr as $key) {
+			echo "toastr.".$key['type']."('".$key['text']."','".$key['title']."')";
+		}
+		
+	}
+}?>
+
+	});
+     </script>
 	</body>
 </html>

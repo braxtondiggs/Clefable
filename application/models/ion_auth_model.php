@@ -872,6 +872,31 @@ class Ion_auth_model extends CI_Model
 				$this->clear_login_attempts($identity);
 				
 				$this->session->set_userdata($session_data);
+                            
+                                $this->db->select('sites.name, sites.sid, sites.active');
+                                $this->db->from('sites');
+                                $this->db->where('sites.account', $this->session->userdata('account'));
+                                $query = $this->db->get();
+                                
+                               $sites = array();
+                            foreach ($query->result() as $site) {
+                                $sites[] = array('sid' => $site->sid,'name' => $site->name, 'active' => $site->active);
+                            }
+                            $session_site = array('sites'=> $sites);
+                            $this->session->set_userdata($session_site);
+                            
+                            
+                             $this->db->select('users.first_name, users.last_name, users.username');
+                                $this->db->from('users');
+                                $this->db->where('users.account', $this->session->userdata('account'));
+                                $query = $this->db->get();
+                                
+                               $users = array();
+                            foreach ($query->result() as $user) {
+                                $users[] =  array('username' => $user->username, 'first_name' => $user->first_name, 'last_name' => $user->last_name);
+                            }
+                            $session_user = array('users'=> $users);
+                            $this->session->set_userdata($session_user);
 
 				if ($remember && $this->config->item('remember_users', 'ion_auth'))
 				{

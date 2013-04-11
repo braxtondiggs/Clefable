@@ -9,7 +9,7 @@ class Pages extends CI_Controller{
 	    redirect('login');
 	}
 	if (!$this->input->is_ajax_request()) {
-	    $this->output->enable_profiler(TRUE);
+	    //$this->output->enable_profiler(TRUE);
 	}
     }
     function create($sid = null, $path = null, $approved = null) {
@@ -78,7 +78,7 @@ class Pages extends CI_Controller{
 	if ($sid !== null) {
 	    $sites = $this->sites->get_site($sid);
 	    $this->template->title('Site Pages');
-	    $this->template->set('sidebar', array('app/page_actions', 'app/help'));
+	    $this->template->set('sidebar', array('app/page_actions'));
 	    $this->template->set('site', $sites);
 	    $dir = dirname($sites[0]->path);
 	    $path_output = array(array('title' => 'Root Folder', 'path' => urlencode(base64_encode('/'))));
