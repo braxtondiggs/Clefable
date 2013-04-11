@@ -56,7 +56,7 @@ $this->load->view('app/include/modal/buttonless', $data); ?>
 <script type="text/javascript">
     $(function() {
 	$('.assets-action').click(function() {
-	    $("#dash-modal").modal('show');
+	    $("#dash-modal").modal('show').css({'width':'90%', 'top':'10%'});
 	    $('#asset_container #manager').fileTree({ root: '<?= dirname($site->path) ?>/', script: '<?= base_url('app/ftp/browse_file/img/' . $site->sid); ?>', server: '<?= $site->server ?>', user: '<?= $site->ftp_username ?>', password: '<?= $site->ftp_password ?>', multiFolder: false, getFolder: true}, function(file) { //once connection has been established
 		if (file !== null) {
 		    var img = file.substr(0, file.length-1).split(',');//array of files returned 

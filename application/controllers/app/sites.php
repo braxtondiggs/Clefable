@@ -8,19 +8,7 @@ class Sites extends CI_Controller{
 	    redirect('login');
 	}
 	if (!$this->input->is_ajax_request()) {
-	    //$this->output->enable_profiler(TRUE);
-	}
-    }
-    function index(){
-        if ($this->session->userdata('user_type') == 1) {
-	    $this->template->title('Manage Sites');
-	    $this->template->set('sites', $this->sites->get_sites());
-	    $this->template->set('sidebar', array('app/sites_usage', 'app/account_type', 'app/help'));
-	    $this->template->set_layout('default_app')->build('app/sites/index');
-	}else {
-	    $this->template->title('Manage Sites');
-	    $this->template->set('sites', $this->sites->get_sites());
-	    $this->template->set_layout('default_app')->build('app/sites/index_editor');
+	    $this->output->enable_profiler(FALSE);
 	}
     }
     
@@ -188,24 +176,24 @@ class Sites extends CI_Controller{
 	    );
 	    $this->form_validation->set_rules($config);
 	    if ($this->form_validation->run() == FALSE) {
-                $output = array('status' => "error", 'output' => "<strong>Error: </strong>".validation_errors());
+                $output = array('status' => "error", 'output' => validation_errors());
             }else{
 		$additional_data = array('url' => $url, 'name' => $site_name, 'server' => $address, 'ftp_username' => $user, 'ftp_password' => $password, 'path' => $path, 'keyword' => $keyword, 'ftp_mode' => $mode, 'ftp_port' => $port, 'extra_password' =>  $passkey_value);
 		if ($this->_test_ftp_connection($address, $user, $password, $port, FALSE)) {
 		    if ($id === null) {
 			if ($this->sites->get_num_sites() > $this->config->item('max_sites')) {
 			    $this->sites->create($additional_data);
-			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_create'), $this->lang->line('gritter_site_next')));
+			    $this->session->set_flashdata('toastr', array($this->lang->line('toastr_site_create'), $this->lang->line('toastr_site_next')));
 			}else {
-			    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_site')));
+			    $this->session->set_flashdata('toastr', array($this->lang->line('toastr_max_site')));
 			}
 		    }else {
 			$this->sites->update($id, $additional_data);
-			$this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_update')));
+			$this->session->set_flashdata('toastr', array($this->lang->line('toastr_site_update')));
 		    }
-		    $output = array('status' => "success", 'redirect' => base_url('app/sites'));
+		    $output = array('status' => "success", 'redirect' => base_url('app'));
 		}else {
-		    $output = array('status' => "error", 'output' => '<strong>Error: </strong> Your site\'s FTP information has failed, please review.');
+		    $output = array('status' => "error", 'output' => 'Your site\'s FTP information has failed, please review.');
 		}
 	    }
 	    header('Content-Type: application/json',true);

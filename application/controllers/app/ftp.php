@@ -29,9 +29,9 @@ class Ftp extends CI_Controller{
     
             // login with username and password
             if (!@ftp_login($conn_id, $ftp_user, $ftp_password)) {
-                $output = array('status' => 'error', 'output' => '<span class="delete ftp-alert cmsicon" style="display: inline-block;float: none;"></span>&nbsp;Username and Password is incorrect');
+                $output = array('status' => 'error', 'output' => '<span class="cus-cross-octagon"></span>&nbsp;Username and Password is incorrect');
             }else {
-                $output = array('status' => 'success', 'output' => '<span class="tick ftp-alert cmsicon" style="display: inline-block;float: none;"></span>&nbsp;Connection OK!');
+                $output = array('status' => 'success', 'output' => '<span class="cus-accept"></span>&nbsp;Connection OK!');
             }
             
             ftp_close($conn_id);

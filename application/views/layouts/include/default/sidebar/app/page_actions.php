@@ -1,25 +1,14 @@
-<?php $site = $site[0]; ?>
-<div id="page_actions" class="sidebar">
-    <h3 class="underline">Page Actions</h3>
-    <div><?php
+<?php $site = $site[0]; 
     $url_seg = $this->uri->segment(5);
     $url_seg = (!empty($url_seg)?urlencode(base64_encode(dirname($site->path) . base64_decode(urldecode($url_seg)))):urlencode(base64_encode(dirname($site->path) . '/')));
     ?>
-	<a href="<?= base_url('app/pages/create/' . $site->sid . '/' . $url_seg); ?>" class="button ajax-action">
-	    <span class="newpage cmsicon"></span>Create New Page
-	</a>
-    </div>
-    <div>
-	<a href="<?= base_url('app/ftp/browse_file/index'); ?>" class="button ajax-page-action">
-	    <span class="plus cmsicon"></span>Add Existing Page
-	</a>
-    </div>
-    <div>
-	<a href="<?= base_url('app/folders/create/' . $site->sid . '/' . $url_seg); ?>" class="button ajax-action">
-	    <span class="newfolder cmsicon"></span>Create New Folder
-	</a>
-    </div>
+<!-- aside progress bars -->
+<div class="aside-buttons">
+    <a href="<?= base_url('app/pages/create/' . $site->sid . '/' . $url_seg); ?>" title="" class="btn btn-success"><span class="cus-doc-text-image"></span>Create New Page</a>
+    <a href="<?= base_url('app/ftp/browse_file/index'); ?>" title="" class="btn btn-info"><span class="cus-add"></span>Add Existing Page</a>
+    <a href="<?= base_url('app/folders/create/' . $site->sid . '/' . $url_seg); ?>" title="" class="btn btn-warning"><span class=" cus-folder"></span>Create New Folder</a>
 </div>
+<div class="divider"></div>
 <script type="text/javascript">
     $(function() {
 	$('.ajax-page-action').click(function() {

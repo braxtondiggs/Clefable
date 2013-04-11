@@ -95,7 +95,7 @@ $autoload['config'] = array('template');
 |
 */
 
-$autoload['language'] = array('gritter');
+$autoload['language'] = array('gritter', 'toastr');
 
 
 /*

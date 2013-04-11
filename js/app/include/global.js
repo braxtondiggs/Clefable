@@ -2,19 +2,68 @@ $(function() {
     var internal_error = "An internal error has occurred, the page will auto-refresh.";
     Init();
     //ddsmooth();
+    $('.menu .logout').bind('click', function() {
+	var _this = $(this);
+	bootbox.confirm("Are you sure you want to logout?", function(result) {
+	    if (result) {
+		 $.ajax($(this).attr('href'), {
+		    type: "GET",
+		    success: function(data) {
+			if(data.status == "success") {
+			    if (data.dialog != null) {
+			    
+				$('#dialog-' + data.dialog).attr('title', data.output.title).children('#dialog-' + data.dialog + '-body').html(data.output.text).end().dialog("open").data('listID', data.modal_redirect);
+			    }
+			}
+		    }
+		 });
+		window.location.href = $(_this).attr('href');
+	    }
+	}); 
+	return false;
+    });
+    $('.formular .delete').bind('click', function() {
+	var _this = $(this);
+	bootbox.confirm("Are you sure you want to delete this site?", function(result) {
+	    if (result) {
+		window.location.href = $(_this).attr('href');
+	    }
+	}); 
+	return false;
+    });
+    $('.fileTree a').bind('click', function() {
+	return false;
+    });
+     $(".next, .previous").unbind("click").bind("click", function() {
+	alert(1);
+	var _this = $(this);
+	if ($(".formular").validationEngine('validate')) {
+	   $('.tab-content .active').slideUp('slow', function() { 
+	   if ($(_this).hasClass('next')) {
+		$('.bwizard-steps .active').removeClass('active').next('li').addClass('active');
+		$('.tab-content .active').removeClass('active').next('.tab-pane').slideDown().addClass('active');
+	  }
+	  });
+	}
+     });
     $(".submit").bind("click", function() {
         var form = $(this).parents('form');
         if ($(".formular").validationEngine('validate')) {
-            $(this).attr('disabled', 'disabled');
+            var _this = $(this);
+	    $(this).attr('disabled', 'disabled');
             $.ajax($(form).attr('action'), {
                 type: "POST",
                 data: $(".formular").serialize(),
 		success: function(data) {
-		    $(this).removeAttr('disabled');
+		    $(_this).removeAttr('disabled');
 		    if(data.status == "success") {
 			window.location.href= data.redirect;
 		    }else if(data.status =="error") {
-			$.scrollTo($("#main h3").position().top, 600, {onAfter: function() {$(".validate_errors").html(data.output).slideDown('slow');}});
+			$(".alert-error p").html(data.output).parent().slideDown('slow');
+			$("html, body").animate({
+                            scrollTop: 0
+                        }, 1100);
+			 
 		    } else {
 			alert(internal_error);
 			//window.location.reload();
@@ -24,7 +73,7 @@ $(function() {
 	}
         return false;
     });
-    $(".ajax-action").bind("click", function() {
+    /*$(".ajax-action").bind("click", function() {
         $.ajax($(this).attr('href'), {
             type: "GET",
             success: function(data) {
@@ -89,6 +138,7 @@ $(function() {
 	    $('#asset_helper').hide();
         });
     });
+    
     $("img.asset_img, img.asset_doc").livequery(function() {//image block, gives cool transition effect once image has loaded
 	$(this).one('load',function() {
   	    $(this).fadeIn(700).css('display',"block");
@@ -113,14 +163,16 @@ $(function() {
           "screenWidth": screenWidth, 
           "screenHeight": screenHeight 
         }
-    }
+    }*/
     
     function Init() {
-        //$(".formular").validationEngine('attach');
+        $(".formular").validationEngine('attach');
+	$("#breadCrumb").jBreadCrumb();
 	$(".geticon").livequery(function() {//refers to icons for Manage Websites page, grabs the favicon
 	    $('<img>',{'src':'http://g.etfv.co/'+$(this).attr('data-url')+'?defaulticon=lightpng'}).addClass('cmsicon').prependTo($(this));//handles favicon of the site
 	});
-        $("#dialog-confirm").livequery(function() {//Dialog with OK & Cancel button
+    }
+        /*$("#dialog-confirm").livequery(function() {//Dialog with OK & Cancel button
 	    $.fx.speeds._default = 1000;//animation speed
 	    var x = (getScreenDimensions().screenWidth - $(this).width()) / 2;
 	    var y = (getScreenDimensions().screenHeight - $(this).height()) / 2;
@@ -208,38 +260,6 @@ $(function() {
 		}
 		});
 	});
-    }
-    /*function ddsmooth() {
-	ddsmoothmenu.init({
-		mainmenuid: "smoothmenu1", //menu DIV id
-		orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
-		classname: 'ddsmoothmenu', //class added to menu's outer DIV
-		//customtheme: ["#1c5a80", "#18374a"],
-		contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
-	});
-	$("#smoothmenu1").height(function() {return $(".menu_standard li:first").height();}).disableSelection();
     }*/
-});
 
-(function ($) {
-    $.extend({
-        GritControl: function (options) {
-            var settings = $.extend({
-			'title'  : '',
-      			'text' : '',
-			'icon'  : null
-    	    }, options);
-	    $.gritter.options.position = 'top-left';
-	    $.gritter.add({
-		title: settings.title,
-		text: settings.text,
-		image: 'http://' + document.domain +'/igniter/css/app/images/notify/'+settings.icon+'.png',
-		sticky: false,
-		before_open: function() {$('#gritter-notice-wrapper').css('top', 40);},
-		after_open: function(){$.scrollTo(0, 300, false);},
-		time: 5000,
-		
-	    });
-	}
-    });
-})(jQuery);
+});

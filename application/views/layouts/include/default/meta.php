@@ -47,6 +47,8 @@
         
         <link rel="stylesheet" href="<?=base_url('css/app/style.css?v=1')?>">
         <link rel="stylesheet" href="<?=base_url('css/app/jquery.filetree.css?v=1')?>">
+        <link rel="stylesheet" href="<?=base_url('css/app/jbreadcrumb.css?v=1')?>">
+        <link rel="stylesheet" href="<?=base_url('css/validator/validationEngine.jquery.css?v=1')?>">
 	<!-- // THEME CSS changed by javascript: the CSS link below will override the rules above // -->
 	<!-- For more information, please see the documentation for "THEMES" -->
     <link rel="stylesheet" id="switch-theme-js" href="<?=base_url('css/app/themes/default.css?v=1')?>">   
