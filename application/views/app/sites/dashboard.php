@@ -34,6 +34,7 @@
 	<p>Click here to manage your templates.</p>
     </a>
     <?php } ?>
+    <?php if ($this->session->userdata('user_type') == 1) { ?>
     <a href="<?= base_url('app/sites/features/' . $site->sid); ?>" class="nav-section activate">
 	    <h4 class="underline">
 		<span class="cus-switch cmsicon"></span>Activate Features
@@ -46,6 +47,7 @@
 	</h4>
 	<p>Click to manage intergration settings.</p> 
     </a>
+    <?php } ?>
     <?php
 $data['html'] = $this->load->view('app/include/modal/HTML/assets', $site, TRUE);
 $this->load->view('app/include/modal/buttonless', $data); ?>

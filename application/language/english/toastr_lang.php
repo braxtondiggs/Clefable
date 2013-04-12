@@ -1,2 +1,3 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 $lang['toastr_site_update'] 	 = array('title' => 'Site has been updated!', 'text' => 'The site information has been updated.', 'type' => 'success');
+$lang['toastr_site_delete'] 	 = array('title' => 'Site has been deleted!', 'text' => 'The site has been permanently deleted from our database, including all of it&apos;s child pages, history and permission.<p>&nbsp;</p><p><strong>*Note</strong>: Your site still exists on your server.</p>', 'type' => 'error');

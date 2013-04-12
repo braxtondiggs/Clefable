@@ -52,11 +52,33 @@ top: 10%;
 font: 28px/10px bold Georgia, "Times New Roman", Times, serif;
 color: red;
 }
-.alert p {
+.jGrowl a {
+	color: #128fb4;
+}
+.jGrowl a:hover {
+	text-decoration: underline;
+}
+.alert.alert-error p {
 	margin-top: 10px;
-	padding:0;
 	color: #FFF;
+}
+.alert p {
+	padding:0;
 	font-size: 14px;
+}
+.impersonate {
+	padding:15px 0 10px 0!important;
+	text-align: center;
+}
+.impersonate p {
+	color: #333;
+	font-size:16px;
+}
+.impersonate a {
+	color: #128fb4;
+}
+.impersonate a:hover {
+	text-decoration: underline;
 }
 .asset_img_cont {
 	width:150px;

@@ -1,4 +1,6 @@
-<?php $percentage = round(($this->ion_auth->get_num_user()/$this->config->item('max_users'))*100);?>
+<?php
+if ($this->session->userdata('user_type') == 1) {
+    $percentage = round(($this->ion_auth->get_num_user()/$this->config->item('max_users'))*100);?>
 <!-- aside progress bars -->
 <ul class="indented aside-progress-stats">
     <li>
@@ -19,3 +21,4 @@
 </ul>
 
 <div class="divider"></div>
+<?php } ?>

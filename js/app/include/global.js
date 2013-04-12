@@ -24,9 +24,15 @@ $(function() {
     });
     $('.formular .delete').bind('click', function() {
 	var _this = $(this);
-	bootbox.confirm("Are you sure you want to delete this site?", function(result) {
+	var output;
+	if($(_this).hasClass('delete-site')) {
+	    output = "Are you sure you want to delete your site? All the pages and information related to this site will be removed.<p>&nbsp;</p><p><strong>*Note</strong>: Your site still exists on your server.";
+	//}else if($(_this).hasClass('delete-site') {
+	 //   output = 
+	}
+	bootbox.confirm(output, function(result) {
 	    if (result) {
-		window.location.href = $(_this).attr('href');
+		Ajax_Action(_this);
 	    }
 	}); 
 	return false;
@@ -34,16 +40,29 @@ $(function() {
     $('.fileTree a').bind('click', function() {
 	return false;
     });
-     $(".next, .previous").unbind("click").bind("click", function() {
-	alert(1);
+     $(".wizard_next, .wizard_previous").unbind("click").bind("click", function() {
+	var total = $('.bwizard-steps li').length;
+	var current = $('.bwizard-steps .active').index() + 1;
+	var form = $(this).parents('form');
 	var _this = $(this);
 	if ($(".formular").validationEngine('validate')) {
-	   $('.tab-content .active').slideUp('slow', function() { 
-	   if ($(_this).hasClass('next')) {
-		$('.bwizard-steps .active').removeClass('active').next('li').addClass('active');
-		$('.tab-content .active').removeClass('active').next('.tab-pane').slideDown().addClass('active');
-	  }
-	  });
+	    if (current != total || ($('.alert-error').is(':visible') && $(_this).hasClass('wizard_previous'))){
+		$('.tab-content .active').slideUp('slow', function() {
+	    if ($(_this).hasClass('wizard_next')) {
+		 $('.bwizard-steps .active').removeClass('active').next('li').addClass('active');
+		 $('.tab-content .active').removeClass('active').next('.tab-pane').slideDown().addClass('active');
+		 var percent = ((current+1) / total) * 100;
+		 $('#wizard_name').find('.bar').css({width : percent + '%'});
+		 if(current >= 1) {$('.wizard_previous').show();}
+	   }else if($(_this).hasClass('wizard_previous')) {
+		 $('.bwizard-steps .active').removeClass('active').prev('li').addClass('active');
+		 $('.tab-content .active').removeClass('active').prev('.tab-pane').slideDown().addClass('active');
+		 if(current <= 2) {$('.wizard_previous').hide();}
+	   }
+	   });
+	    }else{
+		Form_Submit(_this, form);
+	    }
 	}
      });
     $(".submit").bind("click", function() {
@@ -51,7 +70,12 @@ $(function() {
         if ($(".formular").validationEngine('validate')) {
             var _this = $(this);
 	    $(this).attr('disabled', 'disabled');
-            $.ajax($(form).attr('action'), {
+            Form_Submit(_this, form);
+	}
+        return false;
+    });
+    function Form_Submit(_this, form) {
+	$.ajax($(form).attr('action'), {
                 type: "POST",
                 data: $(".formular").serialize(),
 		success: function(data) {
@@ -70,21 +94,21 @@ $(function() {
 		    }
 		}
 	    });
-	}
+    }
+    $(".ajax-action").bind("click", function() {
+        var _this = $(this);
+	Ajax_Action(_this);
         return false;
     });
-    /*$(".ajax-action").bind("click", function() {
-        $.ajax($(this).attr('href'), {
+    function Ajax_Action(_this) {
+	$.ajax($(_this).attr('href'), {
             type: "GET",
             success: function(data) {
                 if(data.status == "success") {
-                    if (data.dialog != null) {
-                        $('#dialog-' + data.dialog).attr('title', data.output.title).children('#dialog-' + data.dialog + '-body').html(data.output.text).end().dialog("open").data('listID', data.modal_redirect);
-                    }
                     if (data.output != null) {
-			if (data.output.gritter != null) {
-			    $.GritControl({'title': data.output.gritter.title, 'text': data.output.gritter.text, 'icon': data.output.gritter.icon});
-			}
+			//if (data.output.gritter != null) {
+			//    $.GritControl({'title': data.output.gritter.title, 'text': data.output.gritter.text, 'icon': data.output.gritter.icon});
+			//}
 		    }
 		    if (data.redirect != null) {
 			window.location.href = data.redirect;
@@ -97,8 +121,8 @@ $(function() {
                 }
             }
         });
-        return false;
-    });
+    }
+    /*
     $('.ghost').livequery(function() {
 	$(this).each(function(index) {// Adds the Ghost effect on textbox, this could be converted to a plugin
 	    if ($(this).val() === "" || $(this).val() === $(this).attr("title")) {
