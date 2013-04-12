@@ -13,6 +13,11 @@ $assets = "app";$header=false;?>
 		
 		<!-- header -->
 		<header>
+			<?php if($this->session->userdata('impersonate')) { ?>
+			<div class="alert adjusted alert-warning impersonate">
+				<p><i class="cus-exclamation-octagon-fram"></i>You are currently in impersonate mode, <a href="<?= base_url('app/users/impersonate/deactivate/'.$this->session->userdata('identity_QID')); ?>" class="ajax-action">click here to return to your original account.</a></p>
+			</div>
+			<?php } ?>
 			<!-- tool bar -->
 			<div id="header-toolbar" class="container-fluid">
 				<!-- .contained -->
@@ -219,24 +224,42 @@ $assets = "app";$header=false;?>
 									<?php
 									    }
 									}
+									if ($this->session->userdata('user_type') == 1) {
 									?>
+									<li>
+										<a href="<?= base_url('app/sites/create'); ?>">
+											Add New Site
+										</a>
+									</li>
+									<?php } ?>
 								</ul>
 						</li>
+						<?php
+						if ($this->session->userdata('user_type') == 1) {?>
 							<li class="">
 								<a href="javascript:void(0)"><i class="icon-user"></i>Users<span class="badge"><?// $this->ion_auth->get_num_user() ?></span></a>
 								<ul>
 									<?php
-								foreach ($this->session->userdata('users') as $user) {?>
+									
+										foreach ($this->session->userdata('users') as $user) {?>
 									<li>
 										<a href="<?= base_url('app/users/edit/' . $user['username']); ?>">
-											<?= $user['first_name'] . '&nbsp;' .  ucwords(substr($user['last_name'], 0, 1));?>
+											<?= $user['first_name'] . '&nbsp;' .  ucwords(substr($user['last_name'], 0, 1)) .'.';?>
 										</a>
 									</li>
 									<?php
 									}
+									
 									?>
+									<li>
+										<a href="<?= base_url('app/users/create'); ?>">
+											Add New User
+										</a>
+									</li>
+									
 								</ul>
 							</li>
+							<?php } ?>
 							<li>
 								<a href="<?=base_url('app/logout')?>" class="logout"><i class="icon-off"></i>Logout</a>
 							</li>
@@ -318,21 +341,7 @@ $assets = "app";$header=false;?>
 			/** DEMO SCRIPTS **/
 	        $(function() {
 	            /* show tooltips */
-				$.jGrowl("This is a basic page layout to help you start your <strong>PHP project</strong>", { 
-					header: 'Master Page!', 
-					sticky: false,
-					life: 5000,
-					speed: 500,
-					theme: 'with-icon',
-					position: 'top-right', //this is default position
-					easing: 'easeOutBack',
-					animateOpen: { 
-						height: "show"
-					},
-					animateClose: { 
-						opacity: 'hide' 
-					}
-				});	
+				
 	        });
 	        /** end DEMO SCRIPTS **/
 	        
@@ -379,8 +388,6 @@ $assets = "app";$header=false;?>
 	<!-- REQUIRED: Infinite Sliding Menu (used with inbox page) -->
 	<script src="<?=base_url('js/app/include/jquery.inbox.slashc.sliding-menu.js')?>"></script> 
 
-	<!-- REQUIRED: Form validation plugin -->
-    <script src="<?=base_url('js/app/include/jquery.validate.min.js')?>"></script> 
     
     <!-- REQUIRED: Progress bar animation -->
     <script src="<?=base_url('js/app/include/bootstrap-progressbar.min.js')?>"></script>
@@ -429,6 +436,7 @@ $assets = "app";$header=false;?>
     <script src="<?=base_url('js/app/include/jquery.jbreadcrumb.js')?>"></script>
     <script src="<?=base_url('js/validator/jquery.validationEngine.js')?>"></script>
     <script src="<?=base_url('js/validator/jquery.validationEngine-en.js')?>"></script>
+    <script src="<?=base_url('js/app/include/jquery.gritter.min.js')?>"></script>
      <script src="<?=base_url('js/app/include/global.js')?>"></script>
     
     <!-- end scripts -->
@@ -440,11 +448,32 @@ $assets = "app";$header=false;?>
 			if (!empty($toastr) || ! empty($toastr_instant)) {
 				$toastr = (is_array($toastr))?$toastr:array();//$toastr_instant = (is_array($toastr_instant))?$toastr_instant:array();
 		foreach($toastr as $key) {
-			echo "toastr.".$key['type']."('".$key['text']."','".$key['title']."')";
+			echo "toastr.".$key['type']."('".$key['text']."','".$key['title']."');";
 		}
 		
 	}
-}?>
+
+			$gritter = $this->session->flashdata('gritter');
+			if (!empty($gritter) || ! empty($gritter_instant)) {
+				$gritter = (is_array($gritter))?$gritter:array();//$toastr_instant = (is_array($toastr_instant))?$toastr_instant:array();
+				foreach($gritter as $key) {
+				echo "$.jGrowl('".$key['text']."', { 
+					header: '".$key['title']."', 
+					sticky: false,
+					life: 5000,
+					speed: 500,
+					position: 'top-right', //this is default position
+					easing: 'easeOutBack',
+					animateOpen: { 
+						height: \"show\"
+					},
+					animateClose: { 
+						opacity: 'hide' 
+					}
+				});";
+				}
+			}
+		}?>
 
 	});
      </script>

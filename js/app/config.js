@@ -160,9 +160,6 @@
 		/* setup_uislider */
 		setup_uislider();
 		
-		/* validation_setup_demo */
-		validation_setup_demo();
-		
 		/* wizard demo */
 		setup_wizard_demo();	
 		
@@ -1986,81 +1983,6 @@
 	
 	/* end setup_uislider */
 
-	/* ---------------------------------------------------------------------- */
-	/*	Validation_setup_demo
-	/* ---------------------------------------------------------------------- */
-	
-	//documentation: http://docs.jquery.com/Plugins/Validation/
-
-	function validation_setup_demo() {
-		if ($('#validate-demo-js').length) {
-			$("#validate-demo-js").validate({
-				rules : {
-					simple : "required",
-					minString : {
-						required : true,
-						minlength : 3
-					},
-					maxString : {
-						required : true,
-						maxlength : 5
-					},
-					minNumber : {
-						required : true,
-						min : 3
-					},
-					maxNumber : {
-						required : true,
-						max : 5
-					},
-					rangeValue : {
-						required : true,
-						range : [5, 10]
-					},
-					emailValidation : {
-						required : true,
-						email : true
-					},
-					urlValidation : {
-						required : true,
-						url : true
-					},
-					dateValidation : {
-						required : true,
-						date : true
-					},
-					noStrings : {
-						required : true,
-						digits : true
-					},
-					password : {
-						required : true,
-						minlength : 5
-					},
-					passwordRepeat : {
-						required : true,
-						minlength : 5,
-						equalTo : "#password"
-					},
-					topic : {
-						required : "#newsletter:checked",
-						minlength : 2
-					},
-					agree : "required"
-				}, // end rules
-				highlight : function(label) {
-					$(label).closest('.control-group').removeClass('success');
-					$(label).closest('.control-group').addClass('error');
-				},
-				success : function(label) {
-					label.text('').addClass('valid').closest('.control-group').addClass('success');
-				}
-			});
-		}// end if
-
-	} 
-	
-	/* end validation_setup_demo */
 
 	/* ---------------------------------------------------------------------- */
 	/*	Setup_wizard_demo
@@ -2075,38 +1997,6 @@
 					//console.log('onShow');
 				},
 				onNext : function(tab, navigation, index) {
-					//console.log('onNext');
-					if (index == 1) {
-						// Make sure we entered the name
-						if (!$('#name').val()) {
-							//alert('You must enter your name');
-							$('#name').focus();
-							$('#name').closest('.control-group').removeClass('success');
-							$('#name').closest('.control-group').addClass('error');
-							return false;
-						}
-						if (!$('#lname').val()) {
-							//alert('You must enter your last name');
-							$('#lname').focus();
-							$('#lname').closest('.control-group').removeClass('success');
-							$('#lname').closest('.control-group').addClass('error');
-							return false;
-						}
-					}
-					$.jGrowl("Its nice to finally meet you! Please remember <b>"+$('#name').val()+",</b> this is only a demo. Not all the functions will work. For full documentation please see the link on top of the page", { 
-						header: 'Hey there ' + $('#name').val()+'!', 
-						sticky: true,
-						theme: 'with-icon',
-						easing: 'easeOutBack',
-						animateOpen: { 
-							height: "show"
-						},
-						animateClose: { 
-							opacity: 'hide' 
-						}
-					});	
-					// Set the name for the next tab
-					//$('#inverse-tab3').html('Hello, ' + $('#name').val());
 	
 				},
 				onPrevious : function(tab, navigation, index) {
@@ -2117,10 +2007,12 @@
 				},
 				onTabClick : function(tab, navigation, index) {
 					//console.log('onTabClick');
-					alert('on tab click disabled');
 					return false;
 				},
 				onTabShow : function(tab, navigation, index) {
+					if(index == 0) {
+						$('li.previous a').hide();
+					}
 					//console.log('onTabShow');
 					var $total = navigation.find('li').length;
 					var $current = index + 1;

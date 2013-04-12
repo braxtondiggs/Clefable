@@ -16,7 +16,7 @@ $lang['gritter_site_create'] 	 = array('title' => 'Site has been created!', 'tex
 $lang['gritter_site_next'] 	 = array('title' => 'What\'s next?', 'text' => 'Try adding a new page next.', 'icon' => 'light-bulb');
 $lang['gritter_site_enabled'] 	 = array('title' => 'Site Enabled', 'text' => 'The site has been enabled, now editors will be able to view the site.', 'icon' => 'star');
 $lang['gritter_site_disabled'] 	 = array('title' => 'Site Disabled', 'text' => 'The site has been disabled, editors will not be able to view this site in thier account.', 'icon' => 'star-empty');
-$lang['gritter_max_site'] 	 = array('title' => 'Max Number of Sites', 'text' => 'You have maxed out on the number of shared sites for this account. If you need more, please <a href="' . base_url('contact') . '">contact us</a> or upgrade your account.', 'icon' => 'battery-low');
+$lang['gritter_max_sites'] 	 = array('title' => 'Max Number of Sites', 'text' => 'You have maxed out on the number of shared sites for this account. If you need more, please <a href="' . base_url('contact') . '">contact us</a> or upgrade your account.', 'icon' => 'battery-low');
 $lang['gritter_empty_page'] 	 = array('title' => 'Get Started', 'text' => 'Looks like you do not have any pages connected to your site. ' . anchor(base_url('app/create'), 'Click here') . ' to get started.', 'icon' => 'balloon');
 $lang['gritter_add_folder'] 	 = array('title' => 'Folder added!', 'text' => 'The folder has been successfully added to your site.', 'icon' => 'folder-import');
 $lang['gritter_delete_folder'] 	 = array('title' => 'Success', 'text' => 'Folder has been deleted succesfully.', 'icon' => 'cross');

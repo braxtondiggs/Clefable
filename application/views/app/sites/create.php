@@ -11,7 +11,10 @@
                         <article class="span12">
                              <div class="inner-spacer"> 
 									        <!-- content goes here -->
-												<form id="wizard" class="themed formular">
+										<div class="alert alert-error adjusted alert-block" style="display:none;"><h4 class="alert-heading"><strong>Error:</strong></h4>
+											<p>&nbsp;</p>
+											</div>
+												<form id="wizard" class="themed formular" method="post" action="<?= base_url("app/sites/submit/");?>">
 																							
 													<div id="wizard_name">
 														
@@ -19,27 +22,19 @@
 														<ul class="bwizard-steps">
 														  	<li>
 														  		<span class="label badge-inverse">1</span>
-														  		<a href="#inverse-tab1" data-toggle="tab">Step 1</a>
+														  		<a href="#inverse-tab1" data-toggle="tab">Step 1 &raquo; Site Info</a>
 														  	</li>
 															<li>
 																<span class="label badge-inverse">2</span>
-																<a href="#inverse-tab2" data-toggle="tab">Step 2</a>
+																<a href="#inverse-tab2" data-toggle="tab">Step 2 &raquo; FTP Info</a>
 															</li>
 															<li>
 																<span class="label badge-inverse">3</span>
-																<a href="#inverse-tab3" data-toggle="tab">Step 3</a>
+																<a href="#inverse-tab3" data-toggle="tab">Step 3 &raquo; Homepage</a>
 															</li>
 															<li>
 																<span class="label badge-inverse">4</span>
-																<a href="#inverse-tab4" data-toggle="tab">Step 4</a>
-															</li>
-															<li>
-																<span class="label badge-inverse">5</span>
-																<a href="#inverse-tab5" data-toggle="tab">Step 5</a>
-															</li>
-															<li>
-																<span class="label badge-inverse">6</span>
-																<a href="#inverse-tab6" data-toggle="tab">Step 6</a>
+																<a href="#inverse-tab4" data-toggle="tab">Step 4 &raquo; Advanced</a>
 															</li>
 														</ul>
 														<!-- end wizard steps -->
@@ -50,7 +45,7 @@
 																<div class="control-group">
 																	<label class="control-label" for="url"><span>*</span>&nbsp;Site URL&nbsp;</label>
 																	<div class="controls">
-																		<input id="url" name="url" value="http://google.com" type="text" class="validate[required,custom[url]] text-rounded txt-xl span12" />
+																		<input id="url" name="url" type="text" class="validate[required,custom[url]] text-rounded txt-xl span12" />
 																		<p class="help-block">Example: http://www.examplesite.com/</p>
 																	</div>
 																</div>
@@ -64,108 +59,75 @@
 														    </fieldset>
 														    <!-- step 2-->
 														    <fieldset class="tab-pane" id="inverse-tab2">
-																<div class="control-group">
-																	<label class="control-label" for="s1">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s1">
-																	</div>
+															<div class="control-group">
+																<label class="control-label" for="address"><span>*</span>&nbsp;FTP Address&nbsp;</label>
+																<div class="controls">
+																	<input id="address" name="address" type="text" class="validate[required] text-rounded txt-xl span12" />
+																	<p class="help-block">Example: examplesite.com</p>
 																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s2">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s2">
-																	</div>
+															</div>
+															<div class="control-group">
+																<label class="control-label" for="user"><span>*</span>&nbsp;FTP Username&nbsp;</label>
+																<div class="controls">
+																	<input id="user" name="user" type="text" class="validate[required] text-rounded txt-xl span12" />
+																	<p class="help-block">Example: examplesite.com</p>
 																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s3">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s3">
+															</div>
+															    <div class="control-group">
+																    <label class="control-label" for="password"><span>*</span>&nbsp;FTP Password&nbsp;</label>
+																    <div class="controls">
+																	<input id="password" name="password" type="password" class="validate[required] text-rounded txt-xl span12" />
+																	<div style="margin: 15px 0;height: 25px;">
+																	    <a href="<?= base_url('app/ftp/test_connection'); ?>" title="Test Connection" class="btn btn-primary test_ftp left">Test Connection</a>
+																	    <span style="margin: 4px 0 0 9px;float: left;">
+																	       <img id="ajax-loading" src="<?= base_url('css/images/indicator.gif'); ?>" class="ftp-alert" style="display:none;">
+																	       <span id="ftp-msg"></span>
+																	    </span>
 																	</div>
-																</div>
-														    </fieldset>
+																    </div>
+															    </div>
+																								    </fieldset>
 														    <!-- step 3-->
 														    <fieldset class="tab-pane" id="inverse-tab3">
 																<div class="control-group">
-																	<label class="control-label" for="s4">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s4">
-																	</div>
+																<label class="control-label" for="user"><span>*</span>&nbsp;Set the path to your homepage on your FTP Server&nbsp;</label>
+																<div class="controls">
+																    <div class="input-append">
+																	<input id="path" name="path" type="text" class="validate[required] text-rounded txt-xl span12" />
+																	 <div class="btn-group">
+																	    <button type="button" href="<?= base_url('app/ftp/browse_index');?>" class="btn medium btn-primary ajax-action browse-site">Browse</button>
+																	 </div>
+																	<p class="help-block"> Select your homepage on your FTP server here, so that we can correctly map your web files to your ftp files.</p>
+																    </div>
 																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s5">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s5">
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s6">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s6">
-																	</div>
-																</div>
+															    </div>
 														    </fieldset>
 														    <!-- step 4-->
 														    <fieldset class="tab-pane" id="inverse-tab4">
 																<div class="control-group">
-																	<label class="control-label" for="s7">Sample Input</label>
+																	<label class="control-label" for="mode"><span>*</span>&nbsp;FTP Publishing Method&nbsp;</label>
 																	<div class="controls">
-																		<input type="text" class="span12" id="s7">
+																	    <select id="mode" name="mode" class="text-rounded span12 with-search">
+																		<option value="Passive" selected="selected">Passive</option>
+																		<option value="Active">Active</option>
+																	    </select>
+																	    <p class="help-block">(FTP files or XML)</p>
 																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s8">Sample Input</label>
+																    </div>
+																    <div class="control-group">
+																	<label class="control-label" for="keyword"><span>*</span>&nbsp;Editable CSS Class Name&nbsp;</label>
 																	<div class="controls">
-																		<input type="text" class="span12" id="s8">
+																	    <input id="keyword" name="keyword" value="content-editable" type="text" class="validate[required, onlyLetterNumber] text-rounded txt-xl span12" />
+																	    <p class="help-block">This CSS class determines which areas of your site are editable (the default is 'cms-editable')</p>
 																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s9">Sample Input</label>
+																    </div>
+																    <div class="control-group">
+																	<label class="control-label" for="port"><span>*</span>&nbsp;FTP Port&nbsp;</label>
 																	<div class="controls">
-																		<input type="text" class="span12" id="s9">
+																	    <input id="port" name="port" type="text" value="21" class="validate[required,custom[integer]] text-rounded txt-xs span12" />
+																	    <p class="help-block">Default: 21</p>
 																	</div>
-																</div>
-														    </fieldset>
-														    <!-- step 5-->
-														    <fieldset class="tab-pane" id="inverse-tab5">
-																<div class="control-group">
-																	<label class="control-label" for="s10">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s10">
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s11">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s11">
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s12">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s12">
-																	</div>
-																</div>
-														    </fieldset>
-														    <!-- step 6-->
-														    <fieldset class="tab-pane" id="inverse-tab6">
-																<div class="control-group">
-																	<label class="control-label" for="s13">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s13">
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s14">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s14">
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-label" for="s15">Sample Input</label>
-																	<div class="controls">
-																		<input type="text" class="span12" id="s15">
-																	</div>
-																</div>
+																    </div>
 														    </fieldset>
 														    <!-- wizard -->
 														    <div class="form-actions wizard">
@@ -180,12 +142,10 @@
 																<div class="span6">
 															    	<ul style="list-style: none;">
 																		<li class="previous">
-																			<button class="btn medium btn-danger">
-																				Previous
-																			</button>
+																			<a href="javscript:void(0);" title="Previous" class="btn btn-danger wizard_previous">Previous</a>
 																		</li>
 																		<li class="next">
-																			<a href="" title="Cancel" class="btn btn-primary next">Next</a>
+																			<a href="javascript:void(0);" title="Next" class="btn btn-primary wizard_next">Next</a>
 																		</li>
 															    	</ul>
 																</div>
@@ -197,6 +157,7 @@
 									
 												</form>
 										    </div>
+			     
 										    <!-- end content-->
 									    </div>
                         </article>
@@ -205,3 +166,33 @@
         </div>
 </div>
 <?php $this->load->view('app/include/modal/buttonless'); ?>
+
+ <script type="text/javascript">
+			    $(function() {
+				$('#passkey, #changepass').click(function() {
+				    $(this).parents('div.control-group').next('div').toggle().children('input[type="text"]').val("");
+				});
+				$('.test_ftp').click(function() {
+				    $('.ftp-alert').show();
+				    $('#ftp-msg').hide();
+				     $.ajax($(this).attr('href'), {
+					type: "POST",
+					data: $(".formular").serialize(),
+					success: function(data) {
+					    $('.ftp-alert').hide();
+					    $('#ftp-msg').show().html(data.output);
+					}
+				     });
+				    return false;
+				});
+				$('.browse-site').click(function() {
+				    $("#dash-modal").modal('show').width('400px').find('.modal-body').html('<div id="fileTree"></div>').css({'padding':'15px 0 5px 15px', 'overflow-y':'scroll', 'min-height': '400px'});
+				    var server = $('#address').val();var user = $('#user').val();var pass = $('#password').val();var path = $('#path').val();//From Formurlencode
+				    $('#fileTree').fileTree({ root: path.substring(0, path.lastIndexOf("/")), script: '<?= base_url('app/ftp/browse_file/index'); ?>', server: server, user: user, password: pass}, function(file) { 
+					    $('#path').val(file);//selected file
+					    $("#dash-modal").modal('hide');
+				    });
+				    return false;
+				});
+			    });
+		    </script>

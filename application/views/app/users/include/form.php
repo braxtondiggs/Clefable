@@ -13,18 +13,24 @@
 	$id = "";
     }
 ?>
-<div class="validate_errors alert-error" style="display:none;"></div>
+<div class="alert alert-error adjusted alert-block" style="display:none;"><h4 class="alert-heading"><strong>Error:</strong></h4>
+		    <p>&nbsp;</p>
+		    </div>
 <form id="user" class="formular form-horizontal themed" method="post" action="<?php echo base_url("app/users/submit/".$id);?>">
     <div class="inner-spacer">
 	<ul id="myTab" class="nav nav-tabs default-tabs">
 	   <li class="active">
-	       <a href="#s1" data-toggle="tab"><span class="left cus-user"></span>&nbsp;Basic Information</a>
+	       <a href="#s1" data-toggle="tab"><span class="cus-user"></span>&nbsp;Basic Information</a>
 	   </li>
 	   <?php if ($this->session->userdata('user_type') == 1) { ?>
 	   <li>
-	       <a href="#s2" data-toggle="tab"><span class="left cus-lock"></span>&nbsp;Permissions</a>
+	       <a href="#s2" data-toggle="tab"><span class="cus-lock"></span>&nbsp;Permissions</a>
 	   </li>
-	   <?php } ?>
+	   <?php if (!empty($id) && ($id != $this->session->userdata("QID"))) {?>
+	   <li>
+		<a href="#s3" data-toggle="tab"><span class="cus-user-silhouette"></span>&nbsp;Impersonate</a>
+	    </li>
+	   <?php }} ?>
        </ul>
 	
        <div id="myTabContent" class="tab-content">
@@ -60,22 +66,20 @@
 			   </div>
 		   </div>
 		   <?php } ?>
-		   <div>
-		       <div class="control-group" <?= ((isset($is_new) && $is_new))? 'style="display:none;"':''?>>
-			       <label class="control-label" for="password"><span>*</span>&nbsp;New Password</label>
-			       <div class="controls">
-				       <input id="password" name="password" type="password" class="text-rounded txt-l validate[required,minSize[6]] span12" />
+		    <div class="control-group" <?= (!(isset($is_new) && $is_new))? 'style="display:none;"':''?>>
+			    <label class="control-label" for="password"><span>*</span>&nbsp;New Password</label>
+			    <div class="controls">
+				    <input id="password" name="password" type="password" class="text-rounded txt-l validate[required,minSize[6]] span12" />
 					<p class="help-block">Only enter a password if you wish to change the existing one.</p>
-			       </div>
-		       </div>
-		       <div class="control-group">
-			       <label class="control-label" for="confirm_password"><span>*</span>&nbsp;Repeat New Password</label>
-			       <div class="controls">
-				       <input id="confirm_password" name="confirm_password" type="password" class="text-rounded txt-l validate[required,equals[password]] span12" />
-				       <p class="help-block">re-enter the password for this account</p>
-			       </div>
-		       </div>
-		   </div>
+			    </div>
+		    </div>
+		    <div class="control-group" <?= (!(isset($is_new) && $is_new))? 'style="display:none;"':''?>>
+			    <label class="control-label" for="confirm_password"><span>*</span>&nbsp;Repeat Password</label>
+			    <div class="controls">
+				    <input id="confirm_password" name="confirm_password" type="password" class="text-rounded txt-l validate[required,equals[password]] span12" />
+				    <p class="help-block">Re-enter the password for this account</p>
+			    </div>
+		    </div>
 		   <div class="control-group">
 		       <label class="control-label" for="language">&nbsp;Language - BETA</label>
 			   <div class="controls">
@@ -85,7 +89,7 @@
 				   }
 				   ?>
 			       </select>
-			       <p class="help-block">language for this user</p>
+			       <p class="help-block">Language for this user</p>
 			   </div>
 		   </div>
 		   <?php if ($this->session->userdata('user_type') == 1) { ?>
@@ -110,23 +114,37 @@
 		   <?php }} ?>
 	       </fieldset>
 	   </div>
+	    <?php if (!empty($id) && ($id != $this->session->userdata("QID"))) {?>
        <div class="tab-pane fade" id="s2">
        </div>
+       <div class="tab-pane fade in" id="s3">
+	     <fieldset>
+		<div class="control-group">
+		<p>
+		Impersonate this user, you can see what they would see when they log into their account.
+		</p>
+		<p>&nbsp;</p>
+		<div class="center">
+		    <a href="<?php echo base_url("app/users/impersonate/activate/".$id);?>"title="Impersonate this user" class="btn btn-warning btn-large ajax-action">Impersonate this user</a>
+		</div>
+		</div>
+	    </fieldset>
+	</div>
+       <?php }?>
        </div>
-	   <div class="form-actions">
-		   <button type="reset" class="btn medium btn-danger">
-			   Cancel
-		   </button>
-		   <button type="submit" class="btn medium btn-primary submit">
-			   Save changes
-		   </button>
+	   <div class="form-actions" style="padding-left:0;">
+		<?php if (!empty($id) && ($id != $this->session->userdata("QID") || $this->session->userdata('user_type') == 1)) { ?>
+		<a href="<?= base_url('app/sites/delete/approved/' . $id);?>" title="Delete User" class="btn btn-danger left delete">Delete User</a>
+		<?php }?>
+		<a href="<?= base_url('app')?>" title="Cancel" class="btn">Cancel</a>
+		<a href="javascript:void(0);" title="Cancel" class="btn btn-primary submit">Save Changes</a>
 	   </div>
        </div>
 </form>
 <script type="text/javascript">
 	$(function() {
 	    $('#new_password').click(function() {
-		    $(this).siblings('div').toggle().children('input#Passkey-Value').val("");
+		    $(this).parents('div.control-group').next('div').slideToggle().children('input#Passkey-Value').val("");
 	    });
 	});
 </script>

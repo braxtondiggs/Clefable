@@ -14,9 +14,9 @@ class Sites extends CI_Controller{
     
     function create() {
         if ($this->session->userdata('user_type') == 1) {    
-	    if ($this->sites->get_num_sites() > $this->config->item('max_sites')) {
+	    if ($this->sites->get_num_sites() >= $this->config->item('max_sites')) {
 		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_sites')));
-		redirect('app/sites');
+		redirect('app');
 	    }
 	    $this->template->title('Site Settings');
 	    $this->template->set('is_new', true);
@@ -52,12 +52,10 @@ class Sites extends CI_Controller{
         $output = array('status' => 'fail');
 	if ($this->input->is_ajax_request()) {
 	    if ($sites && $this->session->userdata('user_type') == 1) {
-		if ($status === "confirm") {
-		    $output = array('status' => "success", 'dialog' => 'confirm', 'modal_redirect' => base_url('app/sites/delete/approved/' . $id), 'output' => array('title' => 'Are you sure?', 'text' => 'Are you sure you want to delete your site? All the pages and information related to this site will be removed.<p>&nbsp;</p><p><strong>*Note</strong>: Your site still exists on your server.'));
-		}else if($status === "approved") {
+		if($status === "approved") {
 		    $this->sites->delete($id);
-		    $this->session->set_flashdata('gritter', array($this->lang->line('gritter_site_delete')));
-		    $output = array('status' => "reload");
+		    $this->session->set_flashdata('toastr', array($this->lang->line('toastr_site_delete')));
+		    $output = array('status' => "success", 'redirect' => base_url('app'));
 		}
 	    }
 	    header('Content-Type: application/json',true);
@@ -76,7 +74,7 @@ class Sites extends CI_Controller{
 		$this->template->set('activate', $activate);
 		$this->template->set_layout('default_app')->build('app/sites/features');
 	    }else {
-		redirect('app/sites');
+		redirect('app');
 	    }
 	}else if($isajax === 'ajax'){
 	    if ($this->input->is_ajax_request()) {
@@ -86,7 +84,7 @@ class Sites extends CI_Controller{
 	    }
 	}
     }
-    function status($action = null, $id = null) {
+    /*function status($action = null, $id = null) {
         $output = array('status' => 'fail');
 	$sites = $this->sites->get_site($id);
 	if ($this->input->is_ajax_request()) {
@@ -106,7 +104,7 @@ class Sites extends CI_Controller{
 	}else {
 	    show_404();
 	}
-    }
+    }*/
     function submit ($id = null) {
         if ($this->input->is_ajax_request()) {
 	    $this->load->library(array('form_validation', 'ftp'));

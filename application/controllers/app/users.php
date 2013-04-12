@@ -10,22 +10,11 @@ class Users extends CI_Controller{
 	    $this->output->enable_profiler(FALSE);
 	}
     }
-    function index(){
-        if ($this->session->userdata('user_type') == 1) {
-	    $this->template->title('Users and Permissions');
-	    $this->template->set('sidebar', array('app/upgrade_2', 'app/help'));
-	    $this->template->set_layout('default_app')->build('app/users/index');
-	}else {
-	    $QID = $this->session->userdata("QID");
-	    redirect('app/users/edit/'.$QID);
-	}
-	
-    }
     function create() {
 	if ($this->session->userdata('user_type') == 1) {
-	    if ($this->ion_auth->get_num_user() > $this->config->item('max_users')) {
+	    if ($this->ion_auth->get_num_user() >= $this->config->item('max_users')) {
 		$this->session->set_flashdata('gritter', array($this->lang->line('gritter_max_user')));
-		redirect('app/users');
+		redirect('app');
 	    }
 	    $this->template->title('Add User');
 	    $this->template->set('is_new', true);
@@ -71,7 +60,7 @@ class Users extends CI_Controller{
     }
     function edit($id=null) {
 	$QID = $this->session->userdata("QID");
-	if ($id !== null && $this->ion_auth->username_check($id)) {  
+	if ($id !== null && $this->ion_auth->username_check($id) && ($this->session->userdata('user_type') == 1 || ($this->session->userdata('user_type') == 2 && $id == $QID))) {  
 	    if ($this->ion_auth->has_ownership($id)) { 	
 		$this->template->title('Edit User');
 		$this->template->set('id', $id);
@@ -168,8 +157,8 @@ class Users extends CI_Controller{
 		    }
 		}else {//edit
 		    if ($this->ion_auth->username_check($id)) {
-			if ($this->ion_auth->is_my_email($email)) {
-			    $gritter = array();$redirect = base_url('app/users');
+			if ($this->ion_auth->is_my_email($email, $id)) {
+			    $gritter = array();$redirect = base_url('app');
 			    $this->ion_auth->update($id, array('first_name' => set_value('first_name'), 'last_name' => set_value('last_name'), 'email' => set_value('email'), 'language' => set_value('language')));
 			    if ($this->input->post('new_password') == true) {//Password Change
 				if ($this->session->userdata("QID") !== $id) {
@@ -197,7 +186,7 @@ class Users extends CI_Controller{
 			    $this->session->set_flashdata('gritter', $gritter);
 			    $output = array('status' => 'success', 'redirect' => $redirect, 'output' => '');
 			}else {
-			    $output = array('status' => 'error', 'output' => '<strong>Error: </strong>This email address is already taked with another account.');
+			    $output = array('status' => 'error', 'output' => 'This email address is already taked with another account.');
 			}
 		    }else {
 			$output = array('status' => 'fail');

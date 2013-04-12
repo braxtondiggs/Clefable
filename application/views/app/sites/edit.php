@@ -40,14 +40,14 @@
 		    <p>&nbsp;</p>
 		    </div>
 		    
-		    <form id="site" class="formular form-horizontal themed" method="post" action="<?php echo base_url("app/sites/submit/".$id);?>">
+		    <form id="site" class="formular form-horizontal themed" method="post" action="<?= base_url("app/sites/submit/".$id);?>">
 			<div class="inner-spacer">
 			    <ul id="myTab" class="nav nav-tabs default-tabs">
 				<li class="active">
-				    <a href="#s1" data-toggle="tab"><span class="left cus-anchor"></span>&nbsp;Settings</a>
+				    <a href="#s1" data-toggle="tab"><span class="cus-anchor"></span>&nbsp;Settings</a>
 				</li>
 				<li>
-				    <a href="#s2" data-toggle="tab"><span class="left cus-star-2"></span>&nbsp;Advanced</a>
+				    <a href="#s2" data-toggle="tab"><span class="cus-star-2"></span>&nbsp;Advanced</a>
 				</li>
 			    </ul>
 			     
@@ -172,7 +172,7 @@
 				</div>
 			    </div>
 			    <div class="form-actions" style="padding-left:0;">
-				<a href="<?= base_url('app/sites/delete/confirm/' . $site->sid);?>" title="Delete Site" class="btn btn-danger left delete">Delete Site</a>
+				<a href="<?= base_url('app/sites/delete/approved/' . $site->sid);?>" title="Delete Site" class="btn btn-danger left delete">Delete Site</a>
 				<a href="<?= base_url('app')?>" title="Cancel" class="btn">Cancel</a>
 				<a href="javascript:void(0);" title="Cancel" class="btn btn-primary submit">Save Changes</a>
 			    </div>
@@ -181,7 +181,7 @@
 		    <script type="text/javascript">
 			    $(function() {
 				$('#passkey, #changepass').click(function() {
-				    $(this).parents('div.control-group').next('div').toggle().children('input[type="text"]').val("");
+				    $(this).parents('div.control-group').next('div').slideToggle().children('input[type="text"]').val("");
 				});
 				$('.test_ftp').click(function() {
 				    $('.ftp-alert').show();
